@@ -1,5 +1,9 @@
 class: UsersRegistry
-table: users
+table: users_registry
 fields:
   userName: String
-  userPassword: List<PasswordGenerator>
+  userPassword: PasswordGenerator, relation(parent=password_generator) # Foreign key field
+indexes:
+  user_name_idx:
+    fields: userName
+    unique: true
