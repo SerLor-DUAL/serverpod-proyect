@@ -38,14 +38,18 @@ class PasswordGeneratorEndpoint extends Endpoint
 
     if(automated)
     {
-      PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, password: _passwordAutomaticCreation(options).toString());
+      PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, 
+                                                        password: _passwordAutomaticCreation(options).toString());
+                                                        
       await PasswordGenerator.db.insertRow(session, newPassword);
     }
     else
     {
       if(passwordInput != null)
       {
-        PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, password: passwordInput);
+        PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, 
+                                                          password: passwordInput);
+
         await PasswordGenerator.db.insertRow(session, newPassword);
       }
       else
