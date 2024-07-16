@@ -22,9 +22,9 @@ import 'package:proyect_server/src/generated/protocol.dart';
 class PasswordGeneratorEndpoint extends Endpoint 
 {
 
-  Future<PasswordGenerator?> getPassword(Session session, PasswordGenerator pass) async 
+  Future<PasswordGenerator?> getPassword(Session session, int passwordId) async 
   {
-      return await PasswordGenerator.db.findById(session, pass.id!);
+      return await PasswordGenerator.db.findById(session, passwordId);
   }
 
   Future<void> updatePassword(Session session, PasswordGenerator pass) async 
