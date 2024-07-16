@@ -14,12 +14,10 @@ import '../endpoints/users_sergio/password_generator.dart' as _i3;
 import '../endpoints/users_sergio/password_options.dart' as _i4;
 import '../endpoints/users_sergio/users_registry.dart' as _i5;
 import 'package:proyect_server/src/generated/todo_list_santi/tasks.dart' as _i6;
-import 'package:proyect_server/src/generated/users_sergio/password_generator.dart'
-    as _i7;
 import 'package:proyect_server/src/generated/users_sergio/password_options.dart'
-    as _i8;
+    as _i7;
 import 'package:proyect_server/src/generated/users_sergio/users_registry.dart'
-    as _i9;
+    as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -233,50 +231,12 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'passwordGenerator',
       endpoint: endpoints['passwordGenerator']!,
       methodConnectors: {
-        'getPassword': _i1.MethodConnector(
-          name: 'getPassword',
-          params: {
-            'pass': _i1.ParameterDescription(
-              name: 'pass',
-              type: _i1.getType<_i7.PasswordGenerator>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['passwordGenerator'] as _i3.PasswordGeneratorEndpoint)
-                  .getPassword(
-            session,
-            params['pass'],
-          ),
-        ),
-        'updatePassword': _i1.MethodConnector(
-          name: 'updatePassword',
-          params: {
-            'pass': _i1.ParameterDescription(
-              name: 'pass',
-              type: _i1.getType<_i7.PasswordGenerator>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['passwordGenerator'] as _i3.PasswordGeneratorEndpoint)
-                  .updatePassword(
-            session,
-            params['pass'],
-          ),
-        ),
         'createPassword': _i1.MethodConnector(
           name: 'createPassword',
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i8.PasswordOptions>(),
+              type: _i1.getType<_i7.PasswordOptions>(),
               nullable: false,
             ),
             'passwordInput': _i1.ParameterDescription(
@@ -295,26 +255,7 @@ class Endpoints extends _i1.EndpointDispatch {
             params['options'],
             passwordInput: params['passwordInput'],
           ),
-        ),
-        'deletePassword': _i1.MethodConnector(
-          name: 'deletePassword',
-          params: {
-            'pass': _i1.ParameterDescription(
-              name: 'pass',
-              type: _i1.getType<_i7.PasswordGenerator>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['passwordGenerator'] as _i3.PasswordGeneratorEndpoint)
-                  .deletePassword(
-            session,
-            params['pass'],
-          ),
-        ),
+        )
       },
     );
     connectors['passwordOptions'] = _i1.EndpointConnector(
@@ -345,7 +286,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i8.PasswordOptions>(),
+              type: _i1.getType<_i7.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -364,7 +305,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i8.PasswordOptions>(),
+              type: _i1.getType<_i7.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -383,7 +324,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i8.PasswordOptions>(),
+              type: _i1.getType<_i7.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -437,7 +378,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i9.UsersRegistry>(),
+              type: _i1.getType<_i8.UsersRegistry>(),
               nullable: false,
             )
           },
@@ -454,11 +395,16 @@ class Endpoints extends _i1.EndpointDispatch {
         'createUser': _i1.MethodConnector(
           name: 'createUser',
           params: {
-            'user': _i1.ParameterDescription(
-              name: 'user',
-              type: _i1.getType<_i9.UsersRegistry>(),
+            'userName': _i1.ParameterDescription(
+              name: 'userName',
+              type: _i1.getType<String>(),
               nullable: false,
-            )
+            ),
+            'options': _i1.ParameterDescription(
+              name: 'options',
+              type: _i1.getType<_i7.PasswordOptions>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -467,7 +413,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
                   .createUser(
             session,
-            params['user'],
+            params['userName'],
+            params['options'],
           ),
         ),
         'deleteUser': _i1.MethodConnector(
@@ -475,7 +422,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i9.UsersRegistry>(),
+              type: _i1.getType<_i8.UsersRegistry>(),
               nullable: false,
             )
           },

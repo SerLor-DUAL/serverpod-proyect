@@ -22,46 +22,25 @@ import 'package:proyect_server/src/generated/protocol.dart';
 class PasswordGeneratorEndpoint extends Endpoint 
 {
 
-  Future<PasswordGenerator?> getPassword(Session session, int passwordId) async 
-  {
-      return await PasswordGenerator.db.findById(session, passwordId);
-  }
-
-  Future<void> updatePassword(Session session, PasswordGenerator pass) async 
-  {
-    await PasswordGenerator.db.updateRow(session, pass);
-  }
-
-  Future<void> createPassword(Session session, PasswordOptions options, { String? passwordInput } ) async 
+  Future<String> createPassword(Session session, PasswordOptions options, { String? passwordInput } ) async 
   {
     var automated = options.automatedPassword;
 
     if(automated)
     {
-      PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, 
-                                                        password: _passwordAutomaticCreation(options).toString());
-
-      await PasswordGenerator.db.insertRow(session, newPassword);
+      return _passwordAutomaticCreation(options);
     }
     else
     {
       if(passwordInput != null)
       {
-        PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, 
-                                                          password: passwordInput);
-
-        await PasswordGenerator.db.insertRow(session, newPassword);
+        return passwordInput;
       }
       else
       {
         throw Exception('Password input cannot be null for a manual password mode');
       }
     }
-  }
-
-  Future<void> deletePassword(Session session, PasswordGenerator pass) async 
-  {
-    await PasswordGenerator.db.deleteRow(session, pass);
   }
 
   // ---------------------------------------------------------------------------------------------------------------- //

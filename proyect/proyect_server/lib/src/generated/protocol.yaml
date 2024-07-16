@@ -10,10 +10,7 @@ tasks:
   - deleteTask:
   - deleteMultipleTasks:
 passwordGenerator:
-  - getPassword:
-  - updatePassword:
   - createPassword:
-  - deletePassword:
 passwordOptions:
   - getOptions:
   - updateOptions:

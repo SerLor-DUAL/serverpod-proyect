@@ -9,32 +9,28 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import '../protocol.dart' as _i2;
 
 abstract class UsersRegistry implements _i1.SerializableModel {
   UsersRegistry._({
     this.id,
     required this.userName,
-    required this.userPasswordId,
-    this.userPassword,
+    required this.userPassword,
+    required this.options,
   });
 
   factory UsersRegistry({
     int? id,
     required String userName,
-    required int userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    required String userPassword,
+    required int options,
   }) = _UsersRegistryImpl;
 
   factory UsersRegistry.fromJson(Map<String, dynamic> jsonSerialization) {
     return UsersRegistry(
       id: jsonSerialization['id'] as int?,
       userName: jsonSerialization['userName'] as String,
-      userPasswordId: jsonSerialization['userPasswordId'] as int,
-      userPassword: jsonSerialization['userPassword'] == null
-          ? null
-          : _i2.PasswordGenerator.fromJson(
-              (jsonSerialization['userPassword'] as Map<String, dynamic>)),
+      userPassword: jsonSerialization['userPassword'] as String,
+      options: jsonSerialization['options'] as int,
     );
   }
 
@@ -45,23 +41,23 @@ abstract class UsersRegistry implements _i1.SerializableModel {
 
   String userName;
 
-  int userPasswordId;
+  String userPassword;
 
-  _i2.PasswordGenerator? userPassword;
+  int options;
 
   UsersRegistry copyWith({
     int? id,
     String? userName,
-    int? userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    String? userPassword,
+    int? options,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
       'userName': userName,
-      'userPasswordId': userPasswordId,
-      if (userPassword != null) 'userPassword': userPassword?.toJson(),
+      'userPassword': userPassword,
+      'options': options,
     };
   }
 
@@ -77,29 +73,27 @@ class _UsersRegistryImpl extends UsersRegistry {
   _UsersRegistryImpl({
     int? id,
     required String userName,
-    required int userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    required String userPassword,
+    required int options,
   }) : super._(
           id: id,
           userName: userName,
-          userPasswordId: userPasswordId,
           userPassword: userPassword,
+          options: options,
         );
 
   @override
   UsersRegistry copyWith({
     Object? id = _Undefined,
     String? userName,
-    int? userPasswordId,
-    Object? userPassword = _Undefined,
+    String? userPassword,
+    int? options,
   }) {
     return UsersRegistry(
       id: id is int? ? id : this.id,
       userName: userName ?? this.userName,
-      userPasswordId: userPasswordId ?? this.userPasswordId,
-      userPassword: userPassword is _i2.PasswordGenerator?
-          ? userPassword
-          : this.userPassword?.copyWith(),
+      userPassword: userPassword ?? this.userPassword,
+      options: options ?? this.options,
     );
   }
 }

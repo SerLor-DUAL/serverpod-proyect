@@ -2,63 +2,6 @@
   "moduleName": "proyect",
   "tables": [
     {
-      "name": "password_generator",
-      "dartName": "PasswordGenerator",
-      "module": "proyect",
-      "schema": "public",
-      "columns": [
-        {
-          "name": "id",
-          "columnType": 6,
-          "isNullable": false,
-          "columnDefault": "nextval('password_generator_id_seq'::regclass)",
-          "dartType": "int?"
-        },
-        {
-          "name": "optionsId",
-          "columnType": 6,
-          "isNullable": false,
-          "dartType": "int"
-        },
-        {
-          "name": "password",
-          "columnType": 0,
-          "isNullable": false,
-          "dartType": "String"
-        }
-      ],
-      "foreignKeys": [
-        {
-          "constraintName": "password_generator_fk_0",
-          "columns": [
-            "optionsId"
-          ],
-          "referenceTable": "password_options",
-          "referenceTableSchema": "public",
-          "referenceColumns": [
-            "id"
-          ],
-          "onUpdate": 3,
-          "onDelete": 3
-        }
-      ],
-      "indexes": [
-        {
-          "indexName": "password_generator_pkey",
-          "elements": [
-            {
-              "type": 0,
-              "definition": "id"
-            }
-          ],
-          "type": "btree",
-          "isUnique": true,
-          "isPrimary": true
-        }
-      ],
-      "managed": true
-    },
-    {
       "name": "password_options",
       "dartName": "PasswordOptions",
       "module": "proyect",
@@ -238,7 +181,13 @@
           "dartType": "String"
         },
         {
-          "name": "userPasswordId",
+          "name": "userPassword",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "name": "options",
           "columnType": 6,
           "isNullable": false,
           "dartType": "int"
@@ -248,9 +197,9 @@
         {
           "constraintName": "users_registry_fk_0",
           "columns": [
-            "userPasswordId"
+            "options"
           ],
-          "referenceTable": "password_generator",
+          "referenceTable": "password_options",
           "referenceTableSchema": "public",
           "referenceColumns": [
             "id"
@@ -1428,7 +1377,7 @@
   "installedModules": [
     {
       "module": "proyect",
-      "version": "20240716095711784"
+      "version": "20240716124957630"
     },
     {
       "module": "serverpod",

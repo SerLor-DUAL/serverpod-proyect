@@ -11,13 +11,11 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:proyect_client/src/protocol/todo_list_santi/tasks.dart' as _i3;
-import 'package:proyect_client/src/protocol/users_sergio/password_generator.dart'
-    as _i4;
 import 'package:proyect_client/src/protocol/users_sergio/password_options.dart'
-    as _i5;
+    as _i4;
 import 'package:proyect_client/src/protocol/users_sergio/users_registry.dart'
-    as _i6;
-import 'protocol.dart' as _i7;
+    as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
 class EndpointTasks extends _i1.EndpointRef {
@@ -101,38 +99,17 @@ class EndpointPasswordGenerator extends _i1.EndpointRef {
   @override
   String get name => 'passwordGenerator';
 
-  _i2.Future<_i4.PasswordGenerator?> getPassword(_i4.PasswordGenerator pass) =>
-      caller.callServerEndpoint<_i4.PasswordGenerator?>(
-        'passwordGenerator',
-        'getPassword',
-        {'pass': pass},
-      );
-
-  _i2.Future<void> updatePassword(_i4.PasswordGenerator pass) =>
-      caller.callServerEndpoint<void>(
-        'passwordGenerator',
-        'updatePassword',
-        {'pass': pass},
-      );
-
-  _i2.Future<void> createPassword(
-    _i5.PasswordOptions options, {
+  _i2.Future<String> createPassword(
+    _i4.PasswordOptions options, {
     String? passwordInput,
   }) =>
-      caller.callServerEndpoint<void>(
+      caller.callServerEndpoint<String>(
         'passwordGenerator',
         'createPassword',
         {
           'options': options,
           'passwordInput': passwordInput,
         },
-      );
-
-  _i2.Future<void> deletePassword(_i4.PasswordGenerator pass) =>
-      caller.callServerEndpoint<void>(
-        'passwordGenerator',
-        'deletePassword',
-        {'pass': pass},
       );
 }
 
@@ -143,28 +120,28 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
   @override
   String get name => 'passwordOptions';
 
-  _i2.Future<_i5.PasswordOptions?> getOptions(int optionsID) =>
-      caller.callServerEndpoint<_i5.PasswordOptions?>(
+  _i2.Future<_i4.PasswordOptions?> getOptions(int optionsID) =>
+      caller.callServerEndpoint<_i4.PasswordOptions?>(
         'passwordOptions',
         'getOptions',
         {'optionsID': optionsID},
       );
 
-  _i2.Future<void> updateOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> updateOptions(_i4.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'updateOptions',
         {'options': options},
       );
 
-  _i2.Future<void> createOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> createOptions(_i4.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'createOptions',
         {'options': options},
       );
 
-  _i2.Future<void> deleteOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> deleteOptions(_i4.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'deleteOptions',
@@ -179,35 +156,41 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
   @override
   String get name => 'usersRegistry';
 
-  _i2.Future<List<_i6.UsersRegistry>> getAllUsers() =>
-      caller.callServerEndpoint<List<_i6.UsersRegistry>>(
+  _i2.Future<List<_i5.UsersRegistry>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i5.UsersRegistry>>(
         'usersRegistry',
         'getAllUsers',
         {},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getUserById(int userId) =>
-      caller.callServerEndpoint<_i6.UsersRegistry?>(
+  _i2.Future<_i5.UsersRegistry?> getUserById(int userId) =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
         {'userId': userId},
       );
 
-  _i2.Future<void> updateUser(_i6.UsersRegistry user) =>
+  _i2.Future<void> updateUser(_i5.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'updateUser',
         {'user': user},
       );
 
-  _i2.Future<void> createUser(_i6.UsersRegistry user) =>
-      caller.callServerEndpoint<void>(
+  _i2.Future<_i5.UsersRegistry> createUser(
+    String userName,
+    _i4.PasswordOptions options,
+  ) =>
+      caller.callServerEndpoint<_i5.UsersRegistry>(
         'usersRegistry',
         'createUser',
-        {'user': user},
+        {
+          'userName': userName,
+          'options': options,
+        },
       );
 
-  _i2.Future<void> deleteUser(_i6.UsersRegistry user) =>
+  _i2.Future<void> deleteUser(_i5.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'deleteUser',
@@ -230,7 +213,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

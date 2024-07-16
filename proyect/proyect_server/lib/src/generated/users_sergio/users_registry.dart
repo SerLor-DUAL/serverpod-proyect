@@ -9,33 +9,29 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../protocol.dart' as _i2;
 
 abstract class UsersRegistry extends _i1.TableRow
     implements _i1.ProtocolSerialization {
   UsersRegistry._({
     int? id,
     required this.userName,
-    required this.userPasswordId,
-    this.userPassword,
+    required this.userPassword,
+    required this.options,
   }) : super(id);
 
   factory UsersRegistry({
     int? id,
     required String userName,
-    required int userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    required String userPassword,
+    required int options,
   }) = _UsersRegistryImpl;
 
   factory UsersRegistry.fromJson(Map<String, dynamic> jsonSerialization) {
     return UsersRegistry(
       id: jsonSerialization['id'] as int?,
       userName: jsonSerialization['userName'] as String,
-      userPasswordId: jsonSerialization['userPasswordId'] as int,
-      userPassword: jsonSerialization['userPassword'] == null
-          ? null
-          : _i2.PasswordGenerator.fromJson(
-              (jsonSerialization['userPassword'] as Map<String, dynamic>)),
+      userPassword: jsonSerialization['userPassword'] as String,
+      options: jsonSerialization['options'] as int,
     );
   }
 
@@ -45,9 +41,9 @@ abstract class UsersRegistry extends _i1.TableRow
 
   String userName;
 
-  int userPasswordId;
+  String userPassword;
 
-  _i2.PasswordGenerator? userPassword;
+  int options;
 
   @override
   _i1.Table get table => t;
@@ -55,16 +51,16 @@ abstract class UsersRegistry extends _i1.TableRow
   UsersRegistry copyWith({
     int? id,
     String? userName,
-    int? userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    String? userPassword,
+    int? options,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
       'userName': userName,
-      'userPasswordId': userPasswordId,
-      if (userPassword != null) 'userPassword': userPassword?.toJson(),
+      'userPassword': userPassword,
+      'options': options,
     };
   }
 
@@ -73,15 +69,13 @@ abstract class UsersRegistry extends _i1.TableRow
     return {
       if (id != null) 'id': id,
       'userName': userName,
-      'userPasswordId': userPasswordId,
-      if (userPassword != null)
-        'userPassword': userPassword?.toJsonForProtocol(),
+      'userPassword': userPassword,
+      'options': options,
     };
   }
 
-  static UsersRegistryInclude include(
-      {_i2.PasswordGeneratorInclude? userPassword}) {
-    return UsersRegistryInclude._(userPassword: userPassword);
+  static UsersRegistryInclude include() {
+    return UsersRegistryInclude._();
   }
 
   static UsersRegistryIncludeList includeList({
@@ -116,29 +110,27 @@ class _UsersRegistryImpl extends UsersRegistry {
   _UsersRegistryImpl({
     int? id,
     required String userName,
-    required int userPasswordId,
-    _i2.PasswordGenerator? userPassword,
+    required String userPassword,
+    required int options,
   }) : super._(
           id: id,
           userName: userName,
-          userPasswordId: userPasswordId,
           userPassword: userPassword,
+          options: options,
         );
 
   @override
   UsersRegistry copyWith({
     Object? id = _Undefined,
     String? userName,
-    int? userPasswordId,
-    Object? userPassword = _Undefined,
+    String? userPassword,
+    int? options,
   }) {
     return UsersRegistry(
       id: id is int? ? id : this.id,
       userName: userName ?? this.userName,
-      userPasswordId: userPasswordId ?? this.userPasswordId,
-      userPassword: userPassword is _i2.PasswordGenerator?
-          ? userPassword
-          : this.userPassword?.copyWith(),
+      userPassword: userPassword ?? this.userPassword,
+      options: options ?? this.options,
     );
   }
 }
@@ -150,56 +142,36 @@ class UsersRegistryTable extends _i1.Table {
       'userName',
       this,
     );
-    userPasswordId = _i1.ColumnInt(
-      'userPasswordId',
+    userPassword = _i1.ColumnString(
+      'userPassword',
+      this,
+    );
+    options = _i1.ColumnInt(
+      'options',
       this,
     );
   }
 
   late final _i1.ColumnString userName;
 
-  late final _i1.ColumnInt userPasswordId;
+  late final _i1.ColumnString userPassword;
 
-  _i2.PasswordGeneratorTable? _userPassword;
-
-  _i2.PasswordGeneratorTable get userPassword {
-    if (_userPassword != null) return _userPassword!;
-    _userPassword = _i1.createRelationTable(
-      relationFieldName: 'userPassword',
-      field: UsersRegistry.t.userPasswordId,
-      foreignField: _i2.PasswordGenerator.t.id,
-      tableRelation: tableRelation,
-      createTable: (foreignTableRelation) =>
-          _i2.PasswordGeneratorTable(tableRelation: foreignTableRelation),
-    );
-    return _userPassword!;
-  }
+  late final _i1.ColumnInt options;
 
   @override
   List<_i1.Column> get columns => [
         id,
         userName,
-        userPasswordId,
+        userPassword,
+        options,
       ];
-
-  @override
-  _i1.Table? getRelationTable(String relationField) {
-    if (relationField == 'userPassword') {
-      return userPassword;
-    }
-    return null;
-  }
 }
 
 class UsersRegistryInclude extends _i1.IncludeObject {
-  UsersRegistryInclude._({_i2.PasswordGeneratorInclude? userPassword}) {
-    _userPassword = userPassword;
-  }
-
-  _i2.PasswordGeneratorInclude? _userPassword;
+  UsersRegistryInclude._();
 
   @override
-  Map<String, _i1.Include?> get includes => {'userPassword': _userPassword};
+  Map<String, _i1.Include?> get includes => {};
 
   @override
   _i1.Table get table => UsersRegistry.t;
@@ -228,8 +200,6 @@ class UsersRegistryIncludeList extends _i1.IncludeList {
 class UsersRegistryRepository {
   const UsersRegistryRepository._();
 
-  final attachRow = const UsersRegistryAttachRowRepository._();
-
   Future<List<UsersRegistry>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<UsersRegistryTable>? where,
@@ -239,7 +209,6 @@ class UsersRegistryRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<UsersRegistryTable>? orderByList,
     _i1.Transaction? transaction,
-    UsersRegistryInclude? include,
   }) async {
     return session.db.find<UsersRegistry>(
       where: where?.call(UsersRegistry.t),
@@ -249,7 +218,6 @@ class UsersRegistryRepository {
       limit: limit,
       offset: offset,
       transaction: transaction,
-      include: include,
     );
   }
 
@@ -261,7 +229,6 @@ class UsersRegistryRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<UsersRegistryTable>? orderByList,
     _i1.Transaction? transaction,
-    UsersRegistryInclude? include,
   }) async {
     return session.db.findFirstRow<UsersRegistry>(
       where: where?.call(UsersRegistry.t),
@@ -270,7 +237,6 @@ class UsersRegistryRepository {
       orderDescending: orderDescending,
       offset: offset,
       transaction: transaction,
-      include: include,
     );
   }
 
@@ -278,12 +244,10 @@ class UsersRegistryRepository {
     _i1.Session session,
     int id, {
     _i1.Transaction? transaction,
-    UsersRegistryInclude? include,
   }) async {
     return session.db.findById<UsersRegistry>(
       id,
       transaction: transaction,
-      include: include,
     );
   }
 
@@ -378,30 +342,6 @@ class UsersRegistryRepository {
       where: where?.call(UsersRegistry.t),
       limit: limit,
       transaction: transaction,
-    );
-  }
-}
-
-class UsersRegistryAttachRowRepository {
-  const UsersRegistryAttachRowRepository._();
-
-  Future<void> userPassword(
-    _i1.Session session,
-    UsersRegistry usersRegistry,
-    _i2.PasswordGenerator userPassword,
-  ) async {
-    if (usersRegistry.id == null) {
-      throw ArgumentError.notNull('usersRegistry.id');
-    }
-    if (userPassword.id == null) {
-      throw ArgumentError.notNull('userPassword.id');
-    }
-
-    var $usersRegistry =
-        usersRegistry.copyWith(userPasswordId: userPassword.id);
-    await session.db.updateRow<UsersRegistry>(
-      $usersRegistry,
-      columns: [UsersRegistry.t.userPasswordId],
     );
   }
 }

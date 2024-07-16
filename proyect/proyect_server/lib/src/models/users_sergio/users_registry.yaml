@@ -2,7 +2,8 @@ class: UsersRegistry
 table: users_registry
 fields:
   userName: String
-  userPassword: PasswordGenerator?, relation=parent # Foreign key field
+  userPassword: String
+  options: int, relation(parent=password_options)
 indexes:
   user_name_idx:
     fields: userName

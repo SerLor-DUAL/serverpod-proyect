@@ -16,10 +16,10 @@ class _RegisterState extends State<Register> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
+  
+   
 
   Future<void> registryUser() async {
-    try 
-    {
       PasswordOptions options = PasswordOptions(automatedPassword: false,
                                                 passwordLengthOption: null,   // Puedes definir un valor por defecto si no es nulo
                                                 upperOption: null,            // Por defecto puedes definir como falso
@@ -32,51 +32,21 @@ class _RegisterState extends State<Register> {
       // Después de la inserción, obtiene el ID de las opciones de contraseña
       PasswordOptions? createdOptions = await widget.client.passwordOptions.getOptions(options.id!);
 
-      if (createdOptions == null) 
+      if (createdOptions == null)  // SANTI: REVISAR ESTO A FUTURO. Como que passwordOptions puede ser null?
       {
         await widget.client.passwordOptions.deleteOptions(options);
         throw Exception("Failed to create PasswordOptions.");
       } 
       else 
       {
-        // Crea una nueva contraseña
-        PasswordGenerator createdPass = PasswordGenerator(optionsId: createdOptions.id!,
-                                                          options: createdOptions,
-                                                          password: passwordController.text );
-
-        await widget.client.passwordGenerator.createPassword(options, passwordInput: createdPass.password);
-
-        // Crea un nuevo usuario
-        UsersRegistry createdUser = UsersRegistry(userName: userController.text,
-                                                  userPasswordId: createdPass.id!,
-                                                  userPassword: createdPass );
-
-        await widget.client.usersRegistry.createUser(createdUser);
+        var createdUser = await widget.client.usersRegistry.createUser(userController.text,createdOptions);
 
         // Call seeUser after user registration
         await seeUser();
       }
-    } catch (e) {
-        // Handle any errors
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text("Error"),
-              content: Text("Failed to register user: $e"),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        }
-      }
     }
-
-    Future<void> seeUser() async {
+    
+  Future<void> seeUser() async {
     // Get the user by name
     var abc = await widget.client.usersRegistry.getUserById(1);
 
@@ -104,6 +74,29 @@ class _RegisterState extends State<Register> {
     }
   }
 
+    /*
+    } catch (e) {
+        // Handle any errors
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text("Error"),
+              content: Text("Failed to register user: $e"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    }
+    */
+
+   
 
   @override
   Widget build(BuildContext context) {
@@ -228,8 +221,7 @@ class _RegisterState extends State<Register> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () async {
-                                          await registryUser();
-                                          await seeUser(); }, 
+                                          await registryUser(); }, 
                                         child: const Text("Register")
                                       ),
                                     ],
@@ -265,3 +257,4 @@ class _RegisterState extends State<Register> {
       );
   }
 }
+

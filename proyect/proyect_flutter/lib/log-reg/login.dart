@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'register.dart';
 import 'package:proyect_client/proyect_client.dart';
 
 class Login extends StatefulWidget {
