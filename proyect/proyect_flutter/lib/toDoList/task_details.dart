@@ -1,10 +1,13 @@
+import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'task.dart';
+
 
 
 class TaskDetails extends StatefulWidget{
   final Task task;
-  TaskDetails({super.key, required this.task});
+  final Client client;
+
+  TaskDetails({super.key, required this.task, required this.client});
 
   @override
   State<TaskDetails> createState() => _TaskDetailsState();
@@ -74,7 +77,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                           fontSize: 40.00,
                         ),
                       ),
-                    (task.completed)?
+                    (task.complete)?
                       const Text(
                         "STATUS: COMPLETED",
                         style: TextStyle(
