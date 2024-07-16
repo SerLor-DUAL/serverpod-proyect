@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '';
 
 class Register extends StatefulWidget {
   var client;
@@ -15,7 +16,13 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  
+  void registryUser () {
+      
+
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
