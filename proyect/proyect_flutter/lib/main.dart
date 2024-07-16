@@ -2,7 +2,7 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/log-reg/register.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'log-reg/home.dart';
+import 'log-reg/login.dart';
 import 'toDoList/to_do_list.dart';
 
 // Sets up a singleton client object that can be used to talk to the server from
