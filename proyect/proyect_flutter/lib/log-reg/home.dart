@@ -2,21 +2,14 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'register.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Login> createState() => _LoginState();
 }
 
-class _HomeState extends State<Home> {
-  bool login = true;
-
-  void tooglePage() {
-    setState(() {
-      login = !login;
-    });
-  }
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +47,45 @@ class _HomeState extends State<Home> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                  login? LoginPage() : RegisterPage(),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      RichText(
+                                        text: const TextSpan(
+                                          text: 'Integra',
+                                          style: TextStyle(
+                                            fontSize: 30.00,
+                                            color: Color.fromARGB(255, 124, 214, 255),
+                                            fontWeight: FontWeight.w800,
+                                            ),
+                                          children: [
+                                            TextSpan(
+                                              text: 'QS',
+                                              style: TextStyle(
+                                                fontSize: 30.00,
+                                                color: Color.fromARGB(255, 124, 214, 255),
+                                                fontWeight: FontWeight.w100,
+                                              ),
+                                            )
+                                          ]
+                                        )),
+                                      const SizedBox(height: 100.0),
+                                      const TextField(
+                                        decoration: InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    hintText: "User"
+                                        ),
+                                      ),
+                                      
+                                      const SizedBox(height: 20.0),
+                                      
+                                      const TextField(
+                                        decoration: InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    hintText: "Password",)
+                                      ),
+                                    ],
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
@@ -64,9 +95,8 @@ class _HomeState extends State<Home> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () {
-                                          (!login)? 
-                                            tooglePage() : 
-                                            null; }, 
+                                          null;
+                                          }, 
                                         child: const Text("Login")
                                       ),
                                       ElevatedButton(
@@ -75,9 +105,10 @@ class _HomeState extends State<Home> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () {
-                                          (login)? 
-                                            tooglePage() :
-                                            null; }, 
+                                          
+                                             Navigator.pushNamed(context, '/register');
+                                            } ,
+                                        
                                         child: const Text("Register")
                                       ),
                                     ],

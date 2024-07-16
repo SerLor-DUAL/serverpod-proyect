@@ -1,5 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/log-reg/register.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'log-reg/home.dart';
 import 'toDoList/to_do_list.dart';
@@ -17,7 +18,8 @@ void main() {
     routes: {
       // This will set our basic routes for the proyect.
       // Later we will have to work with dinamic routes.
-      '/' : (context) => const Home(),
+      '/' : (context) => const Login(),
+      '/register' : (context) => const Register(),
       '/todolist' : (context) => ToDoList(),
     },
   ));
