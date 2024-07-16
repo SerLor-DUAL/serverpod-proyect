@@ -40,7 +40,7 @@ class PasswordGeneratorEndpoint extends Endpoint
     {
       PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, 
                                                         password: _passwordAutomaticCreation(options).toString());
-                                                        
+
       await PasswordGenerator.db.insertRow(session, newPassword);
     }
     else
@@ -54,7 +54,7 @@ class PasswordGeneratorEndpoint extends Endpoint
       }
       else
       {
-        throw Exception();
+        throw Exception('Password input cannot be null for a manual password mode');
       }
     }
   }
