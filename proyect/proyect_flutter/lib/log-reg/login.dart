@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  var client;
+  
+  Login({super.key, required this.client});
 
   @override
   State<Login> createState() => _LoginState();

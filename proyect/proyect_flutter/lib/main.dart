@@ -18,8 +18,8 @@ void main() {
     routes: {
       // This will set our basic routes for the proyect.
       // Later we will have to work with dinamic routes.
-      '/' : (context) => const Login(),
-      '/register' : (context) => const Register(),
+      '/' : (context) => Login(client: client,),
+      '/register' : (context) => Register(client: client,),
       '/todolist' : (context) => ToDoList(),
     },
   ));
