@@ -12,7 +12,15 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'example.dart' as _i3;
+import 'todo_list_santi/tasks.dart' as _i4;
+import 'users_sergio/password_generator.dart' as _i5;
+import 'users_sergio/password_options.dart' as _i6;
+import 'users_sergio/users_registry.dart' as _i7;
 export 'example.dart';
+export 'todo_list_santi/tasks.dart';
+export 'users_sergio/password_generator.dart';
+export 'users_sergio/password_options.dart';
+export 'users_sergio/users_registry.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -22,7 +30,291 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
-    ..._i2.Protocol.targetTableDefinitions
+    _i2.TableDefinition(
+      name: 'password_generator',
+      dartName: 'PasswordGenerator',
+      schema: 'public',
+      module: 'proyect',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'password_generator_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'optionsId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'password',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'password_generator_fk_0',
+          columns: ['optionsId'],
+          referenceTable: 'password_options',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'password_generator_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'password_options',
+      dartName: 'PasswordOptions',
+      schema: 'public',
+      module: 'proyect',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'password_options_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'passwordLengthOption',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'upperOption',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'numberOption',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'specialOption',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'automatedPassword',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'password_options_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'tasks',
+      dartName: 'Task',
+      schema: 'public',
+      module: 'proyect',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'tasks_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'title',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'description',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'deadLine',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'complete',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userID',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'tasks_fk_0',
+          columns: ['userID'],
+          referenceTable: 'users_registry',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'tasks_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'user_id_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userID',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'title_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'title',
+            )
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'users_registry',
+      dartName: 'UsersRegistry',
+      schema: 'public',
+      module: 'proyect',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'users_registry_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userName',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userPasswordId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'users_registry_fk_0',
+          columns: ['userPasswordId'],
+          referenceTable: 'password_generator',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'users_registry_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'user_name_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userName',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    ..._i2.Protocol.targetTableDefinitions,
   ];
 
   @override
@@ -34,8 +326,32 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i3.Example) {
       return _i3.Example.fromJson(data) as T;
     }
+    if (t == _i4.Task) {
+      return _i4.Task.fromJson(data) as T;
+    }
+    if (t == _i5.PasswordGenerator) {
+      return _i5.PasswordGenerator.fromJson(data) as T;
+    }
+    if (t == _i6.PasswordOptions) {
+      return _i6.PasswordOptions.fromJson(data) as T;
+    }
+    if (t == _i7.UsersRegistry) {
+      return _i7.UsersRegistry.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i3.Example?>()) {
       return (data != null ? _i3.Example.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i4.Task?>()) {
+      return (data != null ? _i4.Task.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i5.PasswordGenerator?>()) {
+      return (data != null ? _i5.PasswordGenerator.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.PasswordOptions?>()) {
+      return (data != null ? _i6.PasswordOptions.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.UsersRegistry?>()) {
+      return (data != null ? _i7.UsersRegistry.fromJson(data) : null) as T;
     }
     try {
       return _i2.Protocol().deserialize<T>(data, t);
@@ -48,6 +364,18 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i3.Example) {
       return 'Example';
     }
+    if (data is _i4.Task) {
+      return 'Task';
+    }
+    if (data is _i5.PasswordGenerator) {
+      return 'PasswordGenerator';
+    }
+    if (data is _i6.PasswordOptions) {
+      return 'PasswordOptions';
+    }
+    if (data is _i7.UsersRegistry) {
+      return 'UsersRegistry';
+    }
     return super.getClassNameForObject(data);
   }
 
@@ -55,6 +383,18 @@ class Protocol extends _i1.SerializationManagerServer {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'] == 'Example') {
       return deserialize<_i3.Example>(data['data']);
+    }
+    if (data['className'] == 'Task') {
+      return deserialize<_i4.Task>(data['data']);
+    }
+    if (data['className'] == 'PasswordGenerator') {
+      return deserialize<_i5.PasswordGenerator>(data['data']);
+    }
+    if (data['className'] == 'PasswordOptions') {
+      return deserialize<_i6.PasswordOptions>(data['data']);
+    }
+    if (data['className'] == 'UsersRegistry') {
+      return deserialize<_i7.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -66,6 +406,16 @@ class Protocol extends _i1.SerializationManagerServer {
       if (table != null) {
         return table;
       }
+    }
+    switch (t) {
+      case _i4.Task:
+        return _i4.Task.t;
+      case _i5.PasswordGenerator:
+        return _i5.PasswordGenerator.t;
+      case _i6.PasswordOptions:
+        return _i6.PasswordOptions.t;
+      case _i7.UsersRegistry:
+        return _i7.UsersRegistry.t;
     }
     return null;
   }
