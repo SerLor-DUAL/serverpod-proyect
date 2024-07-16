@@ -13,12 +13,27 @@ class UsersRegistryEndpoint extends Endpoint
 
   Future<UsersRegistry?> getUserById(Session session, UsersRegistry user) async 
   {
-    return await UsersRegistry.db.findById(session, user.id!);
+    if(user.id != null)
+    {
+      return await UsersRegistry.db.findById(session, user.id!);
+    }
+    else
+    {
+
+      throw Exception('User with selected ID not found.');
+    }
   }
 
   Future<void> updateUser(Session session, UsersRegistry user) async 
   {
-    await UsersRegistry.db.updateRow(session, user);
+    if(user.id != null)
+    {
+      await UsersRegistry.db.updateRow(session, user);
+    }
+    else
+    {
+      throw Exception('User with selected ID not found.');
+    }
   }
 
   Future<void> createUser(Session session, UsersRegistry user) async 
@@ -28,7 +43,15 @@ class UsersRegistryEndpoint extends Endpoint
 
   Future<void> deleteUser(Session session, UsersRegistry user) async 
   {
-    await UsersRegistry.db.deleteRow(session, user);
+    if(user.id != null)
+    {
+      await UsersRegistry.db.deleteRow(session, user);
+    }
+    else
+    {
+      throw Exception('User with selected ID not found.');
+    }
   }
-  
+   
+
 }
