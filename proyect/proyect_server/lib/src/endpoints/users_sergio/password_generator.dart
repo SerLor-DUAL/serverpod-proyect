@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:serverpod/serverpod.dart';
 import 'package:proyect_server/src/generated/protocol.dart';
 
@@ -31,14 +32,64 @@ class PasswordGeneratorEndpoint extends Endpoint
     await PasswordGenerator.db.updateRow(session, pass);
   }
 
-  Future<void> createPassword(Session session, PasswordGenerator pass) async 
+  Future<void> createPassword(Session session, PasswordOptions options, { String? passwordInput } ) async 
   {
-    await PasswordGenerator.db.insertRow(session, pass);
+    var automated = options.automatedPassword;
+
+    if(automated)
+    {
+      PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, password: _passwordAutomaticCreation(options).toString());
+      await PasswordGenerator.db.insertRow(session, newPassword);
+    }
+    else
+    {
+      if(passwordInput != null)
+      {
+        PasswordGenerator newPassword = PasswordGenerator(optionsId: options.id!, password: passwordInput);
+        await PasswordGenerator.db.insertRow(session, newPassword);
+      }
+      else
+      {
+        throw Exception();
+      }
+    }
   }
 
   Future<void> deletePassword(Session session, PasswordGenerator pass) async 
   {
     await PasswordGenerator.db.deleteRow(session, pass);
   }
+
+  // ---------------------------------------------------------------------------------------------------------------- //
+
+  Future<String> _passwordAutomaticCreation(PasswordOptions options) async
+  {
+    Random randChoice = Random.secure();
+
+    // LISTAS DE CARÁCTERES POSIBLES PARA LA GENERACIÓN
+    final List<String> lowercaseList = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o',
+                                        'p','q','r','s','t','u','v','w','x','y','z'];
+
+    final List<String> uppercaseList = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O',
+                                        'P','Q','R','S','T','U','V','W','X','Y','Z'];
+
+    final List<String> specialsList = ['!', '@', '#', '\$', '%', '^', 'ç','&', '*', '(', ')', '-', '_', 
+                                        '=', '+', ';', ':', '.', '<', '>', '?'];
+
+    final List<String> numbersList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+
+    // AÑADIR LOS CARÁCTERES A UNA NUEVA LISTA DESDE OTRAS LISTAS
+    List<String> passwordChars = List.from(lowercaseList);
+    if (options.upperOption) passwordChars.addAll(uppercaseList); 
+    if (options.numberOption) passwordChars.addAll(numbersList);
+    if (options.specialOption) passwordChars.addAll(specialsList);
+
+    // MEZCLA EL RESULTADO DE TODAS LAS LISTAS Y PROCEDE A ELEGIR LOS PRIMEROS X NUMEROS 
+    // DEPENDIENDO DE LA LONGITUD DESEADA DE LA CONTRASEÑA
+    passwordChars.shuffle(randChoice);
+    return passwordChars.take(options.passwordLengthOption).join('');
+  }
   
 }
+

@@ -14,12 +14,12 @@ class PasswordOptionsEndpoint extends Endpoint
     await PasswordOptions.db.updateRow(session, options);
   }
 
-  Future<void> createUser(Session session, PasswordOptions options) async 
+  Future<void> createOptions(Session session, PasswordOptions options) async 
   {
     await PasswordOptions.db.insertRow(session, options);
   }
 
-  Future<void> deleteUser(Session session, PasswordOptions options) async 
+  Future<void> deleteOptions(Session session, PasswordOptions options) async 
   {
     await PasswordOptions.db.deleteRow(session, options);
   }
