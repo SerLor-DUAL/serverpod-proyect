@@ -32,17 +32,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  Future<AlertDialog> seeUser() async {
 
-    var abc = await widget.client.usersRegistry.getUserById(1);
-
-    AlertDialog alert = AlertDialog(
-    title: const Text("User"),
-    content: Text("Welcome $abc"),
-    );
-    
-    return alert;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +158,7 @@ class _RegisterState extends State<Register> {
                                         ),
                                         onPressed: () async {
                                           registryUser();
-                                          seeUser(); }, 
+                                          }, 
                                         child: const Text("Register")
                                       ),
                                     ],

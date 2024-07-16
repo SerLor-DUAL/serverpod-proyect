@@ -1,27 +1,52 @@
+import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/main.dart';
 import 'task_details.dart';
-import 'task.dart';
 
 
 
 class ToDoList extends StatefulWidget {
-  final List<Task> taskList = [
-      Task(title: "Tengo tarea", descrip: "Esta es la tarea 1", completed: true), 
-      Task(title: "Tengo tarea 2", descrip: "Esta es la tarea 2", completed: false)];
- 
+  
+  Client client;
 
-  ToDoList({super.key});
+  ToDoList({super.key, required this.client});
 
   @override
   State<ToDoList> createState() => _ToDoListState();
 }
 
 class _ToDoListState extends State<ToDoList> {
+  List<Task> _taskList = [];
   
+  @override
+  void initState() {
+  super.initState();
+    _loadTask();
+  }
+
+  Future<void> _loadTask() async {
+    final List<Task> taskList = await client.tasks.getEveryTask(1);
+    setState(() {
+      _taskList = taskList; 
+    });
+  }
+
+
+  Future<void> createTask() async{
+    Task task = Task(
+      title: "Hola",
+      description: "Holaaa",
+      deadLine: DateTime.now(),
+      complete: false,
+      userID: 1
+    );
+    await widget.client.tasks.addTask(task);
+    _loadTask();
+  }
   // Change completed task.
   void toogleCompleted(Task task) {
     setState(() {
-      task.completed = !task.completed;
+      task.complete = !task.complete;
     });
   }
 
@@ -39,10 +64,10 @@ class _ToDoListState extends State<ToDoList> {
         ),
       body: ListView.builder(
       padding: const EdgeInsets.all(8),
-      itemCount: widget.taskList.length,
+      itemCount: _taskList.length,
       itemBuilder: (BuildContext context, int index){
 
-        Task task = widget.taskList[index];
+        Task task = _taskList[index];
 
           return ListTile(
           title: Row(
@@ -64,7 +89,7 @@ class _ToDoListState extends State<ToDoList> {
                 },
                 icon: Icon(
                         // If task is not completed. The button is outlined.
-                        ((task.completed)?
+                        ((task.complete)?
                             Icons.brightness_1 :
                             Icons.brightness_1_outlined),
                         color: const Color.fromARGB(255, 124, 214, 255)),
@@ -74,7 +99,8 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetails(
                                                                                             task: task,
-                                                                                  )
+                                                                                            client: client,
+                                                                                              )
                                           )
                   );
                 },
@@ -88,8 +114,17 @@ class _ToDoListState extends State<ToDoList> {
           ),
         );
       },
-    )
-    );
+    ),
+    floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await createTask();
+          },
+        backgroundColor: Colors.lightBlue[900],
+        child: const Icon(
+                  Icons.add,
+                  color: Colors.white,),
+          ),
+      );
   }
 }
 

@@ -20,7 +20,7 @@ void main() {
       // Later we will have to work with dinamic routes.
       '/' : (context) => Login(client: client,),
       '/register' : (context) => Register(client: client,),
-      '/todolist' : (context) => ToDoList(),
+      '/todolist' : (context) => ToDoList(client: client),
     },
   ));
 } 
