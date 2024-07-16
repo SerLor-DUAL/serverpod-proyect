@@ -8,18 +8,12 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
   // Set controllers
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  Map<String, String> getValues() {
-    return {
-      "user" : userController.text,
-      "password" : passwordController.text,
-      "confirm" : confirmController.text
-    };
-  }  
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +76,17 @@ class _RegisterState extends State<Register> {
                                           ]
                                         )),
                                       const SizedBox(height: 100.0),
-                                      TextField(
+                                      TextFormField(
                                         controller: userController,
                                         decoration: const InputDecoration(
                                                     border: OutlineInputBorder(),
-                                                    hintText: "User"
-                                        ),
+                                                    hintText: "User"),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },         
                                       ),
                                       
                                       const SizedBox(height: 20.0),
@@ -96,7 +95,13 @@ class _RegisterState extends State<Register> {
                                         controller: passwordController,
                                         decoration: const InputDecoration(
                                                     border: OutlineInputBorder(),
-                                                    hintText: "Password",)
+                                                    hintText: "Password"),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },   
                                       ),
                                       const SizedBox(height: 20.0),
                                       
@@ -104,7 +109,13 @@ class _RegisterState extends State<Register> {
                                         controller: confirmController,
                                         decoration: const InputDecoration(
                                                     border: OutlineInputBorder(),
-                                                    hintText: "Confirm Password",)
+                                                    hintText: "Confirm Password"),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        }, 
                                       ),
                                     ],
                                   ),
