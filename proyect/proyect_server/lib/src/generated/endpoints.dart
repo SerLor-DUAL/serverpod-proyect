@@ -274,11 +274,16 @@ class Endpoints extends _i1.EndpointDispatch {
         'createPassword': _i1.MethodConnector(
           name: 'createPassword',
           params: {
-            'pass': _i1.ParameterDescription(
-              name: 'pass',
-              type: _i1.getType<_i7.PasswordGenerator>(),
+            'options': _i1.ParameterDescription(
+              name: 'options',
+              type: _i1.getType<_i8.PasswordOptions>(),
               nullable: false,
-            )
+            ),
+            'passwordInput': _i1.ParameterDescription(
+              name: 'passwordInput',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
           },
           call: (
             _i1.Session session,
@@ -287,7 +292,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['passwordGenerator'] as _i3.PasswordGeneratorEndpoint)
                   .createPassword(
             session,
-            params['pass'],
+            params['options'],
+            passwordInput: params['passwordInput'],
           ),
         ),
         'deletePassword': _i1.MethodConnector(
@@ -353,8 +359,8 @@ class Endpoints extends _i1.EndpointDispatch {
             params['options'],
           ),
         ),
-        'createUser': _i1.MethodConnector(
-          name: 'createUser',
+        'createOptions': _i1.MethodConnector(
+          name: 'createOptions',
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
@@ -367,13 +373,13 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
           ) async =>
               (endpoints['passwordOptions'] as _i4.PasswordOptionsEndpoint)
-                  .createUser(
+                  .createOptions(
             session,
             params['options'],
           ),
         ),
-        'deleteUser': _i1.MethodConnector(
-          name: 'deleteUser',
+        'deleteOptions': _i1.MethodConnector(
+          name: 'deleteOptions',
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
@@ -386,7 +392,7 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
           ) async =>
               (endpoints['passwordOptions'] as _i4.PasswordOptionsEndpoint)
-                  .deleteUser(
+                  .deleteOptions(
             session,
             params['options'],
           ),
