@@ -17,32 +17,93 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  void registryUser () async{ 
-    PasswordOptions options = PasswordOptions(automatedPassword: false,
-                                              passwordLengthOption: null,
-                                              upperOption: null,
-                                              numberOption: null,
-                                              specialOption: null);
-    if (passwordController.text == confirmController.text) {
-      PasswordGenerator pass = PasswordGenerator(optionsId: options.id!, password: passwordController.text);
-      UsersRegistry user =  UsersRegistry(userName: userController.text,
-                                          userPasswordId: pass.id!,
-                                          userPassword: pass);
-      await widget.client.usersRegistry.createUser(user);
+  Future<void> registryUser() async {
+    try 
+    {
+      PasswordOptions options = PasswordOptions(automatedPassword: false,
+                                                passwordLengthOption: null,   // Puedes definir un valor por defecto si no es nulo
+                                                upperOption: null,            // Por defecto puedes definir como falso
+                                                numberOption: null,           // Por defecto puedes definir como verdadero
+                                                specialOption: null );        // Por defecto puedes definir como falso
+
+      // Primero, guarda las opciones de contraseña
+      await widget.client.passwordOptions.createOptions(options);
+
+      // Después de la inserción, obtiene el ID de las opciones de contraseña
+      PasswordOptions? createdOptions = await widget.client.passwordOptions.getOptions(options.id!);
+
+      if (createdOptions == null) 
+      {
+        await widget.client.passwordOptions.deleteOptions(options);
+        throw Exception("Failed to create PasswordOptions.");
+      } 
+      else 
+      {
+        // Crea una nueva contraseña
+        PasswordGenerator createdPass = PasswordGenerator(optionsId: createdOptions.id!,
+                                                          options: createdOptions,
+                                                          password: passwordController.text );
+
+        await widget.client.passwordGenerator.createPassword(options, passwordInput: createdPass.password);
+
+        // Crea un nuevo usuario
+        UsersRegistry createdUser = UsersRegistry(userName: userController.text,
+                                                  userPasswordId: createdPass.id!,
+                                                  userPassword: createdPass );
+
+        await widget.client.usersRegistry.createUser(createdUser);
+
+        // Call seeUser after user registration
+        await seeUser();
+      }
+    } catch (e) {
+        // Handle any errors
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text("Error"),
+              content: Text("Failed to register user: $e"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    }
+
+    Future<void> seeUser() async {
+    // Get the user by name
+    var abc = await widget.client.usersRegistry.getUserById(1);
+
+    // Verificar si el widget todavía está montado antes de usar context
+    if (!mounted) return;
+
+    if (abc == null) {
+      // Mostrar un mensaje de error si no se encuentra el usuario
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+          title: Text("User"),
+          content: Text("User not found."),
+        ),
+      );
+    } else {
+      // Mostrar un mensaje de bienvenida si el usuario es encontrado
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("User"),
+          content: Text("Welcome ${abc.userName}"),
+        ),
+      );
     }
   }
 
-  Future<AlertDialog> seeUser() async {
-
-    var abc = await widget.client.usersRegistry.getUserById(1);
-
-    AlertDialog alert = AlertDialog(
-    title: const Text("User"),
-    content: Text("Welcome $abc"),
-    );
-    
-    return alert;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,8 +228,8 @@ class _RegisterState extends State<Register> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () async {
-                                          registryUser();
-                                          seeUser(); }, 
+                                          await registryUser();
+                                          await seeUser(); }, 
                                         child: const Text("Register")
                                       ),
                                     ],

@@ -324,9 +324,9 @@ class Endpoints extends _i1.EndpointDispatch {
         'getOptions': _i1.MethodConnector(
           name: 'getOptions',
           params: {
-            'options': _i1.ParameterDescription(
-              name: 'options',
-              type: _i1.getType<_i8.PasswordOptions>(),
+            'optionsID': _i1.ParameterDescription(
+              name: 'optionsID',
+              type: _i1.getType<int>(),
               nullable: false,
             )
           },
@@ -337,7 +337,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['passwordOptions'] as _i4.PasswordOptionsEndpoint)
                   .getOptions(
             session,
-            params['options'],
+            params['optionsID'],
           ),
         ),
         'updateOptions': _i1.MethodConnector(
@@ -416,10 +416,10 @@ class Endpoints extends _i1.EndpointDispatch {
         'getUserById': _i1.MethodConnector(
           name: 'getUserById',
           params: {
-            'num': _i1.ParameterDescription(
-              name: 'num',
-              type: _i1.getType<int?>(),
-              nullable: true,
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
+              type: _i1.getType<int>(),
+              nullable: false,
             )
           },
           call: (
@@ -429,7 +429,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
                   .getUserById(
             session,
-            params['num'],
+            params['userId'],
           ),
         ),
         'updateUser': _i1.MethodConnector(

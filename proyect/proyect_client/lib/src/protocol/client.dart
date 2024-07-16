@@ -143,11 +143,11 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
   @override
   String get name => 'passwordOptions';
 
-  _i2.Future<_i5.PasswordOptions?> getOptions(_i5.PasswordOptions options) =>
+  _i2.Future<_i5.PasswordOptions?> getOptions(int optionsID) =>
       caller.callServerEndpoint<_i5.PasswordOptions?>(
         'passwordOptions',
         'getOptions',
-        {'options': options},
+        {'optionsID': optionsID},
       );
 
   _i2.Future<void> updateOptions(_i5.PasswordOptions options) =>
@@ -186,11 +186,11 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getUserById(int? num) =>
+  _i2.Future<_i6.UsersRegistry?> getUserById(int userId) =>
       caller.callServerEndpoint<_i6.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
-        {'num': num},
+        {'userId': userId},
       );
 
   _i2.Future<void> updateUser(_i6.UsersRegistry user) =>

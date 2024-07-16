@@ -4,9 +4,9 @@ import 'package:proyect_server/src/generated/protocol.dart';
 class PasswordOptionsEndpoint extends Endpoint 
 {
 
-  Future<PasswordOptions?> getOptions(Session session, PasswordOptions options) async 
+  Future<PasswordOptions?> getOptions(Session session, int optionsID) async 
   {
-      return await PasswordOptions.db.findById(session, options.id!);
+      return await PasswordOptions.db.findById(session, optionsID);
   }
 
   Future<void> updateOptions(Session session, PasswordOptions options) async 
