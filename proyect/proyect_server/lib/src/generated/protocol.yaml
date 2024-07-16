@@ -1,2 +1,27 @@
-example:
-  - hello:
+tasks:
+  - addTask:
+  - addListOfTasks:
+  - findById:
+  - getEveryTask:
+  - getEveryTaskByDeadLineASC:
+  - getEveryTaskByDeadLineDES:
+  - updateTask:
+  - toogleComplete:
+  - deleteTask:
+  - deleteMultipleTasks:
+passwordGenerator:
+  - getPassword:
+  - updatePassword:
+  - createPassword:
+  - deletePassword:
+passwordOptions:
+  - getOptions:
+  - updateOptions:
+  - createUser:
+  - deleteUser:
+usersRegistry:
+  - getAllUsers:
+  - getUserById:
+  - updateUser:
+  - createUser:
+  - deleteUser:
