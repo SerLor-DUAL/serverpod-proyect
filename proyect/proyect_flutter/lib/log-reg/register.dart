@@ -32,9 +32,16 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void SeeUser() async{
+  Future<AlertDialog> seeUser() async {
+
     var abc = await widget.client.usersRegistry.getUserById(1);
-    print(abc!.userName);
+
+    AlertDialog alert = AlertDialog(
+    title: const Text("User"),
+    content: Text("Welcome $abc"),
+    );
+    
+    return alert;
   }
 
   @override
@@ -159,9 +166,9 @@ class _RegisterState extends State<Register> {
                                             padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           registryUser();
-                                          SeeUser(); }, 
+                                          seeUser(); }, 
                                         child: const Text("Register")
                                       ),
                                     ],
