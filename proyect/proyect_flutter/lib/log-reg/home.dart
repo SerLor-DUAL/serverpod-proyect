@@ -64,7 +64,9 @@ class _HomeState extends State<Home> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () {
-                                          (!login)? tooglePage() : null; }, 
+                                          (!login)? 
+                                            tooglePage() : 
+                                            null; }, 
                                         child: const Text("Login")
                                       ),
                                       ElevatedButton(
@@ -73,7 +75,9 @@ class _HomeState extends State<Home> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () {
-                                          (login)? tooglePage() : null; }, 
+                                          (login)? 
+                                            tooglePage() :
+                                            context.RegisterPage.get; }, 
                                         child: const Text("Register")
                                       ),
                                     ],
