@@ -6,7 +6,7 @@ fields:
   # DateTime: initialDate # ADD LATER
   DateTime?: deadline
   bool: complete
-  userID: int, relation(parent=user) # Foreign key field
+  userID: int, relation(parent=UsersRegistry) # Foreign key field
 indexes:
   user_id_idx:
     fields: userID
