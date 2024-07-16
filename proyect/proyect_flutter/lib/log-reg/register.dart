@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget{
+class RegisterPage extends StatefulWidget{
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  // Set controllers
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
+
+  Map<String, String> getValues() {
+    return {
+      "user" : userController.text,
+      "password" : passwordController.text,
+      "confirm" : confirmController.text
+    };
+  }  
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,8 +47,9 @@ class RegisterPage extends StatelessWidget{
               ]
             )),
           const SizedBox(height: 100.0),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: userController,
+            decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "User"
             ),
@@ -36,15 +57,17 @@ class RegisterPage extends StatelessWidget{
           
           const SizedBox(height: 20.0),
           
-          const TextField(
-            decoration: InputDecoration(
+          TextFormField(
+            controller: passwordController,
+            decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Password",)
           ),
           const SizedBox(height: 20.0),
           
-          const TextField(
-            decoration: InputDecoration(
+          TextFormField(
+            controller: confirmController,
+            decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Confirm Password",)
           ),

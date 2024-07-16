@@ -115,11 +115,17 @@ class EndpointPasswordGenerator extends _i1.EndpointRef {
         {'pass': pass},
       );
 
-  _i2.Future<void> createPassword(_i4.PasswordGenerator pass) =>
+  _i2.Future<void> createPassword(
+    _i5.PasswordOptions options, {
+    String? passwordInput,
+  }) =>
       caller.callServerEndpoint<void>(
         'passwordGenerator',
         'createPassword',
-        {'pass': pass},
+        {
+          'options': options,
+          'passwordInput': passwordInput,
+        },
       );
 
   _i2.Future<void> deletePassword(_i4.PasswordGenerator pass) =>
@@ -151,17 +157,17 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
         {'options': options},
       );
 
-  _i2.Future<void> createUser(_i5.PasswordOptions options) =>
+  _i2.Future<void> createOptions(_i5.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
-        'createUser',
+        'createOptions',
         {'options': options},
       );
 
-  _i2.Future<void> deleteUser(_i5.PasswordOptions options) =>
+  _i2.Future<void> deleteOptions(_i5.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
-        'deleteUser',
+        'deleteOptions',
         {'options': options},
       );
 }

@@ -17,8 +17,8 @@ passwordGenerator:
 passwordOptions:
   - getOptions:
   - updateOptions:
-  - createUser:
-  - deleteUser:
+  - createOptions:
+  - deleteOptions:
 usersRegistry:
   - getAllUsers:
   - getUserById:
