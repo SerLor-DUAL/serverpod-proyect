@@ -11,12 +11,13 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'example.dart' as _i3;
-import 'todo_list_santi/tasks.dart' as _i4;
-import 'users_sergio/password_generator.dart' as _i5;
-import 'users_sergio/password_options.dart' as _i6;
-import 'users_sergio/users_registry.dart' as _i7;
-export 'example.dart';
+import 'todo_list_santi/tasks.dart' as _i3;
+import 'users_sergio/password_generator.dart' as _i4;
+import 'users_sergio/password_options.dart' as _i5;
+import 'users_sergio/users_registry.dart' as _i6;
+import 'package:proyect_server/src/generated/todo_list_santi/tasks.dart' as _i7;
+import 'package:proyect_server/src/generated/users_sergio/users_registry.dart'
+    as _i8;
 export 'todo_list_santi/tasks.dart';
 export 'users_sergio/password_generator.dart';
 export 'users_sergio/password_options.dart';
@@ -323,35 +324,38 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Example) {
-      return _i3.Example.fromJson(data) as T;
+    if (t == _i3.Task) {
+      return _i3.Task.fromJson(data) as T;
     }
-    if (t == _i4.Task) {
-      return _i4.Task.fromJson(data) as T;
+    if (t == _i4.PasswordGenerator) {
+      return _i4.PasswordGenerator.fromJson(data) as T;
     }
-    if (t == _i5.PasswordGenerator) {
-      return _i5.PasswordGenerator.fromJson(data) as T;
+    if (t == _i5.PasswordOptions) {
+      return _i5.PasswordOptions.fromJson(data) as T;
     }
-    if (t == _i6.PasswordOptions) {
-      return _i6.PasswordOptions.fromJson(data) as T;
+    if (t == _i6.UsersRegistry) {
+      return _i6.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i7.UsersRegistry) {
-      return _i7.UsersRegistry.fromJson(data) as T;
+    if (t == _i1.getType<_i3.Task?>()) {
+      return (data != null ? _i3.Task.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i3.Example?>()) {
-      return (data != null ? _i3.Example.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.PasswordGenerator?>()) {
+      return (data != null ? _i4.PasswordGenerator.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Task?>()) {
-      return (data != null ? _i4.Task.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.PasswordOptions?>()) {
+      return (data != null ? _i5.PasswordOptions.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.PasswordGenerator?>()) {
-      return (data != null ? _i5.PasswordGenerator.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.UsersRegistry?>()) {
+      return (data != null ? _i6.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.PasswordOptions?>()) {
-      return (data != null ? _i6.PasswordOptions.fromJson(data) : null) as T;
+    if (t == List<_i7.Task>) {
+      return (data as List).map((e) => deserialize<_i7.Task>(e)).toList()
+          as dynamic;
     }
-    if (t == _i1.getType<_i7.UsersRegistry?>()) {
-      return (data != null ? _i7.UsersRegistry.fromJson(data) : null) as T;
+    if (t == List<_i8.UsersRegistry>) {
+      return (data as List)
+          .map((e) => deserialize<_i8.UsersRegistry>(e))
+          .toList() as dynamic;
     }
     try {
       return _i2.Protocol().deserialize<T>(data, t);
@@ -361,19 +365,16 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Example) {
-      return 'Example';
-    }
-    if (data is _i4.Task) {
+    if (data is _i3.Task) {
       return 'Task';
     }
-    if (data is _i5.PasswordGenerator) {
+    if (data is _i4.PasswordGenerator) {
       return 'PasswordGenerator';
     }
-    if (data is _i6.PasswordOptions) {
+    if (data is _i5.PasswordOptions) {
       return 'PasswordOptions';
     }
-    if (data is _i7.UsersRegistry) {
+    if (data is _i6.UsersRegistry) {
       return 'UsersRegistry';
     }
     return super.getClassNameForObject(data);
@@ -381,20 +382,17 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
-    if (data['className'] == 'Example') {
-      return deserialize<_i3.Example>(data['data']);
-    }
     if (data['className'] == 'Task') {
-      return deserialize<_i4.Task>(data['data']);
+      return deserialize<_i3.Task>(data['data']);
     }
     if (data['className'] == 'PasswordGenerator') {
-      return deserialize<_i5.PasswordGenerator>(data['data']);
+      return deserialize<_i4.PasswordGenerator>(data['data']);
     }
     if (data['className'] == 'PasswordOptions') {
-      return deserialize<_i6.PasswordOptions>(data['data']);
+      return deserialize<_i5.PasswordOptions>(data['data']);
     }
     if (data['className'] == 'UsersRegistry') {
-      return deserialize<_i7.UsersRegistry>(data['data']);
+      return deserialize<_i6.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -408,14 +406,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.Task:
-        return _i4.Task.t;
-      case _i5.PasswordGenerator:
-        return _i5.PasswordGenerator.t;
-      case _i6.PasswordOptions:
-        return _i6.PasswordOptions.t;
-      case _i7.UsersRegistry:
-        return _i7.UsersRegistry.t;
+      case _i3.Task:
+        return _i3.Task.t;
+      case _i4.PasswordGenerator:
+        return _i4.PasswordGenerator.t;
+      case _i5.PasswordOptions:
+        return _i5.PasswordOptions.t;
+      case _i6.UsersRegistry:
+        return _i6.UsersRegistry.t;
     }
     return null;
   }
