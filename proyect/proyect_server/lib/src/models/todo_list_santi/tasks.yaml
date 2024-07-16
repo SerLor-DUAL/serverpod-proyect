@@ -1,0 +1,15 @@
+class: Task
+table: tasks
+fields:
+  String: title
+  String: description
+  # DateTime: initialDate # ADD LATER
+  DateTime: deadline
+  bool: complete
+  userID: int, relation(parent=user) # Foreign key field
+indexes:
+  user_id_idx:
+    fields: userID
+    unique: true
+
+
