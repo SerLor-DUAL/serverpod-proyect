@@ -1,0 +1,5 @@
+class: UsersRegistry
+table: users
+fields:
+  userName: String
+  userPassword: List<PasswordGenerator>
