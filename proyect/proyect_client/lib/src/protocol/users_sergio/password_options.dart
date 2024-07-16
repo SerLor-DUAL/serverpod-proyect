@@ -13,29 +13,29 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 abstract class PasswordOptions implements _i1.SerializableModel {
   PasswordOptions._({
     this.id,
-    required this.passwordLengthOption,
-    required this.upperOption,
-    required this.numberOption,
-    required this.specialOption,
+    this.passwordLengthOption,
+    this.upperOption,
+    this.numberOption,
+    this.specialOption,
     required this.automatedPassword,
   });
 
   factory PasswordOptions({
     int? id,
-    required int passwordLengthOption,
-    required bool upperOption,
-    required bool numberOption,
-    required bool specialOption,
+    int? passwordLengthOption,
+    bool? upperOption,
+    bool? numberOption,
+    bool? specialOption,
     required bool automatedPassword,
   }) = _PasswordOptionsImpl;
 
   factory PasswordOptions.fromJson(Map<String, dynamic> jsonSerialization) {
     return PasswordOptions(
       id: jsonSerialization['id'] as int?,
-      passwordLengthOption: jsonSerialization['passwordLengthOption'] as int,
-      upperOption: jsonSerialization['upperOption'] as bool,
-      numberOption: jsonSerialization['numberOption'] as bool,
-      specialOption: jsonSerialization['specialOption'] as bool,
+      passwordLengthOption: jsonSerialization['passwordLengthOption'] as int?,
+      upperOption: jsonSerialization['upperOption'] as bool?,
+      numberOption: jsonSerialization['numberOption'] as bool?,
+      specialOption: jsonSerialization['specialOption'] as bool?,
       automatedPassword: jsonSerialization['automatedPassword'] as bool,
     );
   }
@@ -45,13 +45,13 @@ abstract class PasswordOptions implements _i1.SerializableModel {
   /// the id will be null.
   int? id;
 
-  int passwordLengthOption;
+  int? passwordLengthOption;
 
-  bool upperOption;
+  bool? upperOption;
 
-  bool numberOption;
+  bool? numberOption;
 
-  bool specialOption;
+  bool? specialOption;
 
   bool automatedPassword;
 
@@ -67,10 +67,11 @@ abstract class PasswordOptions implements _i1.SerializableModel {
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'passwordLengthOption': passwordLengthOption,
-      'upperOption': upperOption,
-      'numberOption': numberOption,
-      'specialOption': specialOption,
+      if (passwordLengthOption != null)
+        'passwordLengthOption': passwordLengthOption,
+      if (upperOption != null) 'upperOption': upperOption,
+      if (numberOption != null) 'numberOption': numberOption,
+      if (specialOption != null) 'specialOption': specialOption,
       'automatedPassword': automatedPassword,
     };
   }
@@ -86,10 +87,10 @@ class _Undefined {}
 class _PasswordOptionsImpl extends PasswordOptions {
   _PasswordOptionsImpl({
     int? id,
-    required int passwordLengthOption,
-    required bool upperOption,
-    required bool numberOption,
-    required bool specialOption,
+    int? passwordLengthOption,
+    bool? upperOption,
+    bool? numberOption,
+    bool? specialOption,
     required bool automatedPassword,
   }) : super._(
           id: id,
@@ -103,18 +104,21 @@ class _PasswordOptionsImpl extends PasswordOptions {
   @override
   PasswordOptions copyWith({
     Object? id = _Undefined,
-    int? passwordLengthOption,
-    bool? upperOption,
-    bool? numberOption,
-    bool? specialOption,
+    Object? passwordLengthOption = _Undefined,
+    Object? upperOption = _Undefined,
+    Object? numberOption = _Undefined,
+    Object? specialOption = _Undefined,
     bool? automatedPassword,
   }) {
     return PasswordOptions(
       id: id is int? ? id : this.id,
-      passwordLengthOption: passwordLengthOption ?? this.passwordLengthOption,
-      upperOption: upperOption ?? this.upperOption,
-      numberOption: numberOption ?? this.numberOption,
-      specialOption: specialOption ?? this.specialOption,
+      passwordLengthOption: passwordLengthOption is int?
+          ? passwordLengthOption
+          : this.passwordLengthOption,
+      upperOption: upperOption is bool? ? upperOption : this.upperOption,
+      numberOption: numberOption is bool? ? numberOption : this.numberOption,
+      specialOption:
+          specialOption is bool? ? specialOption : this.specialOption,
       automatedPassword: automatedPassword ?? this.automatedPassword,
     );
   }

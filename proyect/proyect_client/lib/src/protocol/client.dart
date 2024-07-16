@@ -186,11 +186,11 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getUserById(_i6.UsersRegistry user) =>
+  _i2.Future<_i6.UsersRegistry?> getUserById(int? num) =>
       caller.callServerEndpoint<_i6.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
-        {'user': user},
+        {'num': num},
       );
 
   _i2.Future<void> updateUser(_i6.UsersRegistry user) =>

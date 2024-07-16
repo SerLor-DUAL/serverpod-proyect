@@ -85,14 +85,14 @@ class PasswordGeneratorEndpoint extends Endpoint
 
     // AÑADIR LOS CARÁCTERES A UNA NUEVA LISTA DESDE OTRAS LISTAS
     List<String> passwordChars = List.from(lowercaseList);
-    if (options.upperOption) passwordChars.addAll(uppercaseList); 
-    if (options.numberOption) passwordChars.addAll(numbersList);
-    if (options.specialOption) passwordChars.addAll(specialsList);
+    if (options.upperOption!) passwordChars.addAll(uppercaseList); 
+    if (options.numberOption!) passwordChars.addAll(numbersList);
+    if (options.specialOption!) passwordChars.addAll(specialsList);
 
     // MEZCLA EL RESULTADO DE TODAS LAS LISTAS Y PROCEDE A ELEGIR LOS PRIMEROS X NUMEROS 
     // DEPENDIENDO DE LA LONGITUD DESEADA DE LA CONTRASEÑA
     passwordChars.shuffle(randChoice);
-    return passwordChars.take(options.passwordLengthOption).join('');
+    return passwordChars.take(options.passwordLengthOption!).join('');
   }
   
 }

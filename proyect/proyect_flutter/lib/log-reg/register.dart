@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '';
+import 'package:proyect_client/proyect_client.dart';
 
 class Register extends StatefulWidget {
-  var client;
+  
+  Client client;
   Register({super.key, required this.client});
 
   @override
@@ -16,13 +17,25 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  void registryUser () {
-      
-
-
-
+  void registryUser () async{ 
+    PasswordOptions options = PasswordOptions(automatedPassword: false,
+                                              passwordLengthOption: null,
+                                              upperOption: null,
+                                              numberOption: null,
+                                              specialOption: null);
+    if (passwordController.text == confirmController.text) {
+      PasswordGenerator pass = PasswordGenerator(optionsId: options.id!, password: passwordController.text);
+      UsersRegistry user =  UsersRegistry(userName: userController.text,
+                                          userPasswordId: pass.id!,
+                                          userPassword: pass);
+      await widget.client.usersRegistry.createUser(user);
+    }
   }
 
+  void SeeUser() async{
+    var abc = await widget.client.usersRegistry.getUserById(1);
+    print(abc!.userName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +160,8 @@ class _RegisterState extends State<Register> {
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
                                         onPressed: () {
-                                          null; }, 
+                                          registryUser();
+                                          SeeUser(); }, 
                                         child: const Text("Register")
                                       ),
                                     ],

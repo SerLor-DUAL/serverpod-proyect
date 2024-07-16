@@ -11,11 +11,11 @@ class UsersRegistryEndpoint extends Endpoint
       orderBy: (userRegistry) => userRegistry.id);
   }
 
-  Future<UsersRegistry?> getUserById(Session session, UsersRegistry user) async 
+  Future<UsersRegistry?> getUserById(Session session, int? num) async 
   {
-    if(user.id != null)
+    if(num != null)
     {
-      return await UsersRegistry.db.findById(session, user.id!);
+      return await UsersRegistry.db.findById(session, num);
     }
     else
     {

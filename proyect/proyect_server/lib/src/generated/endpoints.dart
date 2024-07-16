@@ -416,10 +416,10 @@ class Endpoints extends _i1.EndpointDispatch {
         'getUserById': _i1.MethodConnector(
           name: 'getUserById',
           params: {
-            'user': _i1.ParameterDescription(
-              name: 'user',
-              type: _i1.getType<_i9.UsersRegistry>(),
-              nullable: false,
+            'num': _i1.ParameterDescription(
+              name: 'num',
+              type: _i1.getType<int?>(),
+              nullable: true,
             )
           },
           call: (
@@ -429,7 +429,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
                   .getUserById(
             session,
-            params['user'],
+            params['num'],
           ),
         ),
         'updateUser': _i1.MethodConnector(
