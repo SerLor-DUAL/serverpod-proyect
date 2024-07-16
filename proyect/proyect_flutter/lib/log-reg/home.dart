@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
                                         onPressed: () {
                                           (login)? 
                                             tooglePage() :
-                                            context.RegisterPage.get; }, 
+                                            null; }, 
                                         child: const Text("Register")
                                       ),
                                     ],
