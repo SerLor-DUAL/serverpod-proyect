@@ -500,6 +500,31 @@ class Endpoints extends _i1.EndpointDispatch {
             params['user'],
           ),
         ),
+        'validatePassword': _i1.MethodConnector(
+          name: 'validatePassword',
+          params: {
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'hashedPass': _i1.ParameterDescription(
+              name: 'hashedPass',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
+                  .validatePassword(
+            session,
+            params['password'],
+            params['hashedPass'],
+          ),
+        ),
       },
     );
   }

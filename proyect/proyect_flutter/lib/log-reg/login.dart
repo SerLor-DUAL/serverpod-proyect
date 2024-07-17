@@ -35,10 +35,14 @@ Future<void> loginUser() async
 
   try 
   {
+    /*
     // CHECK IF THE USER EXISTS IN THE DB
-    bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);
+    bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);*/
+     // RETRIEVE USER INFORMATION
+    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
 
-    if (!userExists) 
+
+    if (userToLog == null) 
     {
       if (mounted) 
       {
@@ -51,11 +55,10 @@ Future<void> loginUser() async
       return;
     }
 
-    // RETRIEVE USER INFORMATION
-    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
-
+   
     // CHECK IF THE PASSWORD IS CORRECT
-    if (userToLog!.userPassword == passwordController.text) 
+    bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
+    if (isValid) 
     {
       await welcomeUser(userToLog.id!);
     } 

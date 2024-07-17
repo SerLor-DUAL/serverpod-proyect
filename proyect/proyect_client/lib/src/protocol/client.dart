@@ -226,6 +226,19 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         'deleteUser',
         {'user': user},
       );
+
+  _i2.Future<bool> validatePassword(
+    String password,
+    String hashedPass,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'usersRegistry',
+        'validatePassword',
+        {
+          'password': password,
+          'hashedPass': hashedPass,
+        },
+      );
 }
 
 class Client extends _i1.ServerpodClient {

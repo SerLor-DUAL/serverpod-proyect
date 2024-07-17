@@ -1,6 +1,8 @@
 import 'package:proyect_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'dart:math';
+import 'package:bcrypt/bcrypt.dart';
+
 
 class UsersRegistryEndpoint extends Endpoint 
 {
@@ -18,6 +20,7 @@ class UsersRegistryEndpoint extends Endpoint
 
   Future<UsersRegistry?> getUserByName(Session session, String name) async 
   {
+    // TODO: VALIDATE
     return await UsersRegistry.db.findFirstRow( session, 
                                                 where: (userRegistry) => userRegistry.userName.equals(name) );
   }
@@ -53,9 +56,10 @@ class UsersRegistryEndpoint extends Endpoint
   {
 
     String? passwordGenerated = createPassword(selectedUserOptions, passwordInput: selectedUserPassword);
+    String hashedPass = bcryptPassword(passwordGenerated);
 
     UsersRegistry createdUser = UsersRegistry(userName: name,
-                                              userPassword: passwordGenerated,
+                                              userPassword: hashedPass,
                                               options: selectedUserOptions.id! );
 
     return await UsersRegistry.db.insertRow(session, createdUser);
@@ -95,6 +99,15 @@ class UsersRegistryEndpoint extends Endpoint
         }
       }
     }
+
+    String bcryptPassword(String pasword) {
+      return BCrypt.hashpw(pasword, BCrypt.gensalt());
+    }
+
+    Future<bool> validatePassword(Session session, String password, String hashedPass) async{
+      return (BCrypt.checkpw(password, hashedPass));
+    }
+    
 
     String _passwordAutomaticCreation(PasswordOptions options)
     {
