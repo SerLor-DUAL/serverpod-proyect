@@ -96,20 +96,120 @@ class _TaskDetailsState extends State<TaskDetails> {
                       )
                   ],),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async{
-            await deleteTask(task);
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
 
-            if (!context.mounted) return;
-            Navigator.pop(context);
-            },
-          backgroundColor: Colors.lightBlue[900],
-          child: const Icon(
-                    Icons.delete_outlined,
-                    color: Colors.white,
-                    size: 20,),
-          
-            ),
+          children: [
+            FloatingActionButton(
+              onPressed: () async{
+                await showDialog(
+                context: context,
+                builder: (BuildContext context) => EditTaskPopUp(
+                                                        client: widget.client,
+                                                        task: widget.task),
+            );
+                },
+              backgroundColor: Colors.lightBlue[900],
+              child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,),
+              
+                ),
+            const SizedBox(width: 30),
+            FloatingActionButton(
+              onPressed: () async{
+                await deleteTask(task);
+            
+                if (!context.mounted) return;
+                Navigator.pop(context);
+                },
+              backgroundColor: Colors.lightBlue[900],
+              child: const Icon(
+                        Icons.delete_outlined,
+                        color: Colors.white,
+                        size: 20,),
+              
+                ),
+          ],
+        ),
       );
     }
 }
+
+class EditTaskPopUp extends StatefulWidget {
+  Client client;
+  Task task;
+
+  EditTaskPopUp({super.key, required this.client, required this.task}); 
+  @override
+  EditTaskPopUpState createState() => EditTaskPopUpState();
+}
+
+class EditTaskPopUpState extends State<EditTaskPopUp> {
+  final TextEditingController _titleCon = TextEditingController();
+  final TextEditingController _descriptionCon = TextEditingController();
+  final TextEditingController _dateCon = TextEditingController();
+
+  Task createTaskWithData() {
+    return Task(
+              title: _titleCon.text,
+              description: _descriptionCon.text,
+              deadLine: DateTime.parse(_dateCon.text),
+              complete: false,
+              userID: 1
+              );
+    
+    }
+  Future<void> createTask() async{
+    Task newTask = createTaskWithData();
+    await widget.client.tasks.addTask(newTask);
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Edit your task'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _titleCon,
+            decoration: InputDecoration(
+              labelText: 'Title',
+              hintText: widget.task.title,
+            ),
+          ),
+          TextField(
+            controller: _descriptionCon,
+            decoration: InputDecoration(
+              labelText: 'Description',
+              hintText:  widget.task.description,
+            ),
+          ),
+          TextField(
+            controller: _dateCon,
+            decoration: InputDecoration(
+              labelText: 'DeadLine',
+              hintText:  (widget.task.deadLine != null)? widget.task.deadLine!.toIso8601String() : null,
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () async{
+            // Create task and go back to the previous page.
+            await createTask();
+
+            if (!context.mounted) return;
+            Navigator.pop(context);
+          },
+          child: const Text('Add Task'),
+        ),
+      ],
+    );
+  }
+}
+
