@@ -1,10 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/main.dart';
+
 import 'task_details.dart';
-
-
-
 class ToDoList extends StatefulWidget {
   
   final Client client;
@@ -16,6 +13,8 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
+
+
   List<Task> _taskList = [];
   
   @override
@@ -24,14 +23,14 @@ class _ToDoListState extends State<ToDoList> {
     _loadTask();
   }
 
-  Future<void> _loadTask() async {
-    final List<Task> taskList = await client.tasks.getEveryTask(1);
+  void _loadTask() async {
+    final List<Task> taskList = await widget.client.tasks.getEveryTask(1);
     setState(() {
       _taskList = taskList; 
     });
   }
 
-  Future<void> createTask() async{
+  void createTask() async{
     Task task = Task(
       title: "Hola",
       description: "Holaaa",
@@ -77,9 +76,10 @@ class _ToDoListState extends State<ToDoList> {
               Expanded(
                 child: Text(
                   task.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
+                    decoration: (task.complete)? TextDecoration.lineThrough : null
                   ),
                 ),
               ),
@@ -100,7 +100,7 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetails(
                                                                                             task: task,
-                                                                                            client: client,
+                                                                                            client: widget.client,
                                                                                               )
                                           )
                   );
@@ -118,11 +118,12 @@ class _ToDoListState extends State<ToDoList> {
     ),
     floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          showDialog(
+          await showDialog(
               context: context,
               builder: (BuildContext context) => CreateTaskPopUp(
                                                         client: widget.client),
             );
+          _loadTask();
           },
         backgroundColor: Colors.lightBlue[900],
         child: const Icon(
@@ -195,9 +196,12 @@ class CreateTaskPopUpState extends State<CreateTaskPopUp> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () {
-            createTask();
-            Navigator.of(context).pop();
+          onPressed: () async{
+            // Create task and go back to the previous page.
+            await createTask();
+
+            if (!context.mounted) return;
+            Navigator.pop(context);
           },
           child: const Text('Add Task'),
         ),

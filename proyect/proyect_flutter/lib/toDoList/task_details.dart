@@ -13,6 +13,8 @@ class TaskDetails extends StatefulWidget{
   State<TaskDetails> createState() => _TaskDetailsState();
 }
 
+
+
 class _TaskDetailsState extends State<TaskDetails> {
   @override
     Widget build(BuildContext context) {
@@ -90,7 +92,18 @@ class _TaskDetailsState extends State<TaskDetails> {
                         )
                       )
                   ],),
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            null;
+            },
+          backgroundColor: Colors.lightBlue[900],
+          child: const Icon(
+                    Icons.delete_outlined,
+                    color: Colors.white,
+                    size: 20,),
+          
+            ),
       );
     }
 }
