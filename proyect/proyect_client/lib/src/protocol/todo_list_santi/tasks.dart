@@ -15,7 +15,7 @@ abstract class Task implements _i1.SerializableModel {
     this.id,
     required this.title,
     this.description,
-    required this.deadLine,
+    this.deadLine,
     required this.complete,
     required this.userID,
   });
@@ -24,7 +24,7 @@ abstract class Task implements _i1.SerializableModel {
     int? id,
     required String title,
     String? description,
-    required DateTime deadLine,
+    DateTime? deadLine,
     required bool complete,
     required int userID,
   }) = _TaskImpl;
@@ -34,8 +34,9 @@ abstract class Task implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       title: jsonSerialization['title'] as String,
       description: jsonSerialization['description'] as String?,
-      deadLine:
-          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['deadLine']),
+      deadLine: jsonSerialization['deadLine'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['deadLine']),
       complete: jsonSerialization['complete'] as bool,
       userID: jsonSerialization['userID'] as int,
     );
@@ -50,7 +51,7 @@ abstract class Task implements _i1.SerializableModel {
 
   String? description;
 
-  DateTime deadLine;
+  DateTime? deadLine;
 
   bool complete;
 
@@ -70,7 +71,7 @@ abstract class Task implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'title': title,
       if (description != null) 'description': description,
-      'deadLine': deadLine.toJson(),
+      if (deadLine != null) 'deadLine': deadLine?.toJson(),
       'complete': complete,
       'userID': userID,
     };
@@ -89,7 +90,7 @@ class _TaskImpl extends Task {
     int? id,
     required String title,
     String? description,
-    required DateTime deadLine,
+    DateTime? deadLine,
     required bool complete,
     required int userID,
   }) : super._(
@@ -106,7 +107,7 @@ class _TaskImpl extends Task {
     Object? id = _Undefined,
     String? title,
     Object? description = _Undefined,
-    DateTime? deadLine,
+    Object? deadLine = _Undefined,
     bool? complete,
     int? userID,
   }) {
@@ -114,7 +115,7 @@ class _TaskImpl extends Task {
       id: id is int? ? id : this.id,
       title: title ?? this.title,
       description: description is String? ? description : this.description,
-      deadLine: deadLine ?? this.deadLine,
+      deadLine: deadLine is DateTime? ? deadLine : this.deadLine,
       complete: complete ?? this.complete,
       userID: userID ?? this.userID,
     );
