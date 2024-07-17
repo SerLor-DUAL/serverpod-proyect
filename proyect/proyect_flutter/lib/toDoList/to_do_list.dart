@@ -97,13 +97,16 @@ class _ToDoListState extends State<ToDoList> {
                 tooltip: 'Complete/Uncomplete',
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetails(
-                                                                                            task: task,
-                                                                                            client: widget.client,
-                                                                                              )
-                                          )
+                onPressed: () async {
+                  await Navigator.push(context, MaterialPageRoute(
+                                                  builder: (context) => TaskDetails(
+                                                                                    task: task,
+                                                                                    client: widget.client,
+                                                                                      )
+                                                )
                   );
+
+                  _loadTask();
                 },
                 icon: const Icon(
                         (Icons.arrow_forward_ios),
