@@ -19,7 +19,7 @@ CREATE TABLE "tasks" (
     "id" bigserial PRIMARY KEY,
     "title" text NOT NULL,
     "description" text,
-    "deadLine" timestamp without time zone NOT NULL,
+    "deadLine" timestamp without time zone,
     "complete" boolean NOT NULL,
     "userID" bigint NOT NULL
 );
@@ -247,72 +247,70 @@ CREATE INDEX "serverpod_session_log_serverid_idx" ON "serverpod_session_log" USI
 CREATE INDEX "serverpod_session_log_touched_idx" ON "serverpod_session_log" USING btree ("touched");
 CREATE INDEX "serverpod_session_log_isopen_idx" ON "serverpod_session_log" USING btree ("isOpen");
 
---
 -- Foreign relations for "tasks" table
---
-ALTER TABLE ONLY "tasks"
+ALTER TABLE "tasks"
     ADD CONSTRAINT "tasks_fk_0"
-    FOREIGN KEY("userID")
+    FOREIGN KEY ("userID")
     REFERENCES "users_registry"("id")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
---
 -- Foreign relations for "users_registry" table
---
-ALTER TABLE ONLY "users_registry"
+ALTER TABLE "users_registry"
     ADD CONSTRAINT "users_registry_fk_0"
-    FOREIGN KEY("options")
+    FOREIGN KEY ("options")
     REFERENCES "password_options"("id")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
---
 -- Foreign relations for "serverpod_log" table
---
-ALTER TABLE ONLY "serverpod_log"
+ALTER TABLE "serverpod_log"
     ADD CONSTRAINT "serverpod_log_fk_0"
-    FOREIGN KEY("sessionLogId")
+    FOREIGN KEY ("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
 
---
 -- Foreign relations for "serverpod_message_log" table
---
-ALTER TABLE ONLY "serverpod_message_log"
+ALTER TABLE "serverpod_message_log"
     ADD CONSTRAINT "serverpod_message_log_fk_0"
-    FOREIGN KEY("sessionLogId")
+    FOREIGN KEY ("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
 
---
 -- Foreign relations for "serverpod_query_log" table
---
-ALTER TABLE ONLY "serverpod_query_log"
+ALTER TABLE "serverpod_query_log"
     ADD CONSTRAINT "serverpod_query_log_fk_0"
-    FOREIGN KEY("sessionLogId")
+    FOREIGN KEY ("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
 
+-- Migration version for "proyect"
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'proyect') THEN
+        UPDATE "serverpod_migrations" 
+        SET "version" = '20240717063602105', "timestamp" = now() 
+        WHERE "module" = 'proyect';
+    ELSE
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('proyect', '20240717063602105', now());
+    END IF;
+END $$;
 
---
--- MIGRATION VERSION FOR proyect
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('proyect', '20240716125059752', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240716125059752', "timestamp" = now();
-
---
--- MIGRATION VERSION FOR serverpod
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('serverpod', '20240516151843329', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240516151843329', "timestamp" = now();
-
+-- Migration version for "serverpod"
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'serverpod') THEN
+        UPDATE "serverpod_migrations" 
+        SET "version" = '20240516151843329', "timestamp" = now() 
+        WHERE "module" = 'serverpod';
+    ELSE
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('serverpod', '20240516151843329', now());
+    END IF;
+END $$;
 
 COMMIT;
