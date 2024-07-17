@@ -7,9 +7,9 @@ import 'task_details.dart';
 
 class ToDoList extends StatefulWidget {
   
-  Client client;
+  final Client client;
 
-  ToDoList({super.key, required this.client});
+  const ToDoList({super.key, required this.client});
 
   @override
   State<ToDoList> createState() => _ToDoListState();
@@ -31,7 +31,6 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-
   Future<void> createTask() async{
     Task task = Task(
       title: "Hola",
@@ -43,10 +42,12 @@ class _ToDoListState extends State<ToDoList> {
     await widget.client.tasks.addTask(task);
     _loadTask();
   }
+
   // Change completed task.
-  void toogleCompleted(Task task) {
+  void toogleCompleted(Task task) async{
+    task.complete = !task.complete;
+    await widget.client.tasks.updateTask(task);
     setState(() {
-      task.complete = !task.complete;
     });
   }
 

@@ -14,9 +14,6 @@ class TaskDetails extends StatefulWidget{
 }
 
 class _TaskDetailsState extends State<TaskDetails> {
-  
-
-
   @override
     Widget build(BuildContext context) {
       Task task = widget.task;
