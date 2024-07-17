@@ -66,7 +66,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                     // IF TASK DOES HAVE A DEADLINE ADD IT. ELSE DONT.
                     (task.deadLine != null) ?  
                       Text(
-                        "DeadLine: ${task.deadLine!.toIso8601String()}",
+                        "DeadLine: ${task.deadLine.toIso8601String()}",
                         style: const TextStyle(
                           fontSize: 40.00,
                         )

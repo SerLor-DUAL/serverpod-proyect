@@ -90,8 +90,8 @@
         {
           "name": "deadLine",
           "columnType": 4,
-          "isNullable": true,
-          "dartType": "DateTime?"
+          "isNullable": false,
+          "dartType": "DateTime"
         },
         {
           "name": "complete",

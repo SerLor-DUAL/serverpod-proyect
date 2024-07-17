@@ -2,12 +2,12 @@ version: '3.7'
 
 services:
   postgres:
-    image: postgres:9.4
+    image: postgres:14.1
     ports:
       - '8090:5432'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_DB: PRUEBAS
+      POSTGRES_DB: postgres
       POSTGRES_PASSWORD: "B451nqe-XOuDQQiu7fwgLyJTZqHl3tGy"
     volumes:
       - proyect_data:/var/lib/postgresql/data
