@@ -88,7 +88,7 @@ Future<void> registryUser() async
                                                                       selectedUserPassword: passwordController.text, );
 
     // SEE CREATED USER
-    await seeUser(generatedUser.id!);
+    await welcomeUser(generatedUser.id!);
   } 
   catch (e) 
   {
@@ -109,7 +109,7 @@ Future<void> registryUser() async
 }
 
 // RETURNS THE USER FROM SELECTED ID
-Future<void> seeUser(int userId) async 
+Future<void> welcomeUser(int userId) async 
 {
   // TRY - CATCH BLOCK FOR HANDLE ERRORS
   try
@@ -125,7 +125,6 @@ Future<void> seeUser(int userId) async
     // USER NOT FOUND
     if (user == null) 
     {
-      
       showDialog( context: context,
                   builder: (context) => const AlertDialog( title: Text("User"),
                                                            content: Text("User not found."),
@@ -134,8 +133,8 @@ Future<void> seeUser(int userId) async
     } 
 
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
-    else {
-
+    else 
+    {
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),
@@ -163,6 +162,8 @@ Future<void> seeUser(int userId) async
     }
   }
 }
+
+// ----------------------- FLUTTER ------------------------------ //
 
   @override
   Widget build(BuildContext context) {
@@ -275,8 +276,7 @@ Future<void> seeUser(int userId) async
                                 padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
                                 textStyle: const TextStyle(fontSize: 20), // Increase font size
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
+                              onPressed: () {;
                               },
                               child: const Text("Login"),
                             ),

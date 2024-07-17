@@ -383,15 +383,24 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
-        'getLastUserID': _i1.MethodConnector(
-          name: 'getLastUserID',
-          params: {},
+        'getUserByName': _i1.MethodConnector(
+          name: 'getUserByName',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
               (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
-                  .getLastUserID(session),
+                  .getUserByName(
+            session,
+            params['name'],
+          ),
         ),
         'checkUserExistanceByName': _i1.MethodConnector(
           name: 'checkUserExistanceByName',
@@ -411,6 +420,16 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             params['name'],
           ),
+        ),
+        'getLastUserID': _i1.MethodConnector(
+          name: 'getLastUserID',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
+                  .getLastUserID(session),
         ),
         'updateUser': _i1.MethodConnector(
           name: 'updateUser',

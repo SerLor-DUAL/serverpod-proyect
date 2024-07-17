@@ -20,8 +20,9 @@ passwordOptions:
 usersRegistry:
   - getAllUsers:
   - getUserById:
-  - getLastUserID:
+  - getUserByName:
   - checkUserExistanceByName:
+  - getLastUserID:
   - updateUser:
   - createUser:
   - deleteUser:

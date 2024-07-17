@@ -16,19 +16,25 @@ class UsersRegistryEndpoint extends Endpoint
     return await UsersRegistry.db.findById(session, userId);
   }
 
-  Future<UsersRegistry?> getLastUserID(Session session) async 
+  Future<UsersRegistry?> getUserByName(Session session, String name) async 
   {
-    return await UsersRegistry.db.findFirstRow( session,
-                                                orderBy: (userRegistry) => userRegistry.id,
-                                                orderDescending: true );
+    return await UsersRegistry.db.findFirstRow( session, 
+                                                where: (userRegistry) => userRegistry.userName.equals(name) );
   }
 
   Future<bool> checkUserExistanceByName(Session session, String name) async 
   {
     var existingUsers = await UsersRegistry.db.find( session,
-                                                     where: (userRegistry) => userRegistry.userName.equals(name));
+                                                     where: (userRegistry) => userRegistry.userName.equals(name) );
 
     return existingUsers.isNotEmpty;
+  }
+
+  Future<UsersRegistry?> getLastUserID(Session session) async 
+  {
+    return await UsersRegistry.db.findFirstRow( session,
+                                                orderBy: (userRegistry) => userRegistry.id,
+                                                orderDescending: true );
   }
 
   Future<void> updateUser(Session session, UsersRegistry user) async 

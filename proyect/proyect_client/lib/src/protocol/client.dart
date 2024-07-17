@@ -177,11 +177,11 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'userId': userId},
       );
 
-  _i2.Future<_i5.UsersRegistry?> getLastUserID() =>
+  _i2.Future<_i5.UsersRegistry?> getUserByName(String name) =>
       caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
-        'getLastUserID',
-        {},
+        'getUserByName',
+        {'name': name},
       );
 
   _i2.Future<bool> checkUserExistanceByName(String name) =>
@@ -189,6 +189,13 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         'usersRegistry',
         'checkUserExistanceByName',
         {'name': name},
+      );
+
+  _i2.Future<_i5.UsersRegistry?> getLastUserID() =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
+        'usersRegistry',
+        'getLastUserID',
+        {},
       );
 
   _i2.Future<void> updateUser(_i5.UsersRegistry user) =>

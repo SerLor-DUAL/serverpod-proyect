@@ -10,7 +10,142 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> 
+{
+// SET USER TEXT CONTROLLERS
+TextEditingController userController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+
+// USER LOGIN FUNCTION
+Future<void> loginUser() async 
+{
+  // CHECK ALL FIELDS ARE BEING USED
+  if (userController.text.isEmpty || passwordController.text.isEmpty) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Error"),
+                                                           content: Text("Please fill in all fields."),
+        ),
+      );
+    }
+    return;
+  }
+
+  try 
+  {
+    // CHECK IF THE USER EXISTS IN THE DB
+    bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);
+
+    if (!userExists) 
+    {
+      if (mounted) 
+      {
+        showDialog( context: context,
+                    builder: (context) => const AlertDialog( title: Text("Error"),
+                                                             content: Text("User doesn't exist. Try registering a new user."),
+          ),
+        );
+      }
+      return;
+    }
+
+    // RETRIEVE USER INFORMATION
+    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
+
+    // CHECK IF THE PASSWORD IS CORRECT
+    if (userToLog!.userPassword == passwordController.text) 
+    {
+      await welcomeUser(userToLog.id!);
+    } 
+    else 
+    {
+      if (mounted)
+      {
+        showDialog( context: context,
+                    builder: (context) => const AlertDialog( title: Text("Error"),
+                                                             content: Text("Password is incorrect. Please try again."),
+          ),
+        );
+      }
+    }
+  } 
+  catch (e) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => AlertDialog( title: const Text("Error"),
+                                                     content: Text("Failed to login: $e"),
+                                                     actions: [ TextButton( onPressed: () => Navigator.of(context).pop(),
+                                                                            child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+}
+
+// RETURNS THE USER FROM SELECTED ID
+Future<void> welcomeUser(int userId) async 
+{
+  // TRY - CATCH BLOCK FOR HANDLE ERRORS
+  try
+  {
+    // FETCH USER BY ID
+    var user = await widget.client.usersRegistry.getUserById(userId); 
+
+    // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+    if (!mounted) return;
+
+    // DISPLAY THE APPROPRIATE DIALOG BASED ON THE RESULT
+
+    // USER NOT FOUND
+    if (user == null) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("User"),
+                                                          content: Text("User not found."),
+        ),
+      );
+    } 
+
+    // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
+    else 
+    {
+      showDialog( context: context,
+                  builder: (context) => AlertDialog( title: const Text("User"),
+                                                    content: Text("Welcome ${user.userName}"),
+                                                    actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, '/todolist'),
+                                                                            child: const Text('OK'), 
+            ),
+          ],
+        ),
+      );
+    }
+  } 
+  catch (e) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => AlertDialog( title: const Text("Error"),
+                                                    content: Text("Failed to get user information: $e"),
+                                                    actions: [ TextButton( onPressed: () => Navigator.of(context).pop(),
+                                                                            child: const Text('OK'),
+              ),
+          ],
+        ),
+      );
+    }
+  }
+}
+
+  
+  // ------------------------------------- FLUTTER ------------------------------------------- //
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,19 +204,28 @@ class _LoginState extends State<Login> {
                                           ]
                                         )),
                                       const SizedBox(height: 100.0),
-                                      const TextField(
-                                        decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    hintText: "User"
-                                        ),
-                                      ),
-                                      
+                                      TextFormField(controller: userController,
+                                                    decoration: const InputDecoration( border: OutlineInputBorder(),
+                                                                                       hintText: "User"
+                                       ),
+                                       validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter some text';
+                                        }
+                                        return null;
+                                        },
+                                      ),     
                                       const SizedBox(height: 20.0),
-                                      
-                                      const TextField(
-                                        decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    hintText: "Password",)
+                                      TextFormField( controller: passwordController,
+                                                     decoration: const InputDecoration( border: OutlineInputBorder(),
+                                                                                        hintText: "Password"
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
                                       ),
                                     ],
                                   ),
@@ -93,8 +237,8 @@ class _LoginState extends State<Login> {
                                             padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
                                             textStyle: const TextStyle(fontSize: 20), // Increase font size
                                         ),
-                                        onPressed: () {
-                                          null;
+                                        onPressed: () async {
+                                          await loginUser();
                                           }, 
                                         child: const Text("Login")
                                       ),
@@ -141,5 +285,5 @@ class _LoginState extends State<Login> {
           child: const Text('ToDoList'),
         ),
       );
+    }
   }
-}
