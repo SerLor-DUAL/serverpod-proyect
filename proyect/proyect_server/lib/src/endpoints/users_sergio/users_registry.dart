@@ -7,14 +7,28 @@ class UsersRegistryEndpoint extends Endpoint
   Future<List<UsersRegistry>> getAllUsers(Session session) async 
   {
     // By ordering by the id column, we always get the users in the same order and not in the order they were updated.
-    return await UsersRegistry.db.find(
-      session, 
-      orderBy: (userRegistry) => userRegistry.id);
+    return await UsersRegistry.db.find( session, 
+                                        orderBy: (userRegistry) => userRegistry.id);
   }
 
   Future<UsersRegistry?> getUserById(Session session, int userId) async 
   {
     return await UsersRegistry.db.findById(session, userId);
+  }
+
+  Future<UsersRegistry?> getLastUserID(Session session) async 
+  {
+    return await UsersRegistry.db.findFirstRow( session,
+                                                orderBy: (userRegistry) => userRegistry.id,
+                                                orderDescending: true );
+  }
+
+  Future<bool> checkUserExistanceByName(Session session, String name) async 
+  {
+    var existingUsers = await UsersRegistry.db.find( session,
+                                                     where: (userRegistry) => userRegistry.userName.equals(name));
+
+    return existingUsers.isNotEmpty;
   }
 
   Future<void> updateUser(Session session, UsersRegistry user) async 
@@ -29,14 +43,16 @@ class UsersRegistryEndpoint extends Endpoint
     }
   }
 
-  Future<UsersRegistry> createUser(Session session, String userName, PasswordOptions options) async 
+  Future<UsersRegistry> createUser(Session session, String name, PasswordOptions selectedUserOptions, { String? selectedUserPassword }) async 
   {
-    UsersRegistry createdUser = UsersRegistry(userName: userName,
-                                              userPassword: createPassword(options),
-                                              options: options.id!);
 
-    await UsersRegistry.db.insertRow(session, createdUser);
-    return createdUser;
+    String? passwordGenerated = createPassword(selectedUserOptions, passwordInput: selectedUserPassword);
+
+    UsersRegistry createdUser = UsersRegistry(userName: name,
+                                              userPassword: passwordGenerated,
+                                              options: selectedUserOptions.id! );
+
+    return await UsersRegistry.db.insertRow(session, createdUser);
   }
 
   Future<void> deleteUser(Session session, UsersRegistry user) async 

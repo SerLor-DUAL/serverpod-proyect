@@ -13,12 +13,15 @@ passwordGenerator:
   - createPassword:
 passwordOptions:
   - getOptions:
+  - getLastID:
   - updateOptions:
   - createOptions:
   - deleteOptions:
 usersRegistry:
   - getAllUsers:
   - getUserById:
+  - getLastUserID:
+  - checkUserExistanceByName:
   - updateUser:
   - createUser:
   - deleteUser:

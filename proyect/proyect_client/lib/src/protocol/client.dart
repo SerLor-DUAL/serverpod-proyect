@@ -127,6 +127,13 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
         {'optionsID': optionsID},
       );
 
+  _i2.Future<_i4.PasswordOptions?> getLastID() =>
+      caller.callServerEndpoint<_i4.PasswordOptions?>(
+        'passwordOptions',
+        'getLastID',
+        {},
+      );
+
   _i2.Future<void> updateOptions(_i4.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
@@ -170,6 +177,20 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'userId': userId},
       );
 
+  _i2.Future<_i5.UsersRegistry?> getLastUserID() =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
+        'usersRegistry',
+        'getLastUserID',
+        {},
+      );
+
+  _i2.Future<bool> checkUserExistanceByName(String name) =>
+      caller.callServerEndpoint<bool>(
+        'usersRegistry',
+        'checkUserExistanceByName',
+        {'name': name},
+      );
+
   _i2.Future<void> updateUser(_i5.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
@@ -178,15 +199,17 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 
   _i2.Future<_i5.UsersRegistry> createUser(
-    String userName,
-    _i4.PasswordOptions options,
-  ) =>
+    String name,
+    _i4.PasswordOptions selectedUserOptions, {
+    String? selectedUserPassword,
+  }) =>
       caller.callServerEndpoint<_i5.UsersRegistry>(
         'usersRegistry',
         'createUser',
         {
-          'userName': userName,
-          'options': options,
+          'name': name,
+          'selectedUserOptions': selectedUserOptions,
+          'selectedUserPassword': selectedUserPassword,
         },
       );
 

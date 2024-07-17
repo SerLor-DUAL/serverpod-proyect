@@ -281,6 +281,16 @@ class Endpoints extends _i1.EndpointDispatch {
             params['optionsID'],
           ),
         ),
+        'getLastID': _i1.MethodConnector(
+          name: 'getLastID',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['passwordOptions'] as _i4.PasswordOptionsEndpoint)
+                  .getLastID(session),
+        ),
         'updateOptions': _i1.MethodConnector(
           name: 'updateOptions',
           params: {
@@ -373,6 +383,35 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
+        'getLastUserID': _i1.MethodConnector(
+          name: 'getLastUserID',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
+                  .getLastUserID(session),
+        ),
+        'checkUserExistanceByName': _i1.MethodConnector(
+          name: 'checkUserExistanceByName',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
+                  .checkUserExistanceByName(
+            session,
+            params['name'],
+          ),
+        ),
         'updateUser': _i1.MethodConnector(
           name: 'updateUser',
           params: {
@@ -395,15 +434,20 @@ class Endpoints extends _i1.EndpointDispatch {
         'createUser': _i1.MethodConnector(
           name: 'createUser',
           params: {
-            'userName': _i1.ParameterDescription(
-              name: 'userName',
+            'name': _i1.ParameterDescription(
+              name: 'name',
               type: _i1.getType<String>(),
               nullable: false,
             ),
-            'options': _i1.ParameterDescription(
-              name: 'options',
+            'selectedUserOptions': _i1.ParameterDescription(
+              name: 'selectedUserOptions',
               type: _i1.getType<_i7.PasswordOptions>(),
               nullable: false,
+            ),
+            'selectedUserPassword': _i1.ParameterDescription(
+              name: 'selectedUserPassword',
+              type: _i1.getType<String?>(),
+              nullable: true,
             ),
           },
           call: (
@@ -413,8 +457,9 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['usersRegistry'] as _i5.UsersRegistryEndpoint)
                   .createUser(
             session,
-            params['userName'],
-            params['options'],
+            params['name'],
+            params['selectedUserOptions'],
+            selectedUserPassword: params['selectedUserPassword'],
           ),
         ),
         'deleteUser': _i1.MethodConnector(
