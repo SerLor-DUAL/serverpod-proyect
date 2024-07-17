@@ -25,7 +25,7 @@ CREATE TABLE "tasks" (
 );
 
 -- Indexes
-CREATE UNIQUE INDEX "user_id_idx" ON "tasks" USING btree ("userID");
+CREATE INDEX "user_id_idx" ON "tasks" USING btree ("userID");
 CREATE INDEX "title_idx" ON "tasks" USING btree ("title");
 
 --

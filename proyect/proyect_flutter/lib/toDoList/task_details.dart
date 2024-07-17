@@ -1,5 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/main.dart';
 
 
 
@@ -13,10 +14,11 @@ class TaskDetails extends StatefulWidget{
   State<TaskDetails> createState() => _TaskDetailsState();
 }
 
+Future<void> deleteTask(Task task) async{
+  await client.tasks.deleteTask(task);
+}
+
 class _TaskDetailsState extends State<TaskDetails> {
-  
-
-
   @override
     Widget build(BuildContext context) {
       Task task = widget.task;
@@ -93,7 +95,21 @@ class _TaskDetailsState extends State<TaskDetails> {
                         )
                       )
                   ],),
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async{
+            await deleteTask(task);
+
+            if (!context.mounted) return;
+            Navigator.pop(context);
+            },
+          backgroundColor: Colors.lightBlue[900],
+          child: const Icon(
+                    Icons.delete_outlined,
+                    color: Colors.white,
+                    size: 20,),
+          
+            ),
       );
     }
 }

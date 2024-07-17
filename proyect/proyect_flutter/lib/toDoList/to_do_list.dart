@@ -1,21 +1,20 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/main.dart';
+
 import 'task_details.dart';
-
-
-
 class ToDoList extends StatefulWidget {
   
-  Client client;
+  final Client client;
 
-  ToDoList({super.key, required this.client});
+  const ToDoList({super.key, required this.client});
 
   @override
   State<ToDoList> createState() => _ToDoListState();
 }
 
 class _ToDoListState extends State<ToDoList> {
+
+
   List<Task> _taskList = [];
   
   @override
@@ -24,15 +23,14 @@ class _ToDoListState extends State<ToDoList> {
     _loadTask();
   }
 
-  Future<void> _loadTask() async {
-    final List<Task> taskList = await client.tasks.getEveryTask(1);
+  void _loadTask() async {
+    final List<Task> taskList = await widget.client.tasks.getEveryTask(1);
     setState(() {
       _taskList = taskList; 
     });
   }
 
-
-  Future<void> createTask() async{
+  void createTask() async{
     Task task = Task(
       title: "Hola",
       description: "Holaaa",
@@ -43,10 +41,12 @@ class _ToDoListState extends State<ToDoList> {
     await widget.client.tasks.addTask(task);
     _loadTask();
   }
+
   // Change completed task.
-  void toogleCompleted(Task task) {
+  void toogleCompleted(Task task) async{
+    task.complete = !task.complete;
+    await widget.client.tasks.updateTask(task);
     setState(() {
-      task.complete = !task.complete;
     });
   }
 
@@ -76,9 +76,10 @@ class _ToDoListState extends State<ToDoList> {
               Expanded(
                 child: Text(
                   task.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
+                    decoration: (task.complete)? TextDecoration.lineThrough : null
                   ),
                 ),
               ),
@@ -96,13 +97,16 @@ class _ToDoListState extends State<ToDoList> {
                 tooltip: 'Complete/Uncomplete',
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetails(
-                                                                                            task: task,
-                                                                                            client: client,
-                                                                                              )
-                                          )
+                onPressed: () async {
+                  await Navigator.push(context, MaterialPageRoute(
+                                                  builder: (context) => TaskDetails(
+                                                                                    task: task,
+                                                                                    client: widget.client,
+                                                                                      )
+                                                )
                   );
+
+                  _loadTask();
                 },
                 icon: const Icon(
                         (Icons.arrow_forward_ios),
@@ -117,7 +121,12 @@ class _ToDoListState extends State<ToDoList> {
     ),
     floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await createTask();
+          await showDialog(
+              context: context,
+              builder: (BuildContext context) => CreateTaskPopUp(
+                                                        client: widget.client),
+            );
+          _loadTask();
           },
         backgroundColor: Colors.lightBlue[900],
         child: const Icon(
@@ -128,6 +137,80 @@ class _ToDoListState extends State<ToDoList> {
   }
 }
 
+class CreateTaskPopUp extends StatefulWidget {
+  Client client;
 
+  CreateTaskPopUp({super.key, required this.client}); 
+  @override
+  CreateTaskPopUpState createState() => CreateTaskPopUpState();
+}
+
+class CreateTaskPopUpState extends State<CreateTaskPopUp> {
+  final TextEditingController _titleCon = TextEditingController();
+  final TextEditingController _descriptionCon = TextEditingController();
+  final TextEditingController _dateCon = TextEditingController();
+
+  Task createTaskWithData() {
+    return Task(
+              title: _titleCon.text,
+              description: _descriptionCon.text,
+              deadLine: DateTime.parse(_dateCon.text),
+              complete: false,
+              userID: 1
+              );
+    
+    }
+  
+
+  Future<void> createTask() async{
+    Task newTask = createTaskWithData();
+    await widget.client.tasks.addTask(newTask);
+    
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Create a new task'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _titleCon,
+            decoration: const InputDecoration(
+              labelText: 'Title',
+            ),
+          ),
+          TextField(
+            controller: _descriptionCon,
+            decoration: const InputDecoration(
+              labelText: 'Description',
+            ),
+          ),
+          TextField(
+            controller: _dateCon,
+            decoration: const InputDecoration(
+              labelText: 'DeadLine',
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () async{
+            // Create task and go back to the previous page.
+            await createTask();
+
+            if (!context.mounted) return;
+            Navigator.pop(context);
+          },
+          child: const Text('Add Task'),
+        ),
+      ],
+    );
+  }
+}
 
 
