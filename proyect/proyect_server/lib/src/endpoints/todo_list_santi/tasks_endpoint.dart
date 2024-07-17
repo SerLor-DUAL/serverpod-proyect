@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:serverpod/serverpod.dart';
 import '../../generated/todo_list_santi/tasks.dart';
-import '../../generated/users_sergio/users_registry.dart';
 
 class TasksEndpoint extends Endpoint {
 

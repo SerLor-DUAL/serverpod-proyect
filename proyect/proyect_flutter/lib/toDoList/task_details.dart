@@ -7,7 +7,7 @@ class TaskDetails extends StatefulWidget{
   final Task task;
   final Client client;
 
-  TaskDetails({super.key, required this.task, required this.client});
+  const TaskDetails({super.key, required this.task, required this.client});
 
   @override
   State<TaskDetails> createState() => _TaskDetailsState();
@@ -66,7 +66,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                     // IF TASK DOES HAVE A DEADLINE ADD IT. ELSE DONT.
                     (task.deadLine != null) ?  
                       Text(
-                        "DeadLine: ${task.deadLine!.toIso8601String()}",
+                        "DeadLine: ${task.deadLine.toIso8601String()}",
                         style: const TextStyle(
                           fontSize: 40.00,
                         )

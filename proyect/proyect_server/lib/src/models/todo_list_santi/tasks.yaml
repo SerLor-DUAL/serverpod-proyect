@@ -4,7 +4,7 @@ fields:
   title: String
   description: String?
   # DateTime: initialDate # ADD LATER
-  deadLine: DateTime
+  deadLine: DateTime?
   complete: bool
   userID: int, relation(parent=users_registry) # Foreign key field
 indexes:

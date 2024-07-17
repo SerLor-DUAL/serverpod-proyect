@@ -32,7 +32,7 @@ webServer:
 database:
   host: localhost
   port: 5432
-  name: serverpod
+  name: postgres
   user: postgres
 
 # This is the setup for Redis. The default for the Google Cloud Engine Terraform

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 
 class Login extends StatefulWidget {
-  Client client;
+  final Client client;
   
-  Login({super.key, required this.client});
+  const Login({super.key, required this.client});
 
   @override
   State<Login> createState() => _LoginState();
@@ -23,9 +23,7 @@ class _LoginState extends State<Login> {
           centerTitle: true,
           backgroundColor: Colors.lightBlue[900],
         ),
-        body: Container(
-              // LayoutBuilder lets you addapt your layouts to the width of your screen.
-              child: LayoutBuilder(
+        body: LayoutBuilder(
                 builder: (context, constraints) {
                   // Let's set the width of our textFields upto 50% of the screen
                   double textFieldWidth = constraints.maxWidth*0.30;
@@ -121,17 +119,18 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             width: imageWidth,
                             child: Image.asset(
                               ("../assets/img/integra.PNG"),
                               fit: BoxFit.fill),
-                          )
+                          ),
+                          
                         ],),
                     ],
                   );
                 }
-              ),
+
           ),
         
         floatingActionButton: FloatingActionButton(

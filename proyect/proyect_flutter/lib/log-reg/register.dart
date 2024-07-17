@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
       } 
       else 
       {
-        var createdUser = await widget.client.usersRegistry.createUser(userController.text,createdOptions);
+        await widget.client.usersRegistry.createUser(userController.text,createdOptions);
 
         // Call seeUser after user registration
         await seeUser();
@@ -110,9 +110,7 @@ class _RegisterState extends State<Register> {
           centerTitle: true,
           backgroundColor: Colors.lightBlue[900],
         ),
-        body: Container(
-              // LayoutBuilder lets you addapt your layouts to the width of your screen.
-              child: LayoutBuilder(
+        body: LayoutBuilder(
                 builder: (context, constraints) {
                   // Let's set the width of our textFields upto 50% of the screen
                   double textFieldWidth = constraints.maxWidth*0.30;
@@ -234,17 +232,16 @@ class _RegisterState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            width: imageWidth,
-                            child: Image.asset(
-                              ("../assets/img/integra.PNG"),
-                              fit: BoxFit.fill),
+                          SizedBox(
+                              width: imageWidth,
+                              child: Image.asset(
+                                ("../assets/img/integra.PNG"),
+                                fit: BoxFit.fill), 
                           )
                         ],),
                     ],
                   );
                 }
-              ),
           ),
         
         floatingActionButton: FloatingActionButton(
