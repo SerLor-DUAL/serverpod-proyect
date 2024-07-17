@@ -90,8 +90,8 @@
         {
           "name": "deadLine",
           "columnType": 4,
-          "isNullable": false,
-          "dartType": "DateTime"
+          "isNullable": true,
+          "dartType": "DateTime?"
         },
         {
           "name": "complete",
@@ -1377,7 +1377,7 @@
   "installedModules": [
     {
       "module": "proyect",
-      "version": "20240716124957630"
+      "version": "20240717063602105"
     },
     {
       "module": "serverpod",
