@@ -118,7 +118,11 @@ class _ToDoListState extends State<ToDoList> {
     ),
     floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await createTask();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => CreateTaskPopUp(
+                                                        client: widget.client),
+            );
           },
         backgroundColor: Colors.lightBlue[900],
         child: const Icon(
@@ -129,6 +133,77 @@ class _ToDoListState extends State<ToDoList> {
   }
 }
 
+class CreateTaskPopUp extends StatefulWidget {
+  Client client;
 
+  CreateTaskPopUp({super.key, required this.client}); 
+  @override
+  CreateTaskPopUpState createState() => CreateTaskPopUpState();
+}
+
+class CreateTaskPopUpState extends State<CreateTaskPopUp> {
+  final TextEditingController _titleCon = TextEditingController();
+  final TextEditingController _descriptionCon = TextEditingController();
+  final TextEditingController _dateCon = TextEditingController();
+
+  Task createTaskWithData() {
+    return Task(
+              title: _titleCon.text,
+              description: _descriptionCon.text,
+              deadLine: DateTime.parse(_dateCon.text),
+              complete: false,
+              userID: 1
+              );
+    
+    }
+  
+
+  Future<void> createTask() async{
+    Task newTask = createTaskWithData();
+    await widget.client.tasks.addTask(newTask);
+    
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Create a new task'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _titleCon,
+            decoration: const InputDecoration(
+              labelText: 'Title',
+            ),
+          ),
+          TextField(
+            controller: _descriptionCon,
+            decoration: const InputDecoration(
+              labelText: 'Description',
+            ),
+          ),
+          TextField(
+            controller: _dateCon,
+            decoration: const InputDecoration(
+              labelText: 'DeadLine',
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            createTask();
+            Navigator.of(context).pop();
+          },
+          child: const Text('Add Task'),
+        ),
+      ],
+    );
+  }
+}
 
 

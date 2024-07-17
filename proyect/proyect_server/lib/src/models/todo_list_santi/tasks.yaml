@@ -10,7 +10,7 @@ fields:
 indexes:
   user_id_idx:
     fields: userID
-    unique: true
+    unique: false
   title_idx:
     fields: title
     unique: false
