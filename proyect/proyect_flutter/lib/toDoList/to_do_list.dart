@@ -5,8 +5,8 @@ import 'task_details.dart';
 class ToDoList extends StatefulWidget {
   
   final Client client;
-
-  const ToDoList({super.key, required this.client});
+  final int userId;
+  const ToDoList({super.key, required this.client, required this.userId});
 
   @override
   State<ToDoList> createState() => _ToDoListState();
@@ -23,26 +23,28 @@ class _ToDoListState extends State<ToDoList> {
     _loadTask();
   }
 
+  // Load everytask from userId in widget.
   void _loadTask() async {
-    final List<Task> taskList = await widget.client.tasks.getEveryTask(1);
+    final List<Task> taskList = await widget.client.tasks.getEveryTask(widget.userId);
     setState(() {
       _taskList = taskList; 
     });
   }
 
+  // Creates tasks for userId in widget.
   void createTask() async{
     Task task = Task(
       title: "Hola",
       description: "Holaaa",
       deadLine: DateTime.now(),
       complete: false,
-      userID: 1
+      userID: widget.userId,
     );
     await widget.client.tasks.addTask(task);
     _loadTask();
   }
 
-  // Change completed task.
+  // Invert task's complete attribute.
   void toogleCompleted(Task task) async{
     task.complete = !task.complete;
     await widget.client.tasks.updateTask(task);
@@ -98,6 +100,7 @@ class _ToDoListState extends State<ToDoList> {
               ),
               IconButton(
                 onPressed: () async {
+                  // Push TaskDetails
                   await Navigator.push(context, MaterialPageRoute(
                                                   builder: (context) => TaskDetails(
                                                                                     task: task,
@@ -105,7 +108,6 @@ class _ToDoListState extends State<ToDoList> {
                                                                                       )
                                                 )
                   );
-
                   _loadTask();
                 },
                 icon: const Icon(
@@ -124,7 +126,8 @@ class _ToDoListState extends State<ToDoList> {
           await showDialog(
               context: context,
               builder: (BuildContext context) => CreateTaskPopUp(
-                                                        client: widget.client),
+                                                        client: widget.client,
+                                                        userID: widget.userId,),
             );
           _loadTask();
           },
@@ -138,9 +141,10 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 class CreateTaskPopUp extends StatefulWidget {
-  Client client;
+  final Client client;
+  final int userID;
 
-  CreateTaskPopUp({super.key, required this.client}); 
+  const CreateTaskPopUp({super.key, required this.client, required this.userID}); 
   @override
   CreateTaskPopUpState createState() => CreateTaskPopUpState();
 }
@@ -156,16 +160,14 @@ class CreateTaskPopUpState extends State<CreateTaskPopUp> {
               description: _descriptionCon.text,
               deadLine: DateTime.parse(_dateCon.text),
               complete: false,
-              userID: 1
+              userID: widget.userID
               );
-    
     }
   
 
   Future<void> createTask() async{
     Task newTask = createTaskWithData();
     await widget.client.tasks.addTask(newTask);
-    
   }
 
 

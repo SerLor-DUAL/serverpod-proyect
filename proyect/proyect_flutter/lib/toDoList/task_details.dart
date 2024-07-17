@@ -138,10 +138,10 @@ class _TaskDetailsState extends State<TaskDetails> {
 }
 
 class EditTaskPopUp extends StatefulWidget {
-  Client client;
-  Task task;
+  final Client client;
+  final Task task;
 
-  EditTaskPopUp({super.key, required this.client, required this.task}); 
+  const EditTaskPopUp({super.key, required this.client, required this.task}); 
   @override
   EditTaskPopUpState createState() => EditTaskPopUpState();
 }

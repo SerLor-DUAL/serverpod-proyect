@@ -20,7 +20,17 @@ void main() {
       // Later we will have to work with dinamic routes.
       '/' : (context) => Login(client: client,),
       '/register' : (context) => Register(client: client,),
-      '/todolist' : (context) => ToDoList(client: client),
+      '/todolist' : (context) {
+        // We will need to extract arguments to set our ToDoList.
+        // ModalRoute get the arguments and return a kind of object
+        final args = ModalRoute.of(context)?.settings.arguments;
+        // If in the args we get an integer (userID), we will adapt our ToDoList
+        if (args is int) {
+          return ToDoList(client: client, userId: args);
+        }
+        // TODO: We need to create an error popup to call here.
+        return ToDoList(client: client, userId: 1);
+      }
     },
   ));
 } 
