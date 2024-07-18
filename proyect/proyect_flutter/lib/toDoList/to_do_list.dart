@@ -1,7 +1,8 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-
+import '../log-reg/error_alert_dialog.dart';
 import 'task_details.dart';
+
 class ToDoList extends StatefulWidget {
   
   final Client client;
@@ -114,7 +115,6 @@ class _ToDoListState extends State<ToDoList> {
                         (Icons.arrow_forward_ios),
                         color: Color.fromARGB(255, 1, 3, 3)),
                 tooltip: 'See details',
-                
               ),
             ],
           ),
@@ -164,10 +164,37 @@ class CreateTaskPopUpState extends State<CreateTaskPopUp> {
               );
     }
   
+  String checkIfError() {
+    String error = '';
+
+    if (_titleCon.text == '') {
+      error += 'Title';
+    }
+    return error;
+
+  }
+  
 
   Future<void> createTask() async{
-    Task newTask = createTaskWithData();
-    await widget.client.tasks.addTask(newTask);
+    String error = checkIfError();
+
+    if (error == '') {
+      Task newTask = createTaskWithData();
+      await widget.client.tasks.addTask(newTask);
+    }
+    else {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorAlertDialog(
+            errorTitle: 'Error in $error',
+            errorContent: '$error cannot be empty.',
+          );
+        }
+      );
+      return;
+    }
+
   }
 
 

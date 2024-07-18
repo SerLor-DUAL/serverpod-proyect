@@ -30,7 +30,7 @@ void main() {
         }
         // TODO: We need to create an error popup to call here.
         return ToDoList(client: client, userId: 1);
-      }
+      },
     },
   ));
 } 
