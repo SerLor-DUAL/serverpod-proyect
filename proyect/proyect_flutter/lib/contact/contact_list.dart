@@ -1,52 +1,33 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'task_details.dart';
-import 'popups/create_task_pop_up.dart';
+import 'popups/create_contact_pop_up.dart';
 
-class ToDoList extends StatefulWidget {
+class ContactList extends StatefulWidget {
   final Client client;
   final int userId;
-  const ToDoList({super.key, required this.client, required this.userId});
+  const ContactList({super.key, required this.client, required this.userId});
 
   @override
-  State<ToDoList> createState() => _ToDoListState();
+  State<ContactList> createState() => _ContactListState();
 }
 
-class _ToDoListState extends State<ToDoList> {
-  List<Task> _taskList = [];
+class _ContactListState extends State<ContactList> {
+  List<Contact> _contactList = [];
+
 
   @override
   void initState() {
     super.initState();
-    _loadTask();
+    _loadContacts();
   }
 
   // Load everytask from userId in widget.
-  void _loadTask() async {
-    final List<Task> taskList = await widget.client.tasks.getEveryTaskByUser(widget.userId);
+  void _loadContacts() async {
+    final List<Contact> contactList =
+        await widget.client.contact.getEveryContactByUser(widget.userId);
     setState(() {
-      _taskList = taskList;
+      _contactList = contactList;
     });
-  }
-
-  // Creates tasks for userId in widget.
-  void createTask() async {
-    Task task = Task(
-      title: "Hola",
-      description: "Holaaa",
-      deadLine: DateTime.now(),
-      complete: false,
-      userID: widget.userId,
-    );
-    await widget.client.tasks.addTask(task);
-    _loadTask();
-  }
-
-  // Invert task's complete attribute.
-  void toogleCompleted(Task task) async {
-    task.complete = !task.complete;
-    await widget.client.tasks.updateTask(task);
-    setState(() {});
   }
 
 // ----------------------- BUILDER ------------------------------ //
@@ -65,55 +46,41 @@ class _ToDoListState extends State<ToDoList> {
       body: ListView.builder(
         // STYLE AND LISTVIEW SETUP.
         padding: const EdgeInsets.all(8),
-        itemCount: _taskList.length,
+        itemCount: _contactList.length,
         itemBuilder: (BuildContext context, int index) {
-          Task task = _taskList[index];
+          Contact contact = _contactList[index];
 
           // FOR EACH ITEM - ListTile
           return ListTile(
             // TITLE: ROW
             title: Row(
               children: [
-                // LEFT SIDE : TITLE
+                // LEFT SIDE : TITLE WITH NAME
                 Expanded(
                   child: Text(
-                    task.title,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        decoration: (task.complete)
-                            ? TextDecoration.lineThrough
-                            : null),
+                    contact.name,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-
-                // RIGHT SIDE : ICONS
-                // FIRST ICONBUTTON
-                IconButton(
-                  onPressed: () {
-                    toogleCompleted(task);
-                  },
-                  icon: Icon(
-                      // If task is not completed. The button is outlined.
-                      ((task.complete)
-                          ? Icons.brightness_1
-                          : Icons.brightness_1_outlined),
-                      color: const Color.fromARGB(255, 124, 214, 255)),
-                  tooltip: 'Complete/Uncomplete',
-                ),
-                // SECOND ICONBUTTON
+                // RIGHT SIDE : ICON
                 IconButton(
                   onPressed: () async {
+                    // TODO: ADAPT LATER
+                    /*
                     // Push TaskDetails
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => TaskDetails(
-                                  task: task,
+                                  task: contact,
                                   client: widget.client,
                                 )));
                     // AFTER EDIT, LOAD EVERY TASK AGAIN.
-                    _loadTask();
+                    _loadContacts();
+                    */
                   },
                   icon: const Icon((Icons.arrow_forward_ios),
                       color: Color.fromARGB(255, 1, 3, 3)),
@@ -124,17 +91,20 @@ class _ToDoListState extends State<ToDoList> {
           );
         },
       ),
+
       // FLOATING ACTION
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          // TODO: ADAPT THAT
+
           await showDialog(
             context: context,
-            builder: (BuildContext context) => CreateTaskPopUp(
+            builder: (BuildContext context) => CreateContactPopUp(
               client: widget.client,
               userID: widget.userId,
             ),
           );
-          _loadTask();
+          _loadContacts();
         },
         backgroundColor: Colors.lightBlue[900],
         // ICON AS CHILD

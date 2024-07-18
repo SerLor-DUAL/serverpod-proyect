@@ -269,7 +269,7 @@ Future<void> welcomeUser(int userId) async
                           SizedBox(
                             width: imageWidth,
                             child: Image.asset(
-                              ("../assets/img/integra.PNG"),
+                              ("../../assets/img/integra.PNG"),
                               fit: BoxFit.fill),
                           ),
                           

@@ -1,7 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 import '../../generated/contacts/contacts.dart';
 
-class TasksEndpoint extends Endpoint {
+class ContactEndpoint extends Endpoint {
   // WHAT Session is? When a call is generated to the sv, a
   // Session is created, it has all the current data.
 

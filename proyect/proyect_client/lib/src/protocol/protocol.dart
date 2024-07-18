@@ -14,8 +14,9 @@ import 'contacts/contacts.dart' as _i2;
 import 'todolist/tasks.dart' as _i3;
 import 'users/password_options.dart' as _i4;
 import 'users/users_registry.dart' as _i5;
-import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i6;
-import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i7;
+import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i6;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i7;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i8;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -59,13 +60,17 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i5.UsersRegistry?>()) {
       return (data != null ? _i5.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == List<_i6.Task>) {
-      return (data as List).map((e) => deserialize<_i6.Task>(e)).toList()
+    if (t == List<_i6.Contact>) {
+      return (data as List).map((e) => deserialize<_i6.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i7.UsersRegistry>) {
+    if (t == List<_i7.Task>) {
+      return (data as List).map((e) => deserialize<_i7.Task>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i8.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i7.UsersRegistry>(e))
+          .map((e) => deserialize<_i8.UsersRegistry>(e))
           .toList() as dynamic;
     }
     return super.deserialize<T>(data, t);

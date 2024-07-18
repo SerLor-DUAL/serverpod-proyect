@@ -1,8 +1,16 @@
+contact:
+  - addContact:
+  - addListOfContacts:
+  - findById:
+  - getEveryContactByUser:
+  - updateContact:
+  - deleteContact:
+  - deleteMultipleContacts:
 tasks:
   - addTask:
   - addListOfTasks:
   - findById:
-  - getEveryTask:
+  - getEveryTaskByUser:
   - getEveryTaskByDeadLineASC:
   - getEveryTaskByDeadLineDES:
   - updateTask:

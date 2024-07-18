@@ -305,7 +305,7 @@ Future<void> welcomeUser(int userId) async
                   SizedBox(
                     width: imageWidth,
                     child: Image.asset(
-                      "assets/img/integra.PNG",  // Asegúrate de que esta ruta sea correcta
+                      "../../assets/img/integra.PNG",  // Asegúrate de que esta ruta sea correcta
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -317,10 +317,10 @@ Future<void> welcomeUser(int userId) async
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/todolist');
+          Navigator.pushNamed(context, '/contacts', arguments: 1);
         },
         backgroundColor: Colors.lightBlue[900],
-        child: const Text('ToDoList'),
+        child: const Text('Contact'),
       ),
     );
   }
