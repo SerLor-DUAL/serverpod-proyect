@@ -26,6 +26,7 @@ dependencies:
     sdk: flutter
   bcrypt: ^1.1.3
   serverpod_flutter: 2.0.2
+  font_awesome_flutter: 10.7.0
   proyect_client:
     path: ../proyect_client
 

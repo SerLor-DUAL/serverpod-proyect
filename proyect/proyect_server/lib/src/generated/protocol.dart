@@ -11,15 +11,17 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'todo_list_santi/tasks.dart' as _i3;
-import 'users_sergio/password_options.dart' as _i4;
-import 'users_sergio/users_registry.dart' as _i5;
-import 'package:proyect_server/src/generated/todo_list_santi/tasks.dart' as _i6;
-import 'package:proyect_server/src/generated/users_sergio/users_registry.dart'
-    as _i7;
-export 'todo_list_santi/tasks.dart';
-export 'users_sergio/password_options.dart';
-export 'users_sergio/users_registry.dart';
+import 'contacts/contacts.dart' as _i3;
+import 'todolist/tasks.dart' as _i4;
+import 'users/password_options.dart' as _i5;
+import 'users/users_registry.dart' as _i6;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i7;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i8;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i9;
+export 'contacts/contacts.dart';
+export 'todolist/tasks.dart';
+export 'users/password_options.dart';
+export 'users/users_registry.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -29,6 +31,84 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'contacts',
+      dartName: 'Contact',
+      schema: 'public',
+      module: 'proyect',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'contacts_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'phoneNumber',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userID',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'contacts_fk_0',
+          columns: ['userID'],
+          referenceTable: 'users_registry',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'contacts_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'primary',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userID',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'phoneNumber',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     _i2.TableDefinition(
       name: 'password_options',
       dartName: 'PasswordOptions',
@@ -273,31 +353,41 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Task) {
-      return _i3.Task.fromJson(data) as T;
+    if (t == _i3.Contact) {
+      return _i3.Contact.fromJson(data) as T;
     }
-    if (t == _i4.PasswordOptions) {
-      return _i4.PasswordOptions.fromJson(data) as T;
+    if (t == _i4.Task) {
+      return _i4.Task.fromJson(data) as T;
     }
-    if (t == _i5.UsersRegistry) {
-      return _i5.UsersRegistry.fromJson(data) as T;
+    if (t == _i5.PasswordOptions) {
+      return _i5.PasswordOptions.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i3.Task?>()) {
-      return (data != null ? _i3.Task.fromJson(data) : null) as T;
+    if (t == _i6.UsersRegistry) {
+      return _i6.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i4.PasswordOptions?>()) {
-      return (data != null ? _i4.PasswordOptions.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i3.Contact?>()) {
+      return (data != null ? _i3.Contact.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.UsersRegistry?>()) {
-      return (data != null ? _i5.UsersRegistry.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Task?>()) {
+      return (data != null ? _i4.Task.fromJson(data) : null) as T;
     }
-    if (t == List<_i6.Task>) {
-      return (data as List).map((e) => deserialize<_i6.Task>(e)).toList()
+    if (t == _i1.getType<_i5.PasswordOptions?>()) {
+      return (data != null ? _i5.PasswordOptions.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.UsersRegistry?>()) {
+      return (data != null ? _i6.UsersRegistry.fromJson(data) : null) as T;
+    }
+    if (t == List<_i7.Contact>) {
+      return (data as List).map((e) => deserialize<_i7.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i7.UsersRegistry>) {
+    if (t == List<_i8.Task>) {
+      return (data as List).map((e) => deserialize<_i8.Task>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i9.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i7.UsersRegistry>(e))
+          .map((e) => deserialize<_i9.UsersRegistry>(e))
           .toList() as dynamic;
     }
     try {
@@ -308,13 +398,16 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Task) {
+    if (data is _i3.Contact) {
+      return 'Contact';
+    }
+    if (data is _i4.Task) {
       return 'Task';
     }
-    if (data is _i4.PasswordOptions) {
+    if (data is _i5.PasswordOptions) {
       return 'PasswordOptions';
     }
-    if (data is _i5.UsersRegistry) {
+    if (data is _i6.UsersRegistry) {
       return 'UsersRegistry';
     }
     return super.getClassNameForObject(data);
@@ -322,14 +415,17 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'] == 'Contact') {
+      return deserialize<_i3.Contact>(data['data']);
+    }
     if (data['className'] == 'Task') {
-      return deserialize<_i3.Task>(data['data']);
+      return deserialize<_i4.Task>(data['data']);
     }
     if (data['className'] == 'PasswordOptions') {
-      return deserialize<_i4.PasswordOptions>(data['data']);
+      return deserialize<_i5.PasswordOptions>(data['data']);
     }
     if (data['className'] == 'UsersRegistry') {
-      return deserialize<_i5.UsersRegistry>(data['data']);
+      return deserialize<_i6.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -343,12 +439,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i3.Task:
-        return _i3.Task.t;
-      case _i4.PasswordOptions:
-        return _i4.PasswordOptions.t;
-      case _i5.UsersRegistry:
-        return _i5.UsersRegistry.t;
+      case _i3.Contact:
+        return _i3.Contact.t;
+      case _i4.Task:
+        return _i4.Task.t;
+      case _i5.PasswordOptions:
+        return _i5.PasswordOptions.t;
+      case _i6.UsersRegistry:
+        return _i6.UsersRegistry.t;
     }
     return null;
   }

@@ -1,0 +1,11 @@
+class: Contact
+table: contacts
+fields:
+  name: String
+  phoneNumber: String
+  userID: int, relation(parent=users_registry) # Foreign key field
+
+indexes:
+  primary:
+    fields: userID, phoneNumber
+    unique: true

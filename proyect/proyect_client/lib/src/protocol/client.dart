@@ -10,12 +10,68 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:proyect_client/src/protocol/todo_list_santi/tasks.dart' as _i3;
-import 'package:proyect_client/src/protocol/users_sergio/password_options.dart'
-    as _i4;
-import 'package:proyect_client/src/protocol/users_sergio/users_registry.dart'
-    as _i5;
-import 'protocol.dart' as _i6;
+import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i3;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
+import 'package:proyect_client/src/protocol/users/password_options.dart' as _i5;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i6;
+import 'protocol.dart' as _i7;
+
+/// {@category Endpoint}
+class EndpointContact extends _i1.EndpointRef {
+  EndpointContact(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'contact';
+
+  _i2.Future<void> addContact(_i3.Contact contact) =>
+      caller.callServerEndpoint<void>(
+        'contact',
+        'addContact',
+        {'contact': contact},
+      );
+
+  _i2.Future<void> addListOfContacts(List<_i3.Contact> contacts) =>
+      caller.callServerEndpoint<void>(
+        'contact',
+        'addListOfContacts',
+        {'contacts': contacts},
+      );
+
+  _i2.Future<_i3.Contact?> findById(int contactID) =>
+      caller.callServerEndpoint<_i3.Contact?>(
+        'contact',
+        'findById',
+        {'contactID': contactID},
+      );
+
+  _i2.Future<List<_i3.Contact>> getEveryContactByUser(int userID) =>
+      caller.callServerEndpoint<List<_i3.Contact>>(
+        'contact',
+        'getEveryContactByUser',
+        {'userID': userID},
+      );
+
+  _i2.Future<void> updateContact(_i3.Contact contact) =>
+      caller.callServerEndpoint<void>(
+        'contact',
+        'updateContact',
+        {'contact': contact},
+      );
+
+  _i2.Future<void> deleteContact(_i3.Contact contact) =>
+      caller.callServerEndpoint<void>(
+        'contact',
+        'deleteContact',
+        {'contact': contact},
+      );
+
+  _i2.Future<void> deleteMultipleContacts(List<_i3.Contact> tasks) =>
+      caller.callServerEndpoint<void>(
+        'contact',
+        'deleteMultipleContacts',
+        {'tasks': tasks},
+      );
+}
 
 /// {@category Endpoint}
 class EndpointTasks extends _i1.EndpointRef {
@@ -24,67 +80,67 @@ class EndpointTasks extends _i1.EndpointRef {
   @override
   String get name => 'tasks';
 
-  _i2.Future<void> addTask(_i3.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> addTask(_i4.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'addTask',
         {'task': task},
       );
 
-  _i2.Future<void> addListOfTasks(List<_i3.Task> tasks) =>
+  _i2.Future<void> addListOfTasks(List<_i4.Task> tasks) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'addListOfTasks',
         {'tasks': tasks},
       );
 
-  _i2.Future<_i3.Task?> findById(int taskID) =>
-      caller.callServerEndpoint<_i3.Task?>(
+  _i2.Future<_i4.Task?> findById(int taskID) =>
+      caller.callServerEndpoint<_i4.Task?>(
         'tasks',
         'findById',
         {'taskID': taskID},
       );
 
-  _i2.Future<List<_i3.Task>> getEveryTask(int idUser) =>
-      caller.callServerEndpoint<List<_i3.Task>>(
+  _i2.Future<List<_i4.Task>> getEveryTaskByUser(int userID) =>
+      caller.callServerEndpoint<List<_i4.Task>>(
         'tasks',
-        'getEveryTask',
-        {'idUser': idUser},
+        'getEveryTaskByUser',
+        {'userID': userID},
       );
 
-  _i2.Future<List<_i3.Task>> getEveryTaskByDeadLineASC(int idUser) =>
-      caller.callServerEndpoint<List<_i3.Task>>(
+  _i2.Future<List<_i4.Task>> getEveryTaskByDeadLineASC(int idUser) =>
+      caller.callServerEndpoint<List<_i4.Task>>(
         'tasks',
         'getEveryTaskByDeadLineASC',
         {'idUser': idUser},
       );
 
-  _i2.Future<List<_i3.Task>> getEveryTaskByDeadLineDES() =>
-      caller.callServerEndpoint<List<_i3.Task>>(
+  _i2.Future<List<_i4.Task>> getEveryTaskByDeadLineDES() =>
+      caller.callServerEndpoint<List<_i4.Task>>(
         'tasks',
         'getEveryTaskByDeadLineDES',
         {},
       );
 
-  _i2.Future<void> updateTask(_i3.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> updateTask(_i4.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'updateTask',
         {'task': task},
       );
 
-  _i2.Future<void> toogleComplete(_i3.Task task) =>
+  _i2.Future<void> toogleComplete(_i4.Task task) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'toogleComplete',
         {'task': task},
       );
 
-  _i2.Future<void> deleteTask(_i3.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> deleteTask(_i4.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'deleteTask',
         {'task': task},
       );
 
-  _i2.Future<void> deleteMultipleTasks(List<_i3.Task> tasks) =>
+  _i2.Future<void> deleteMultipleTasks(List<_i4.Task> tasks) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'deleteMultipleTasks',
@@ -100,7 +156,7 @@ class EndpointPasswordGenerator extends _i1.EndpointRef {
   String get name => 'passwordGenerator';
 
   _i2.Future<String> createPassword(
-    _i4.PasswordOptions options, {
+    _i5.PasswordOptions options, {
     String? passwordInput,
   }) =>
       caller.callServerEndpoint<String>(
@@ -120,35 +176,35 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
   @override
   String get name => 'passwordOptions';
 
-  _i2.Future<_i4.PasswordOptions?> getOptions(int optionsID) =>
-      caller.callServerEndpoint<_i4.PasswordOptions?>(
+  _i2.Future<_i5.PasswordOptions?> getOptions(int optionsID) =>
+      caller.callServerEndpoint<_i5.PasswordOptions?>(
         'passwordOptions',
         'getOptions',
         {'optionsID': optionsID},
       );
 
-  _i2.Future<_i4.PasswordOptions?> getLastID() =>
-      caller.callServerEndpoint<_i4.PasswordOptions?>(
+  _i2.Future<_i5.PasswordOptions?> getLastID() =>
+      caller.callServerEndpoint<_i5.PasswordOptions?>(
         'passwordOptions',
         'getLastID',
         {},
       );
 
-  _i2.Future<void> updateOptions(_i4.PasswordOptions options) =>
+  _i2.Future<void> updateOptions(_i5.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'updateOptions',
         {'options': options},
       );
 
-  _i2.Future<void> createOptions(_i4.PasswordOptions options) =>
+  _i2.Future<void> createOptions(_i5.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'createOptions',
         {'options': options},
       );
 
-  _i2.Future<void> deleteOptions(_i4.PasswordOptions options) =>
+  _i2.Future<void> deleteOptions(_i5.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'deleteOptions',
@@ -163,22 +219,22 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
   @override
   String get name => 'usersRegistry';
 
-  _i2.Future<List<_i5.UsersRegistry>> getAllUsers() =>
-      caller.callServerEndpoint<List<_i5.UsersRegistry>>(
+  _i2.Future<List<_i6.UsersRegistry>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i6.UsersRegistry>>(
         'usersRegistry',
         'getAllUsers',
         {},
       );
 
-  _i2.Future<_i5.UsersRegistry?> getUserById(int userId) =>
-      caller.callServerEndpoint<_i5.UsersRegistry?>(
+  _i2.Future<_i6.UsersRegistry?> getUserById(int userId) =>
+      caller.callServerEndpoint<_i6.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
         {'userId': userId},
       );
 
-  _i2.Future<_i5.UsersRegistry?> getUserByName(String name) =>
-      caller.callServerEndpoint<_i5.UsersRegistry?>(
+  _i2.Future<_i6.UsersRegistry?> getUserByName(String name) =>
+      caller.callServerEndpoint<_i6.UsersRegistry?>(
         'usersRegistry',
         'getUserByName',
         {'name': name},
@@ -191,26 +247,26 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'name': name},
       );
 
-  _i2.Future<_i5.UsersRegistry?> getLastUserID() =>
-      caller.callServerEndpoint<_i5.UsersRegistry?>(
+  _i2.Future<_i6.UsersRegistry?> getLastUserID() =>
+      caller.callServerEndpoint<_i6.UsersRegistry?>(
         'usersRegistry',
         'getLastUserID',
         {},
       );
 
-  _i2.Future<void> updateUser(_i5.UsersRegistry user) =>
+  _i2.Future<void> updateUser(_i6.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'updateUser',
         {'user': user},
       );
 
-  _i2.Future<_i5.UsersRegistry> createUser(
+  _i2.Future<_i6.UsersRegistry> createUser(
     String name,
-    _i4.PasswordOptions selectedUserOptions, {
+    _i5.PasswordOptions selectedUserOptions, {
     String? selectedUserPassword,
   }) =>
-      caller.callServerEndpoint<_i5.UsersRegistry>(
+      caller.callServerEndpoint<_i6.UsersRegistry>(
         'usersRegistry',
         'createUser',
         {
@@ -220,7 +276,7 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> deleteUser(_i5.UsersRegistry user) =>
+  _i2.Future<void> deleteUser(_i6.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'deleteUser',
@@ -256,7 +312,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i6.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -264,11 +320,14 @@ class Client extends _i1.ServerpodClient {
           onFailedCall: onFailedCall,
           onSucceededCall: onSucceededCall,
         ) {
+    contact = EndpointContact(this);
     tasks = EndpointTasks(this);
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
   }
+
+  late final EndpointContact contact;
 
   late final EndpointTasks tasks;
 
@@ -280,6 +339,7 @@ class Client extends _i1.ServerpodClient {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'contact': contact,
         'tasks': tasks,
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,

@@ -403,9 +403,11 @@ Future<void> welcomeUser(int userId) async
 
       // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
-        onPressed: () { Navigator.pushNamed(context, '/todolist'); },
-        backgroundColor: const Color.fromARGB(255, 121, 178, 221),
-        child: const Text('TODO'),
+        onPressed: () {
+          Navigator.pushNamed(context, '/contacts', arguments: 1);
+        },
+        backgroundColor: Colors.lightBlue[900],
+        child: const Text('Contact'),
       ),
     );
   }

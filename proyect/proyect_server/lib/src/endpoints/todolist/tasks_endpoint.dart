@@ -1,5 +1,5 @@
 import 'package:serverpod/serverpod.dart';
-import '../../generated/todo_list_santi/tasks.dart';
+import '../../generated/todolist/tasks.dart';
 
 class TasksEndpoint extends Endpoint {
 
@@ -20,12 +20,11 @@ class TasksEndpoint extends Endpoint {
       session, 
       taskID);
   }
-  Future<List<Task>> getEveryTask(Session session, int idUser) async {
+  Future<List<Task>> getEveryTaskByUser(Session session, int userID) async {
     return await Task.db.find(
-      session,
-      orderBy: (task) => task.id,
-      where: (task) => task.userID.equals(idUser)
-      );
+        session,
+        orderBy: (task) => task.id,
+        where: (task) => task.userID.equals(userID));
   }
   Future<List<Task>> getEveryTaskByDeadLineASC(Session session, int idUser) async {
     return await Task.db.find(
