@@ -1,6 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'error_alert_dialog.dart';
+import '../alertdialogs/error_alert_dialog.dart';
 
 class CreateTaskPopUp extends StatefulWidget {
   // THIS CreateTaskPopUp ALWAYS WILL NEED THE CLIENT TO OPERATE WITH DB

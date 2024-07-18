@@ -1,7 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'task_details.dart';
-import 'create_task_pop_up.dart';
+import 'popups/create_task_pop_up.dart';
 
 class ToDoList extends StatefulWidget {
   final Client client;
