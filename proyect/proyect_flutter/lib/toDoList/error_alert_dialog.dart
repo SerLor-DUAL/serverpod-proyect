@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ErrorAlertDialog extends StatelessWidget {
+  // PERSONALIZED TITLE AND CONTENT
   final String errorTitle;
   final String errorContent;
 
   const ErrorAlertDialog({super.key, required this.errorTitle, required this.errorContent});
 
+// ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
