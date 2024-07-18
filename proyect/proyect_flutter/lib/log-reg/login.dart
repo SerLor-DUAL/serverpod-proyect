@@ -152,6 +152,7 @@ Future<void> welcomeUser(int userId) async
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        /* APPBAR 
         appBar: AppBar(
           title: const Text(
                         "IntegraQS ToDoList",
@@ -160,13 +161,13 @@ Future<void> welcomeUser(int userId) async
                         )),
           centerTitle: true,
           backgroundColor: Colors.lightBlue[900],
-        ),
+        ), */
         body: LayoutBuilder(
                 builder: (context, constraints) {
                   // Let's set the width of our textFields upto 50% of the screen
-                  double textFieldWidth = constraints.maxWidth*0.30;
+                  double textFieldWidth = constraints.maxWidth * 0.30;
                   double textFieldHeigh = constraints.maxHeight;
-                  double imageWidth = constraints.maxWidth*0.70;
+                  double imageWidth = constraints.maxWidth * 0.70;
             
                   return Row(
                     children: [

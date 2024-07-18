@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 
@@ -167,154 +168,240 @@ Future<void> welcomeUser(int userId) async
 // ----------------------- FLUTTER ------------------------------ //
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "IntegraQS ToDoList",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.lightBlue[900],
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Let's set the width of our textFields upto 30% of the screen
-          double textFieldWidth = constraints.maxWidth * 0.30;
-          double textFieldHeight = constraints.maxHeight;
-          double imageWidth = constraints.maxWidth * 0.70;
+  Widget build(BuildContext context) 
+  {
+    // GETS SCREEN SIZING
+    Size screenSize = MediaQuery.of(context).size;
 
-          return Row(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // Set container width
-                    width: textFieldWidth,
-                    height: textFieldHeight,
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 30.0, vertical: 20.0),
-                    color: const Color.fromARGB(239, 248, 248, 248),
-                    child: Column(
+    // CALCULATE RESPONSIVE DIMENSION
+    double columnWidth = screenSize.width * 0.35;
+
+    return Scaffold(
+      
+      // MAIN CONTAINER
+      body: Container(
+        color: const Color.fromARGB(255, 124, 214, 255),
+
+        // MAIN ROW
+        child: Row(
+        
+          // ELEMENTS FROM THE MAIN ROW
+          children: [
+        
+            // LEFT COLUMN IN THE MAIN ROW
+            Expanded(
+              flex: 1, // GETS HALF SCREEN
+        
+              // LAYOUT FOR ELEMENTS INSIDE THIS COLUMN
+              child: 
+              SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+        
+                // COLUMN WHERE ELEMENTS OF THE CONTAINER WILL BE PLACED
+                child: 
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      
+                      // LOGO TITLE TEXT, TEXTFIELDS AND ROW WHERE BUTTONS ARE PLACED
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            RichText(
-                              text: const TextSpan(
-                                text: 'Integra',
-                                style: TextStyle(
-                                  fontSize: 30.00,
-                                  color: Color.fromARGB(255, 124, 214, 255),
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: 'QS',
-                                    style: TextStyle(
-                                      fontSize: 30.00,
-                                      color: Color.fromARGB(255, 124, 214, 255),
-                                      fontWeight: FontWeight.w100,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 100.0),
-                            TextFormField(
-                              controller: userController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "User",
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 20.0),
-                            TextFormField(
-                              controller: passwordController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Password",
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 20.0),
-                            TextFormField(
-                              controller: confirmController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Confirm Password",
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
+                        
+                        // LOGO TITLE TEXT
+                        RichText(
+                          text: const TextSpan( text: 'IntegraQS',
+                                                style: TextStyle( fontSize: 80.0,
+                                                                  color: Colors.white,
+                                                                  fontWeight: FontWeight.w800,
+                                                                  shadows: 
+                                                                    <Shadow> [
+                                                                      Shadow( offset: Offset(1, 1),
+                                                                              blurRadius: 1.0,
+                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                      ),
+                                                                      Shadow( offset: Offset(2, 2),
+                                                                              blurRadius: 2.0,
+                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                      ),
+                                                                      Shadow( offset: Offset(3, 3),
+                                                                              blurRadius: 3.0,
+                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                      ),
+                                                                    ],
+                                                        ),
+                                        ),
                         ),
+            
+                        const SizedBox(height: 100.0),
+      
+                        // TEXTBOXES
+                        SizedBox (
+                          width: columnWidth,
+                          child: 
+                            Column(
+                              children: [
+                                // USERNAME TEXTFIELD
+                                TextField(
+                                  controller: userController,
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                    ),
+                                                                              ),
+                                                                      hintText: "Username",
+                                                                      hintStyle: TextStyle( color: Color.fromARGB(255, 54, 157, 216)                   
+                                                                                 ),
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      focusColor: Colors.white,
+                                                                      focusedBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                     ),
+                                                                                     ), 
+                                                    ),  
+                                  style: const TextStyle( color: Color.fromARGB(255, 54, 157, 216),
+                                                          fontWeight: FontWeight.bold,   
+                                                ),
+                                  cursorColor: const Color.fromARGB(255, 54, 157, 216),
+                                ),
+      
+                                const SizedBox(height: 20.0),
+      
+                                // PASSWORD TEXTFIELD
+                                TextField(
+                                  controller: passwordController,
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                    ),
+                                                                              ),
+                                                                      hintText: "Password",
+                                                                      hintStyle: TextStyle( color: Color.fromARGB(255, 54, 157, 216)                   
+                                                                                 ),
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      focusColor: Colors.white,
+                                                                      focusedBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                     ),
+                                                                                     ), 
+                                                    ),  
+                                  style: const TextStyle( color: Color.fromARGB(255, 54, 157, 216),
+                                                          fontWeight: FontWeight.bold,   
+                                                ),
+                                  cursorColor: const Color.fromARGB(255, 54, 157, 216),
+                                ),
+      
+                                const SizedBox(height: 20.0),
+      
+                                // CONFIRM PASSWORD TEXTFIELD
+                                TextField(
+                                  controller: confirmController,
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                    ),
+                                                                              ),
+                                                                      hintText: "Confirm Password",
+                                                                      hintStyle: TextStyle( color: Color.fromARGB(255, 54, 157, 216)                   
+                                                                                 ),
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      focusColor: Colors.white,
+                                                                      focusedBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                     ),
+                                                                                     ), 
+                                                    ),  
+                                  style: const TextStyle( color: Color.fromARGB(255, 54, 157, 216),
+                                                          fontWeight: FontWeight.bold,   
+                                                ),
+                                  cursorColor: const Color.fromARGB(255, 54, 157, 216),
+                                ),
+      
+                                const SizedBox(height: 50.0),
+                              ],
+                            ),
+                        ),
+      
+                        // ROW WITH LOGIN AND REGISTER BUTTONS
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+      
                           children: [
+      
+                            // LOGIN BUTTON
                             ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
-                                textStyle: const TextStyle(fontSize: 20), // Increase font size
-                              ),
-                              onPressed: () {
-                              },
+                              onPressed: () { Navigator.pop(context); }, // RETURNS TO MAIN NAVIGATION MENU
+                              style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
+                                                                padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
+                                                                backgroundColor: Colors.white,
+                                                                foregroundColor: const Color.fromARGB(255, 54, 157, 216),
+                                                                shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                                                                elevation: 3,
+                                                                shape: const ContinuousRectangleBorder(side: BorderSide( color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                         width: 2,
+                                                                                                            ),
+                                                                            ),
+                                      ),
                               child: const Text("Login"),
                             ),
+      
+      
+                            const SizedBox(width: 30),
+      
+                            // REGISTER BUTTON
                             ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
-                                textStyle: const TextStyle(fontSize: 20), // Increase font size
-                              ),
-                              onPressed: () async {
-                                await registryUser();
-                              },
+                              onPressed: () async { await registryUser(); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
+                                                                padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
+                                                                backgroundColor: Colors.white,
+                                                                foregroundColor: const Color.fromARGB(255, 54, 157, 216),
+                                                                shadowColor: const Color.fromARGB(255, 54, 157, 216),                                                              elevation: 3,
+                                                                shape: const ContinuousRectangleBorder(side: BorderSide( color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                         width: 2,
+                                                                                                            ),
+                                                                            ),
+                                      ),
                               child: const Text("Register"),
                             ),
                           ],
-                        )
+                        ),
+
+                        const SizedBox(height: 150.0),
                       ],
                     ),
-                  )
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    width: imageWidth,
-                    child: Image.asset(
-                      "../../assets/img/integra.PNG",  // Asegúrate de que esta ruta sea correcta
-                      fit: BoxFit.fill,
+                ),
+            ),
+      
+            // RIGHT COLUMN WITH IMAGE IN THE MAIN ROW
+            Expanded(
+              flex: 1, // GETS HALF SCREEN
+        
+              // CONTAINER OF THE IMAGE
+              child: 
+                Container(
+                  color: Colors.white,
+        
+                  // PLACE WHERE IMAGE IS PLACED
+                  child: 
+                    Center(
+        
+                    // ACTUAL IMAGE
+                    child: 
+                      AspectRatio(
+                        aspectRatio: 1.0,
+        
+                        child:
+                        Image.asset( "../../assets/img/integra.PNG",
+                                    fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
+                ),
+            ),
+          ],
+        ),
       ),
+
+      // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/contacts', arguments: 1);
@@ -324,4 +411,5 @@ Future<void> welcomeUser(int userId) async
       ),
     );
   }
+
 }
