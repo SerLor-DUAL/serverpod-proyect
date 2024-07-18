@@ -10,11 +10,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:proyect_client/src/protocol/todo_list_santi/tasks.dart' as _i3;
-import 'package:proyect_client/src/protocol/users_sergio/password_options.dart'
-    as _i4;
-import 'package:proyect_client/src/protocol/users_sergio/users_registry.dart'
-    as _i5;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i3;
+import 'package:proyect_client/src/protocol/users/password_options.dart' as _i4;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i5;
 import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}

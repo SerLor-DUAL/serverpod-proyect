@@ -10,15 +10,16 @@
 library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'todo_list_santi/tasks.dart' as _i2;
-import 'users_sergio/password_options.dart' as _i3;
-import 'users_sergio/users_registry.dart' as _i4;
-import 'package:proyect_client/src/protocol/todo_list_santi/tasks.dart' as _i5;
-import 'package:proyect_client/src/protocol/users_sergio/users_registry.dart'
-    as _i6;
-export 'todo_list_santi/tasks.dart';
-export 'users_sergio/password_options.dart';
-export 'users_sergio/users_registry.dart';
+import 'contacts/contacts.dart' as _i2;
+import 'todolist/tasks.dart' as _i3;
+import 'users/password_options.dart' as _i4;
+import 'users/users_registry.dart' as _i5;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i6;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i7;
+export 'contacts/contacts.dart';
+export 'todolist/tasks.dart';
+export 'users/password_options.dart';
+export 'users/users_registry.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -34,31 +35,37 @@ class Protocol extends _i1.SerializationManager {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i2.Task) {
-      return _i2.Task.fromJson(data) as T;
+    if (t == _i2.Contact) {
+      return _i2.Contact.fromJson(data) as T;
     }
-    if (t == _i3.PasswordOptions) {
-      return _i3.PasswordOptions.fromJson(data) as T;
+    if (t == _i3.Task) {
+      return _i3.Task.fromJson(data) as T;
     }
-    if (t == _i4.UsersRegistry) {
-      return _i4.UsersRegistry.fromJson(data) as T;
+    if (t == _i4.PasswordOptions) {
+      return _i4.PasswordOptions.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i2.Task?>()) {
-      return (data != null ? _i2.Task.fromJson(data) : null) as T;
+    if (t == _i5.UsersRegistry) {
+      return _i5.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i3.PasswordOptions?>()) {
-      return (data != null ? _i3.PasswordOptions.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i2.Contact?>()) {
+      return (data != null ? _i2.Contact.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.UsersRegistry?>()) {
-      return (data != null ? _i4.UsersRegistry.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i3.Task?>()) {
+      return (data != null ? _i3.Task.fromJson(data) : null) as T;
     }
-    if (t == List<_i5.Task>) {
-      return (data as List).map((e) => deserialize<_i5.Task>(e)).toList()
+    if (t == _i1.getType<_i4.PasswordOptions?>()) {
+      return (data != null ? _i4.PasswordOptions.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i5.UsersRegistry?>()) {
+      return (data != null ? _i5.UsersRegistry.fromJson(data) : null) as T;
+    }
+    if (t == List<_i6.Task>) {
+      return (data as List).map((e) => deserialize<_i6.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i6.UsersRegistry>) {
+    if (t == List<_i7.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i6.UsersRegistry>(e))
+          .map((e) => deserialize<_i7.UsersRegistry>(e))
           .toList() as dynamic;
     }
     return super.deserialize<T>(data, t);
@@ -66,13 +73,16 @@ class Protocol extends _i1.SerializationManager {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i2.Task) {
+    if (data is _i2.Contact) {
+      return 'Contact';
+    }
+    if (data is _i3.Task) {
       return 'Task';
     }
-    if (data is _i3.PasswordOptions) {
+    if (data is _i4.PasswordOptions) {
       return 'PasswordOptions';
     }
-    if (data is _i4.UsersRegistry) {
+    if (data is _i5.UsersRegistry) {
       return 'UsersRegistry';
     }
     return super.getClassNameForObject(data);
@@ -80,14 +90,17 @@ class Protocol extends _i1.SerializationManager {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'] == 'Contact') {
+      return deserialize<_i2.Contact>(data['data']);
+    }
     if (data['className'] == 'Task') {
-      return deserialize<_i2.Task>(data['data']);
+      return deserialize<_i3.Task>(data['data']);
     }
     if (data['className'] == 'PasswordOptions') {
-      return deserialize<_i3.PasswordOptions>(data['data']);
+      return deserialize<_i4.PasswordOptions>(data['data']);
     }
     if (data['className'] == 'UsersRegistry') {
-      return deserialize<_i4.UsersRegistry>(data['data']);
+      return deserialize<_i5.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

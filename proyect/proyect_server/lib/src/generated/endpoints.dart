@@ -9,15 +9,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/todo_list_santi/tasks_endpoint.dart' as _i2;
-import '../endpoints/users_sergio/password_generator.dart' as _i3;
-import '../endpoints/users_sergio/password_options.dart' as _i4;
-import '../endpoints/users_sergio/users_registry.dart' as _i5;
-import 'package:proyect_server/src/generated/todo_list_santi/tasks.dart' as _i6;
-import 'package:proyect_server/src/generated/users_sergio/password_options.dart'
+import '../endpoints/todolist/tasks_endpoint.dart' as _i2;
+import '../endpoints/users/password_generator.dart' as _i3;
+import '../endpoints/users/password_options.dart' as _i4;
+import '../endpoints/users/users_registry.dart' as _i5;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i6;
+import 'package:proyect_server/src/generated/users/password_options.dart'
     as _i7;
-import 'package:proyect_server/src/generated/users_sergio/users_registry.dart'
-    as _i8;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -119,7 +118,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i2.TasksEndpoint).getEveryTask(
+              (endpoints['tasks'] as _i2.TasksEndpoint).getEveryTaskByUser(
             session,
             params['idUser'],
           ),
