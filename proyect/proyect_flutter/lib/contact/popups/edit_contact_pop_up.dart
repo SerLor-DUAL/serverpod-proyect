@@ -31,7 +31,7 @@ class EditContactPopUpState extends State<EditContactPopUp> {
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB,
   // ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
-    
+    //TODO: Add error when Phone is already in the contact list.
     Contact updatedContact = updateContactWithData();
     await widget.client.contact.updateContact(updatedContact);
   }
