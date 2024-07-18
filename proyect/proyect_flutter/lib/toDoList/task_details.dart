@@ -107,7 +107,10 @@ class _TaskDetailsState extends State<TaskDetails> {
                 builder: (BuildContext context) => EditTaskPopUp(
                                                         client: widget.client,
                                                         task: widget.task),
-            );
+                );
+                // UPDATES STATE AFTER EditTaskPopUp
+                setState(() {
+                });
                 },
               backgroundColor: Colors.lightBlue[900],
               child: const Icon(
@@ -151,20 +154,19 @@ class EditTaskPopUpState extends State<EditTaskPopUp> {
   final TextEditingController _descriptionCon = TextEditingController();
   final TextEditingController _dateCon = TextEditingController();
 
-  Task createTaskWithData() {
-    return Task(
-              title: _titleCon.text,
-              description: _descriptionCon.text,
-              deadLine: DateTime.parse(_dateCon.text),
-              complete: false,
-              userID: 1
-              );
-    
+// Edit the selected task. Changing, just if the user wanted to, the title, description and/or deadline.
+  Task editTaskWithData() {
+    Task task = widget.task;
+    task.title = (_titleCon.text != '')? _titleCon.text :task.title;
+    task.description = (_descriptionCon.text != '')? _descriptionCon.text : task.description;
+    task.deadLine = (_dateCon.text != '')? DateTime.parse(_dateCon.text) : task.deadLine;
+
+    return task;
     }
-  Future<void> createTask() async{
-    Task newTask = createTaskWithData();
-    await widget.client.tasks.addTask(newTask);
-    
+  // Update the Task in the DB.
+  Future<void> updateTask() async{
+    Task newTask = editTaskWithData();
+    await widget.client.tasks.updateTask(newTask);
   }
 
   @override
@@ -174,6 +176,7 @@ class EditTaskPopUpState extends State<EditTaskPopUp> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // TITLE TEXTFIELD
           TextField(
             controller: _titleCon,
             decoration: InputDecoration(
@@ -181,6 +184,7 @@ class EditTaskPopUpState extends State<EditTaskPopUp> {
               hintText: widget.task.title,
             ),
           ),
+          // DESCRIPTION TEXTFIELD
           TextField(
             controller: _descriptionCon,
             decoration: InputDecoration(
@@ -188,6 +192,7 @@ class EditTaskPopUpState extends State<EditTaskPopUp> {
               hintText:  widget.task.description,
             ),
           ),
+          // DEADLINE TEXTFIELD
           TextField(
             controller: _dateCon,
             decoration: InputDecoration(
@@ -197,16 +202,17 @@ class EditTaskPopUpState extends State<EditTaskPopUp> {
           ),
         ],
       ),
+      // SUBMIT BUTTON
       actions: <Widget>[
         TextButton(
           onPressed: () async{
-            // Create task and go back to the previous page.
-            await createTask();
+            // Update task and go back to the previous page.
+            await updateTask();
 
             if (!context.mounted) return;
             Navigator.pop(context);
           },
-          child: const Text('Add Task'),
+          child: const Text('Edit'),
         ),
       ],
     );

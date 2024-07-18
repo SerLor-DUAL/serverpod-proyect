@@ -158,7 +158,7 @@ class CreateTaskPopUpState extends State<CreateTaskPopUp> {
     return Task(
               title: _titleCon.text,
               description: _descriptionCon.text,
-              deadLine: DateTime.parse(_dateCon.text),
+              deadLine: (_dateCon.text != '')? DateTime.parse(_dateCon.text) : null,
               complete: false,
               userID: widget.userID
               );
