@@ -93,8 +93,6 @@ class _ContactListState extends State<ContactList> {
       // FLOATING ACTION
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // TODO: ADAPT THAT
-
           await showDialog(
             context: context,
             builder: (BuildContext context) => CreateContactPopUp(

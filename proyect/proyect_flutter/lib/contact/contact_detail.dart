@@ -1,7 +1,8 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/main.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'popups/edit_contact_pop_up.dart';
+
 
 
 class ContactDetails extends StatefulWidget {
@@ -30,7 +31,10 @@ class _ContactDetailsState extends State<ContactDetails> {
     return Scaffold(
       // APPBAR
       appBar: AppBar(
-        title: Text(contact.name, style: const TextStyle(color: Colors.white)),
+        title: const Text(
+                        "Contact", 
+                        style: TextStyle(
+                        color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.lightBlue[900],
       ),
@@ -90,14 +94,16 @@ class _ContactDetailsState extends State<ContactDetails> {
                   child: TextFormField(
                     minLines: 2,
                     maxLines: 12,
-                    decoration: const InputDecoration(
-                      icon: Icon(
+                    decoration: InputDecoration(
+                      icon: const Icon(
                         Icons.message,
                         color: Color.fromARGB(255, 124, 214, 255)),
                       hintText: "Send a message!",
-                      border: InputBorder.none,
+                      border : OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
                       filled: true,
-                      fillColor: Color.fromARGB(255, 226, 223, 223)
+                      fillColor: const Color.fromARGB(255, 255, 250, 250)
                     ),
                     validator: (String? value) {
                       return (value == '')? 'Please, fill the text area' : null; 
@@ -116,8 +122,8 @@ class _ContactDetailsState extends State<ContactDetails> {
             ),
             label: const Text("Send Whatsapp"),
             style: TextButton.styleFrom(
-              foregroundColor: Color.fromRGBO(236,229,221,1.000),
-              backgroundColor: Color.fromRGBO(37,211,102,1.000)
+              foregroundColor: const Color.fromRGBO(236,229,221,1.000),
+              backgroundColor: const Color.fromRGBO(37,211,102,1.000)
             )
         )
           ],
@@ -130,15 +136,15 @@ class _ContactDetailsState extends State<ContactDetails> {
           // EDIT TASK BUTTON
           FloatingActionButton(
             onPressed: () async {
-              /*
+              
               await showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    EditTaskPopUp(client: widget.client, task: widget.task),
+                    EditContactPopUp(client: widget.client, contact: widget.contact),
               );
               // UPDATES STATE AFTER EditTaskPopUp
               setState(() {});
-              */
+              
             },
             backgroundColor: Colors.lightBlue[900],
             child: const Icon(

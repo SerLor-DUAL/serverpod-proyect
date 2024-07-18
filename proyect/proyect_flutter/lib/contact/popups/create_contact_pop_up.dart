@@ -1,6 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-// import '../alertdialogs/error_alert_dialog.dart';
+import 'package:proyect_flutter/main.dart';
+import '../../alertdialogs/error_alert_dialog.dart';
 
 class CreateContactPopUp extends StatefulWidget {
   // THIS CreateTaskPopUp ALWAYS WILL NEED THE CLIENT TO OPERATE WITH DB
@@ -28,41 +29,51 @@ class CreateContactPopUpState extends State<CreateContactPopUp> {
   }
 
   // CHECKS IF ERROR EXISTS
-  // TODO: ADAPT
-  String checkIfError() {
-    String error = '';
+  Future<Map<String, String>?> checkIfError() async{
+    String errorTitle = '';
+    String errorMessage = '';
 
     if (_nameCon.text == '') {
-      error += 'Title';
+      errorTitle += 'name ';
+      errorMessage += 'name is empty \n';
     }
-    return error;
+    if (_phoneCon.text == '') {
+      errorTitle += 'phone ';
+      errorMessage += 'phone is empty \n';
+    }
+    bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text);
+    if (isContactOnList) {
+      errorTitle = 'Contact already in your list';
+      errorMessage = 'That contact is already in your list';
+    }
+
+    if (errorTitle == '' && errorMessage == ''){
+      return null;
+    }
+    return {
+      "errorTitle" : "Error with: $errorTitle",
+      "errorMessage" : errorMessage
+    };
   }
 
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB,
   // ELSE POPUP ErrorAlertDialog
   Future<void> createContact() async {
-    Contact newContact = createContactWithData();
-
-    await widget.client.contact.addContact(newContact);
-    // TODO: ADAPT
-    /*
-    String error = checkIfError();
-
-    if (error == '') {
-      Task newTask = createTaskWithData();
-      await widget.client.tasks.addTask(newTask);
-    } else {
+    Map<String, String>? error = await checkIfError();
+    if (error != null) {
       await showDialog(
           context: context,
           builder: (BuildContext context) {
             return ErrorAlertDialog(
-              errorTitle: 'Error in $error',
-              errorContent: '$error cannot be empty.',
+              errorTitle: error["errorTitle"]!,
+              errorContent: error["errorMessage"]!,
             );
           });
       return;
     }
-    */
+    Contact newContact = createContactWithData();
+
+    await widget.client.contact.addContact(newContact);
   }
 
 // ----------------------- BUILDER ------------------------------ //
@@ -70,7 +81,7 @@ class CreateContactPopUpState extends State<CreateContactPopUp> {
   Widget build(BuildContext context) {
     // RETURNS ALERTDIALOG
     return AlertDialog(
-      title: const Text('Create a new task'),
+      title: const Text('Create a new contact'),
       // COLUMN
       content: Column(
         mainAxisSize: MainAxisSize.min,
