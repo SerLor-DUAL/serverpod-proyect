@@ -1,5 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/contact/contact_detail.dart';
 import 'popups/create_contact_pop_up.dart';
 
 class ContactList extends StatefulWidget {
@@ -68,19 +69,16 @@ class _ContactListState extends State<ContactList> {
                 // RIGHT SIDE : ICON
                 IconButton(
                   onPressed: () async {
-                    // TODO: ADAPT LATER
-                    /*
-                    // Push TaskDetails
+                    // Push ContactDetails
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TaskDetails(
-                                  task: contact,
+                            builder: (context) => ContactDetails(
+                                  contact: contact,
                                   client: widget.client,
                                 )));
                     // AFTER EDIT, LOAD EVERY TASK AGAIN.
                     _loadContacts();
-                    */
                   },
                   icon: const Icon((Icons.arrow_forward_ios),
                       color: Color.fromARGB(255, 1, 3, 3)),
