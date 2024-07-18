@@ -277,7 +277,7 @@ Future<void> welcomeUser(int userId) async
                                 padding: const EdgeInsets.symmetric(horizontal: 35.00, vertical: 20.0), // Increase button size
                                 textStyle: const TextStyle(fontSize: 20), // Increase font size
                               ),
-                              onPressed: () {;
+                              onPressed: () {
                               },
                               child: const Text("Login"),
                             ),
