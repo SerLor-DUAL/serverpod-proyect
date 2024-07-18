@@ -132,6 +132,24 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userID'],
           ),
         ),
+        'isContactOnList': _i1.MethodConnector(
+          name: 'isContactOnList',
+          params: {
+            'phoneNumber': _i1.ParameterDescription(
+              name: 'phoneNumber',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['contact'] as _i2.ContactEndpoint).isContactOnList(
+            session,
+            params['phoneNumber'],
+          ),
+        ),
         'updateContact': _i1.MethodConnector(
           name: 'updateContact',
           params: {

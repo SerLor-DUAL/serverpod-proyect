@@ -4,7 +4,7 @@ import 'package:proyect_flutter/log-reg/register.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'log-reg/login.dart';
 import 'todolist/to_do_list.dart';
-import 'todolist/alertdialogs/error_alert_dialog.dart';
+import 'alertdialogs/error_alert_dialog.dart';
 import 'contact/contact_list.dart';
 
 // SETS UP A SINGLETON CLIENT OBJECT THAT CAN BE USED TO TALK TO THE SERVER FROM

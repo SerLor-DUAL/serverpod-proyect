@@ -3,6 +3,7 @@ contact:
   - addListOfContacts:
   - findById:
   - getEveryContactByUser:
+  - isContactOnList:
   - updateContact:
   - deleteContact:
   - deleteMultipleContacts:
