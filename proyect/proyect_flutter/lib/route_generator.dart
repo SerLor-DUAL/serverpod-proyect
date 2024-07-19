@@ -20,15 +20,15 @@ class RouteGenerator {
         }
       case AppRoutes.register:
         // NAV TO REGISTER
-        final client = settings.arguments as Client;
+        var client = settings.arguments as Client;
         return buildRoute(Register(client: client), settings: settings);
       // NAV TO TODOLIST USING BasicArguments
       case AppRoutes.todoList:
-        final args = settings.arguments as BasicArguments;
+        var args = settings.arguments as BasicArguments;
         return buildRoute(ToDoList(client: args.client, userId: args.userID),
             settings: settings);
       case AppRoutes.contacts:
-        final args = settings.arguments as BasicArguments;
+        var args = settings.arguments as BasicArguments;
         return buildRoute(ContactList(client: args.client, userId: args.userID),
             settings: settings);
       default:
