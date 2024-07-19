@@ -11,9 +11,9 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/contact/contacts_endpoint.dart' as _i2;
 import '../endpoints/todolist/tasks_endpoint.dart' as _i3;
-import '../endpoints/users/password_generator.dart' as _i4;
-import '../endpoints/users/password_options.dart' as _i5;
-import '../endpoints/users/users_registry.dart' as _i6;
+import '../endpoints/users/password_generator_endpoint.dart' as _i4;
+import '../endpoints/users/password_options_endpoint.dart' as _i5;
+import '../endpoints/users/users_registry_endpoint.dart' as _i6;
 import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i7;
 import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i8;
 import 'package:proyect_server/src/generated/users/password_options.dart'

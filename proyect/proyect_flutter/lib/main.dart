@@ -2,9 +2,6 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'todolist/to_do_list.dart';
-import 'alertdialogs/error_alert_dialog.dart';
-import 'contact/contact_list.dart';
 import 'route_generator.dart';
 import 'app_routes.dart';
 
@@ -17,11 +14,11 @@ Client client = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
