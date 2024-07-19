@@ -180,7 +180,7 @@ Future<void> welcomeUser(int userId) async
       
       // MAIN CONTAINER
       body: Container(
-        color: const Color.fromARGB(255, 124, 214, 255),
+        color: Colors.white,
 
         // MAIN ROW
         child: Row(
@@ -210,21 +210,21 @@ Future<void> welcomeUser(int userId) async
                         RichText(
                           text: const TextSpan( text: 'IntegraQS',
                                                 style: TextStyle( fontSize: 80.0,
-                                                                  color: Colors.white,
+                                                                  color: Color.fromARGB(255, 54, 157, 216),
                                                                   fontWeight: FontWeight.w800,
                                                                   shadows: 
                                                                     <Shadow> [
                                                                       Shadow( offset: Offset(1, 1),
                                                                               blurRadius: 1.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(2, 2),
                                                                               blurRadius: 2.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(3, 3),
                                                                               blurRadius: 3.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                     ],
                                                         ),
@@ -382,17 +382,12 @@ Future<void> welcomeUser(int userId) async
         
                   // PLACE WHERE IMAGE IS PLACED
                   child: 
-                    Center(
-        
-                    // ACTUAL IMAGE
-                    child: 
-                      AspectRatio(
-                        aspectRatio: 1.0,
-        
-                        child:
-                        Image.asset( "../../assets/img/integra.PNG",
-                                    fit: BoxFit.cover,
-                        ),
+                    AspectRatio(
+                      aspectRatio: 1.0,
+                            
+                      child:
+                      Image.asset( "../../assets/img/integra2.PNG",
+                                  fit: BoxFit.cover,
                       ),
                     ),
                 ),

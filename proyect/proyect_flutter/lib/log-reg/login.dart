@@ -162,7 +162,7 @@ Future<void> welcomeUser(int userId) async
       
       // MAIN CONTAINER
       body: Container(
-        color: const Color.fromARGB(255, 124, 214, 255),
+        color: Colors.white,
 
         // MAIN ROW
         child: Row(
@@ -192,21 +192,21 @@ Future<void> welcomeUser(int userId) async
                         RichText(
                           text: const TextSpan( text: 'IntegraQS',
                                                 style: TextStyle( fontSize: 80.0,
-                                                                  color: Colors.white,
+                                                                  color: Color.fromARGB(255, 54, 157, 216),
                                                                   fontWeight: FontWeight.w800,
                                                                   shadows: 
                                                                     <Shadow> [
                                                                       Shadow( offset: Offset(1, 1),
                                                                               blurRadius: 1.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(2, 2),
                                                                               blurRadius: 2.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(3, 3),
                                                                               blurRadius: 3.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                     ],
                                                         ),
@@ -224,7 +224,7 @@ Future<void> welcomeUser(int userId) async
                                 // USERNAME TEXTFIELD
                                 TextField(
                                   controller: userController,
-                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color:  Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
                                                                               ),
@@ -271,7 +271,7 @@ Future<void> welcomeUser(int userId) async
                                   cursorColor: const Color.fromARGB(255, 54, 157, 216),
                                 ),
                                 
-                                const SizedBox(height: 50.0),
+                                const SizedBox(height: 120.0),
                               ],
                             ),
                         ),
@@ -302,10 +302,15 @@ Future<void> welcomeUser(int userId) async
       
        
                             const SizedBox(width: 30),
-      
-                            // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushNamed(context, '/register'); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              onPressed: () { Navigator.pushReplacement(context,
+                                                                        PageRouteBuilder( pageBuilder: (context, animation1, animation2) => '/register' (),
+                                                                                          transitionDuration: Duration.zero,
+                                                                                          reverseTransitionDuration: Duration.zero,
+                                                                         ),
+                                              );
+                              }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                                                                        
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -338,17 +343,12 @@ Future<void> welcomeUser(int userId) async
         
                   // PLACE WHERE IMAGE IS PLACED
                   child: 
-                    Center(
-        
-                    // ACTUAL IMAGE
-                    child: 
-                      AspectRatio(
-                        aspectRatio: 1.0,
-        
-                        child:
-                        Image.asset( "../../assets/img/integra.PNG",
-                                    fit: BoxFit.cover,
-                        ),
+                    AspectRatio(
+                      aspectRatio: 1.0,
+                            
+                      child:
+                      Image.asset( "../../assets/img/integra2.PNG",
+                                  fit: BoxFit.cover,
                       ),
                     ),
                 ),
