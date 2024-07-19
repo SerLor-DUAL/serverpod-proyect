@@ -1,8 +1,8 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/log-reg/register.dart';
+import 'package:proyect_flutter/routing/pages/register/register_page.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'log-reg/login.dart';
+import 'routing/pages/login/login_screen.dart';
 import 'todolist/to_do_list.dart';
 import 'alertdialogs/error_alert_dialog.dart';
 import 'contact/contact_list.dart';
@@ -20,10 +20,10 @@ void main() {
     routes: {
       // This will set our basic routes for the proyect.
       // Later we will have to work with dinamic routes.
-      '/': (context) => Login(
+      '/': (context) => LoginScreen(
             client: client,
           ),
-      '/register': (context) => Register(
+      '/register': (context) => RegisterScreen(
             client: client,
           ),
       '/todolist': (context) {
