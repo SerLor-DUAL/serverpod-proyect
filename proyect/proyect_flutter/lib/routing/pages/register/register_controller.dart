@@ -1,4 +1,4 @@
-part of './register_page.dart';
+part of 'register_screen.dart';
 
 abstract class RegisterController extends State<RegisterScreen>  
 {

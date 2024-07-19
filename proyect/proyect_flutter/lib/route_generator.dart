@@ -3,7 +3,7 @@ import 'package:proyect_flutter/app_routes.dart';
 import 'package:proyect_flutter/contact/contact_list.dart';
 import 'package:proyect_flutter/contact/contact_detail.dart';
 import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
-import 'package:proyect_flutter/routing/pages/register/register_page.dart';
+import 'package:proyect_flutter/routing/pages/register/register_screen.dart';
 import 'package:proyect_flutter/todolist/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 
