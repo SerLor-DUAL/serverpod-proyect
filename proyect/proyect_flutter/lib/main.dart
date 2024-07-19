@@ -1,8 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/log-reg/register.dart';
+import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'log-reg/login.dart';
 import 'todolist/to_do_list.dart';
 import 'alertdialogs/error_alert_dialog.dart';
 import 'contact/contact_list.dart';
@@ -30,7 +29,7 @@ Widget build(BuildContext context) {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Sample App',
-    home: Login(client: client,),
+    home: LoginScreen(client: client,),
     onGenerateRoute: RouteGenerator.generateRoute,
   );
 }

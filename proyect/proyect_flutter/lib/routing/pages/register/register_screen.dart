@@ -1,157 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
-import '../route_generator.dart';
-import '../app_routes.dart';
+import '../../../route_generator.dart';
+import '../../../app_routes.dart';
 
-class Login extends StatefulWidget {
+part './register_controller.dart';
+
+class RegisterScreen extends StatefulWidget 
+{
+
   final Client client;
-  
-  const Login({super.key, required this.client});
+  const RegisterScreen({super.key, required this.client});
 
   @override
-  State<Login> createState() => _LoginState();
+  createState() => _RegisterScreen();
 }
 
-class _LoginState extends State<Login> 
+class _RegisterScreen extends RegisterController 
 {
-// SET USER TEXT CONTROLLERS
-TextEditingController userController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
 
-// USER LOGIN FUNCTION
-Future<void> loginUser() async 
-{
-  // CHECK ALL FIELDS ARE BEING USED
-  if (userController.text.isEmpty || passwordController.text.isEmpty) 
-  {
-    if (mounted) 
-    {
-      showDialog( context: context,
-                  builder: (context) => const AlertDialog( title: Text("Error"),
-                                                           content: Text("Please fill in all fields."),
-        ),
-      );
-    }
-    return;
-  }
-
-  try 
-  {
-    /*
-    // CHECK IF THE USER EXISTS IN THE DB
-    bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);*/
-     // RETRIEVE USER INFORMATION
-    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
-
-
-    if (userToLog == null) 
-    {
-      if (mounted) 
-      {
-        showDialog( context: context,
-                    builder: (context) => const AlertDialog( title: Text("Error"),
-                                                             content: Text("User doesn't exist. Try registering a new user."),
-          ),
-        );
-      }
-      return;
-    }
-
-   
-    // CHECK IF THE PASSWORD IS CORRECT
-    bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
-    if (isValid) 
-    {
-      await welcomeUser(userToLog.id!);
-    } 
-    else 
-    {
-      if (mounted)
-      {
-        showDialog( context: context,
-                    builder: (context) => const AlertDialog( title: Text("Error"),
-                                                             content: Text("Password is incorrect. Please try again."),
-          ),
-        );
-      }
-    }
-  } 
-  catch (e) 
-  {
-    if (mounted) 
-    {
-      
-      showDialog( context: context,
-                  builder: (context) => AlertDialog( title: const Text("Error"),
-                                                     content: Text("Failed to login: $e"),
-                                                     actions: [ TextButton( onPressed: () => Navigator.of(context).pop(),
-                                                                            child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-}
-
-// RETURNS THE USER FROM SELECTED ID
-Future<void> welcomeUser(int userId) async 
-{
-  // TRY - CATCH BLOCK FOR HANDLE ERRORS
-  try
-  {
-    // FETCH USER BY ID
-    var user = await widget.client.usersRegistry.getUserById(userId); 
-
-    // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
-    if (!mounted) return;
-
-    // DISPLAY THE APPROPRIATE DIALOG BASED ON THE RESULT
-
-    // USER NOT FOUND
-    if (user == null) 
-    {
-      showDialog( context: context,
-                  builder: (context) => const AlertDialog( title: Text("User"),
-                                                          content: Text("User not found."),
-        ),
-      );
-    } 
-
-    // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
-    else 
-    {
-      BasicArguments args = BasicArguments(client: widget.client, userID: user.id!);
-      showDialog( context: context,
-                  builder: (context) => AlertDialog( title: const Text("User"),
-                                                    content: Text("Welcome ${user.userName}"),
-                                                    actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, AppRoutes.todoList, arguments: args),
-                                                                            child: const Text('OK'), 
-            ),
-          ],
-        ),
-      );
-    }
-  } 
-  catch (e) 
-  {
-    if (mounted) 
-    {
-      showDialog( context: context,
-                  builder: (context) => AlertDialog( title: const Text("Error"),
-                                                    content: Text("Failed to get user information: $e"),
-                                                    actions: [ TextButton( onPressed: () => Navigator.of(context).pop(),
-                                                                            child: const Text('OK'),
-              ),
-          ],
-        ),
-      );
-    }
-  }
-}
-
-  
-  // ------------------------------------- FLUTTER ------------------------------------------- //
+  // ------------------------------------- UI ------------------------------------------- //
 
 @override
   Widget build(BuildContext context) 
@@ -166,7 +33,7 @@ Future<void> welcomeUser(int userId) async
       
       // MAIN CONTAINER
       body: Container(
-        color: const Color.fromARGB(255, 124, 214, 255),
+        color: Colors.white,
 
         // MAIN ROW
         child: Row(
@@ -196,21 +63,21 @@ Future<void> welcomeUser(int userId) async
                         RichText(
                           text: const TextSpan( text: 'IntegraQS',
                                                 style: TextStyle( fontSize: 80.0,
-                                                                  color: Colors.white,
+                                                                  color: Color.fromARGB(255, 54, 157, 216),
                                                                   fontWeight: FontWeight.w800,
                                                                   shadows: 
                                                                     <Shadow> [
                                                                       Shadow( offset: Offset(1, 1),
                                                                               blurRadius: 1.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(2, 2),
                                                                               blurRadius: 2.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                       Shadow( offset: Offset(3, 3),
                                                                               blurRadius: 3.0,
-                                                                              color: Color.fromARGB(255, 54, 157, 216),
+                                                                              color: Colors.white,
                                                                       ),
                                                                     ],
                                                         ),
@@ -274,7 +141,33 @@ Future<void> welcomeUser(int userId) async
                                                 ),
                                   cursorColor: const Color.fromARGB(255, 54, 157, 216),
                                 ),
-                                
+      
+                                const SizedBox(height: 20.0),
+      
+                                // CONFIRM PASSWORD TEXTFIELD
+                                TextField(
+                                  controller: confirmController,
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                    ),
+                                                                              ),
+                                                                      hintText: "Confirm Password",
+                                                                      hintStyle: TextStyle( color: Color.fromARGB(255, 54, 157, 216)                   
+                                                                                 ),
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      focusColor: Colors.white,
+                                                                      focusedBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                     ),
+                                                                                     ), 
+                                                    ),  
+                                  style: const TextStyle( color: Color.fromARGB(255, 54, 157, 216),
+                                                          fontWeight: FontWeight.bold,   
+                                                ),
+                                  cursorColor: const Color.fromARGB(255, 54, 157, 216),
+                                ),
+      
                                 const SizedBox(height: 50.0),
                               ],
                             ),
@@ -289,7 +182,7 @@ Future<void> welcomeUser(int userId) async
       
                             // LOGIN BUTTON
                             ElevatedButton(
-                              onPressed: () async { await loginUser(); }, // RETURNS TO MAIN NAVIGATION MENU
+                              onPressed: () { Navigator.pop(context); }, // RETURNS TO MAIN NAVIGATION MENU
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -304,12 +197,12 @@ Future<void> welcomeUser(int userId) async
                               child: const Text("Login"),
                             ),
       
-       
+      
                             const SizedBox(width: 30),
       
                             // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushNamed(context, '/register', arguments: widget.client); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              onPressed: () async { await registryUser(); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -342,17 +235,12 @@ Future<void> welcomeUser(int userId) async
         
                   // PLACE WHERE IMAGE IS PLACED
                   child: 
-                    Center(
-        
-                    // ACTUAL IMAGE
-                    child: 
-                      AspectRatio(
-                        aspectRatio: 1.0,
-        
-                        child:
-                        Image.asset( "../../assets/img/integra.PNG",
-                                    fit: BoxFit.cover,
-                        ),
+                    AspectRatio(
+                      aspectRatio: 1.0,
+                            
+                      child:
+                      Image.asset( "../../assets/img/integra2.PNG",
+                                  fit: BoxFit.cover,
                       ),
                     ),
                 ),
@@ -365,11 +253,12 @@ Future<void> welcomeUser(int userId) async
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           BasicArguments args = BasicArguments(client: widget.client, userID: 1);
-          Navigator.pushNamed(context, '/contacts', arguments: args);
+          Navigator.pushNamed(context, AppRoutes.contacts, arguments: args);
         },
         backgroundColor: Colors.lightBlue[900],
         child: const Text('Contact'),
       ),
     );
   }
+
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:proyect_flutter/app_routes.dart';
 import 'package:proyect_flutter/contact/contact_list.dart';
 import 'package:proyect_flutter/contact/contact_detail.dart';
-import 'package:proyect_flutter/log-reg/register.dart';
+import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
+import 'package:proyect_flutter/routing/pages/register/register_screen.dart';
 import 'package:proyect_flutter/todolist/to_do_list.dart';
-import 'log-reg/login.dart';
 import 'package:proyect_client/proyect_client.dart';
 
 // We will run all our routes through a RouteGenerator.
@@ -12,13 +12,13 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.login:
-        // NAV TO LOGIN
+        // NAV TO LOGIN SCREEN
         final client = settings.arguments as Client;        
-        return buildRoute(Login(client: client,), settings: settings);
+        return buildRoute(LoginScreen(client: client,), settings: settings);
       case AppRoutes.register:
-        // NAV TO REGISTER
+        // NAV TO REGISTER SCREEN
         var client = settings.arguments as Client;
-        return buildRoute(Register(client: client), settings: settings);
+        return buildRoute(RegisterScreen(client: client), settings: settings);
       // NAV TO TODOLIST USING BasicArguments
       case AppRoutes.todoList:
         var args = settings.arguments as BasicArguments;
