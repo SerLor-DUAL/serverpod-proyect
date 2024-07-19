@@ -302,15 +302,10 @@ Future<void> welcomeUser(int userId) async
       
        
                             const SizedBox(width: 30),
+
+                            // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushReplacement(context,
-                                                                        PageRouteBuilder( pageBuilder: (context, animation1, animation2) => '/register' (),
-                                                                                          transitionDuration: Duration.zero,
-                                                                                          reverseTransitionDuration: Duration.zero,
-                                                                         ),
-                                              );
-                              }, // TRY TO REGISTRY THE INPUT DATA INTO DB
-                                                                        
+                              onPressed: () { Navigator.pushNamed(context, '/register'); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
