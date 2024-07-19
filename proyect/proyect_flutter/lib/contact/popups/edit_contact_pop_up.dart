@@ -1,5 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import '../../alertdialogs/error_alert_dialog.dart';
 
 class EditContactPopUp extends StatefulWidget {
   // THIS CreateTaskPopUp ALWAYS WILL NEED THE CLIENT TO OPERATE WITH DB
@@ -26,14 +27,36 @@ class EditContactPopUpState extends State<EditContactPopUp> {
     return updatedContact;
   }
 
-  
+  Future<Map<String, String>?> checkIfContactIsOnList(String phoneNumber) async{
+    bool isContactOnList = await widget.client.contact.isContactOnList(phoneNumber);
+    Map<String, String>? error;
 
+    if (isContactOnList) {
+      error = {
+        'errorTitle': 'Contact in list',
+        'errorMessage': 'That contact is already in the list'
+      };
+    }
+    return error;
+  }
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB,
   // ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
-    //TODO: Add error when Phone is already in the contact list.
     Contact updatedContact = updateContactWithData();
-    await widget.client.contact.updateContact(updatedContact);
+
+    Map<String, String>? error = await checkIfContactIsOnList(updatedContact.phoneNumber);
+    (error == null)?
+      await widget.client.contact.updateContact(updatedContact) 
+      :
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorAlertDialog(
+              errorTitle: error["errorTitle"]!,
+              errorContent: error["errorMessage"]!,
+            );
+          });
+    
   }
 
 // ----------------------- BUILDER ------------------------------ //
