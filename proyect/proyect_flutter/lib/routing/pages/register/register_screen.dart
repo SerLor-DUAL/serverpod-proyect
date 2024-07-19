@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import '../../../route_generator.dart';
+import '../../../app_routes.dart';
 
 part './register_controller.dart';
 
@@ -18,7 +20,7 @@ class _RegisterScreen extends RegisterController
 
   // ------------------------------------- UI ------------------------------------------- //
 
-  @override
+@override
   Widget build(BuildContext context) 
   {
     // GETS SCREEN SIZING
@@ -250,7 +252,8 @@ class _RegisterScreen extends RegisterController
       // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/contacts', arguments: 1);
+          BasicArguments args = BasicArguments(client: widget.client, userID: 1);
+          Navigator.pushNamed(context, AppRoutes.contacts, arguments: args);
         },
         backgroundColor: Colors.lightBlue[900],
         child: const Text('Contact'),
