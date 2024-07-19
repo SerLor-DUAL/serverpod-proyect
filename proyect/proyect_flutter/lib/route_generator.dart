@@ -12,12 +12,8 @@ class RouteGenerator {
     switch (settings.name) {
       case AppRoutes.login:
         // NAV TO LOGIN
-        final client = settings.arguments as Client;
-        if (client != null) {
-          return buildRoute(Login(client: client), settings: settings);
-        } else {
-          return _errorRoute();
-        }
+        final client = settings.arguments as Client;        
+        return buildRoute(Login(client: client,), settings: settings);
       case AppRoutes.register:
         // NAV TO REGISTER
         var client = settings.arguments as Client;
@@ -44,8 +40,7 @@ Route<dynamic> _errorRoute() {
 }
 // RouteBuilder
 MaterialPageRoute buildRoute(Widget child, {required RouteSettings settings}) {
-  return MaterialPageRoute(
-      settings: settings, builder: (BuildContext context) => child);
+  return MaterialPageRoute(builder: (BuildContext context) => child);
 }
 
 // BasicArguments will be useful for multiple routes.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 class Login extends StatefulWidget {
   final Client client;
@@ -75,7 +76,7 @@ Future<void> loginUser() async
     }
   } 
   catch (e) 
-  {
+  {/*
     if (mounted) 
     {
       showDialog( context: context,
@@ -88,7 +89,7 @@ Future<void> loginUser() async
         ),
       );
     }
-  }
+  */}
 }
 
 // RETURNS THE USER FROM SELECTED ID
@@ -117,7 +118,7 @@ Future<void> welcomeUser(int userId) async
 
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else 
-    {
+    {/*
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                     content: Text("Welcome ${user.userName}"),
@@ -127,12 +128,12 @@ Future<void> welcomeUser(int userId) async
           ],
         ),
       );
-    }
+    */}
   } 
   catch (e) 
   {
     if (mounted) 
-    {
+    {/*
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("Error"),
                                                     content: Text("Failed to get user information: $e"),
@@ -142,7 +143,7 @@ Future<void> welcomeUser(int userId) async
           ],
         ),
       );
-    }
+    */}
   }
 }
 
@@ -305,7 +306,7 @@ Future<void> welcomeUser(int userId) async
       
                             // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushNamed(context, '/register'); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              onPressed: () {/* Navigator.pushNamed(context, '/register'); */}, // TRY TO REGISTRY THE INPUT DATA INTO DB
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -360,7 +361,7 @@ Future<void> welcomeUser(int userId) async
       // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/contacts', arguments: 1);
+          /*Navigator.pushNamed(context, '/contacts', arguments: 1);*/
         },
         backgroundColor: Colors.lightBlue[900],
         child: const Text('Contact'),

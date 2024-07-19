@@ -18,26 +18,25 @@ Client client = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
-  runApp(MaterialApp(
-      title: 'Sample App',
-      initialRoute: AppRoutes.login,
-      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-    ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sample App',
-      initialRoute: AppRoutes.login,
-      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-    );
-  }
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Sample App',
+    home: Login(client: client,),
+    onGenerateRoute: RouteGenerator.generateRoute,
+  );
 }
 
+  String getInitialPage() => AppRoutes.login;
+}
 
 
 
