@@ -1,53 +1,66 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import '../../alertdialogs/error_alert_dialog.dart';
+import 'package:proyect_flutter/main.dart';
+import '../../../../common/ui/error_alert_dialog.dart';
 
-class EditContactPopUp extends StatefulWidget {
+class CreateContactPopUp extends StatefulWidget {
   // THIS CreateTaskPopUp ALWAYS WILL NEED THE CLIENT TO OPERATE WITH DB
   // AND userID TO WORK FOR THAT USER.
   final Client client;
-  final Contact contact;
+  final int userID;
 
-  const EditContactPopUp(
-      {super.key, required this.client, required this.contact});
+  const CreateContactPopUp(
+      {super.key, required this.client, required this.userID});
   @override
-  EditContactPopUpState createState() => EditContactPopUpState();
+  CreateContactPopUpState createState() => CreateContactPopUpState();
 }
 
-class EditContactPopUpState extends State<EditContactPopUp> {
+class CreateContactPopUpState extends State<CreateContactPopUp> {
   // CONTROLLERS
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _phoneCon = TextEditingController();
 
   // TAKES CONTROLLER'S DATA AND CREATE A TASK
-  Contact updateContactWithData() {
-    Contact updatedContact = widget.contact;
-    updatedContact.name = (_nameCon.text == '')? updatedContact.name : _nameCon.text;
-    updatedContact.phoneNumber = (_phoneCon.text == '')? updatedContact.phoneNumber : _phoneCon.text;
-    return updatedContact;
+  Contact createContactWithData() {
+    return Contact(
+        name: _nameCon.text,
+        phoneNumber: _phoneCon.text,
+        userID: widget.userID);
   }
 
-  Future<Map<String, String>?> checkIfContactIsOnList(String phoneNumber) async{
-    bool isContactOnList = await widget.client.contact.isContactOnList(phoneNumber);
-    Map<String, String>? error;
+  // CHECKS IF ERROR EXISTS
+  Future<Map<String, String>?> checkIfError() async{
+    String errorTitle = '';
+    String errorMessage = '';
 
-    if (isContactOnList) {
-      error = {
-        'errorTitle': 'Contact in list',
-        'errorMessage': 'That contact is already in the list'
-      };
+    if (_nameCon.text == '') {
+      errorTitle += 'name ';
+      errorMessage += 'name is empty \n';
     }
-    return error;
+    if (_phoneCon.text == '') {
+      errorTitle += 'phone ';
+      errorMessage += 'phone is empty \n';
+    }
+    bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text);
+    if (isContactOnList) {
+      errorTitle = 'Contact already in your list';
+      errorMessage = 'That contact is already in your list';
+    }
+
+    if (errorTitle == '' && errorMessage == ''){
+      return null;
+    }
+    return {
+      "errorTitle" : "Error with: $errorTitle",
+      "errorMessage" : errorMessage
+    };
   }
+
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB,
   // ELSE POPUP ErrorAlertDialog
-  Future<void> updateContact() async {
-    Contact updatedContact = updateContactWithData();
-
-    Map<String, String>? error = await checkIfContactIsOnList(updatedContact.phoneNumber);
-    (error == null)?
-      await widget.client.contact.updateContact(updatedContact) 
-      :
+  Future<void> createContact() async {
+    Map<String, String>? error = await checkIfError();
+    if (error != null) {
       await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -56,7 +69,11 @@ class EditContactPopUpState extends State<EditContactPopUp> {
               errorContent: error["errorMessage"]!,
             );
           });
-    
+      return;
+    }
+    Contact newContact = createContactWithData();
+
+    await widget.client.contact.addContact(newContact);
   }
 
 // ----------------------- BUILDER ------------------------------ //
@@ -64,7 +81,7 @@ class EditContactPopUpState extends State<EditContactPopUp> {
   Widget build(BuildContext context) {
     // RETURNS ALERTDIALOG
     return AlertDialog(
-      title: const Text('Edit contact'),
+      title: const Text('Create a new contact'),
       // COLUMN
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -92,12 +109,12 @@ class EditContactPopUpState extends State<EditContactPopUp> {
           onPressed: () async {
             // IF EVERYTHING OKAY. CREATE TASK, ELSE
             // RETURN ERROR AND CLOSE
-            await updateContact();
+            await createContact();
 
             if (!context.mounted) return;
             Navigator.pop(context);
           },
-          child: const Text('Edit'),
+          child: const Text('Add Task'),
         ),
       ],
     );

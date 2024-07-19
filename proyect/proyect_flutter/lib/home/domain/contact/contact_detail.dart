@@ -4,7 +4,6 @@ import 'package:proyect_flutter/main.dart';
 import 'popups/edit_contact_pop_up.dart';
 
 
-
 class ContactDetails extends StatefulWidget {
   // NEEDS A TASK TO EDIT AND CLIENT TO WORK WITH DB
   final Contact contact;

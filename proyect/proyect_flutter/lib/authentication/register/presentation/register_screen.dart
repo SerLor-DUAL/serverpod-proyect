@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
-import 'package:proyect_flutter/app_routes.dart';
-import 'package:proyect_flutter/route_generator.dart';
+import '../../../common/services/route_generator.dart';
+import '../../../common/services/app_routes.dart';
 
-part './login_controller.dart';
+part '../domain/register_controller.dart';
 
-class LoginScreen extends StatefulWidget 
+class RegisterScreen extends StatefulWidget 
 {
 
   final Client client;
-  const LoginScreen({super.key, required this.client});
+  const RegisterScreen({super.key, required this.client});
 
   @override
-  createState() => _LoginScreen();
+  createState() => _RegisterScreen();
 }
 
-class _LoginScreen extends LoginController
+class _RegisterScreen extends RegisterController 
 {
 
   // ------------------------------------- UI ------------------------------------------- //
@@ -95,7 +95,7 @@ class _LoginScreen extends LoginController
                                 // USERNAME TEXTFIELD
                                 TextField(
                                   controller: userController,
-                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color:  Color.fromARGB(255, 54, 157, 216),
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
                                                                               ),
@@ -141,8 +141,34 @@ class _LoginScreen extends LoginController
                                                 ),
                                   cursorColor: const Color.fromARGB(255, 54, 157, 216),
                                 ),
-                                
-                                const SizedBox(height: 120.0),
+      
+                                const SizedBox(height: 20.0),
+      
+                                // CONFIRM PASSWORD TEXTFIELD
+                                TextField(
+                                  controller: confirmController,
+                                  decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                    ),
+                                                                              ),
+                                                                      hintText: "Confirm Password",
+                                                                      hintStyle: TextStyle( color: Color.fromARGB(255, 54, 157, 216)                   
+                                                                                 ),
+                                                                      filled: true,
+                                                                      fillColor: Colors.white,
+                                                                      focusColor: Colors.white,
+                                                                      focusedBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
+                                                                                                                               width: 2,
+                                                                                                                     ),
+                                                                                     ), 
+                                                    ),  
+                                  style: const TextStyle( color: Color.fromARGB(255, 54, 157, 216),
+                                                          fontWeight: FontWeight.bold,   
+                                                ),
+                                  cursorColor: const Color.fromARGB(255, 54, 157, 216),
+                                ),
+      
+                                const SizedBox(height: 50.0),
                               ],
                             ),
                         ),
@@ -156,7 +182,7 @@ class _LoginScreen extends LoginController
       
                             // LOGIN BUTTON
                             ElevatedButton(
-                              onPressed: () async { await loginUser(); }, // RETURNS TO MAIN NAVIGATION MENU
+                              onPressed: () { Navigator.pop(context); }, // RETURNS TO MAIN NAVIGATION MENU
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -171,12 +197,12 @@ class _LoginScreen extends LoginController
                               child: const Text("Login"),
                             ),
       
-       
+      
                             const SizedBox(width: 30),
-
+      
                             // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushNamed(context, AppRoutes.register, arguments: widget.client); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              onPressed: () async { await registryUser(); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -234,4 +260,5 @@ class _LoginScreen extends LoginController
       ),
     );
   }
+
 }

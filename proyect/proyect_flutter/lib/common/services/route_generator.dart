@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/app_routes.dart';
-import 'package:proyect_flutter/contact/contact_list.dart';
-import 'package:proyect_flutter/contact/contact_detail.dart';
-import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
-import 'package:proyect_flutter/routing/pages/register/register_screen.dart';
+import 'package:proyect_flutter/common/services/app_routes.dart';
+import 'package:proyect_flutter/home/domain/contact/contact_list.dart';
+import 'package:proyect_flutter/home/domain/contact/contact_detail.dart';
+import 'package:proyect_flutter/authentication/login/presentation/login_screen.dart';
+import 'package:proyect_flutter/authentication/register/presentation/register_screen.dart';
 import 'package:proyect_flutter/todolist/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 
@@ -12,17 +12,16 @@ class RouteGenerator
 {
   static Route<dynamic> generateRoute(RouteSettings settings) 
   {
-    switch (settings.name) {
-      
-      case AppRoutes.login:
+    switch (settings.name) 
+    {
 
-        // NAV TO LOGIN SCREEN
+      // NAV TO LOGIN SCREEN
+      case AppRoutes.login:
         final client = settings.arguments as Client;        
         return buildRoute(LoginScreen(client: client,), settings: settings);
 
+      // NAV TO REGISTER SCREEN
       case AppRoutes.register:
-
-        // NAV TO REGISTER SCREEN
         var client = settings.arguments as Client;
         return buildRoute(RegisterScreen(client: client), settings: settings);
 
@@ -31,14 +30,17 @@ class RouteGenerator
         var args = settings.arguments as BasicArguments;
         return buildRoute(ToDoList(client: args.client, userId: args.userID),
             settings: settings);
+
       case AppRoutes.contacts:
         var args = settings.arguments as BasicArguments;
         return buildRoute(ContactList(client: args.client, userId: args.userID),
             settings: settings);
+
       case AppRoutes.contactDetail:
         final args = settings.arguments as ContactDetailsArgs;
         return buildRoute(ContactDetails(client: args.client, contact: args.contact),
             settings: settings);
+
       default:
         return _errorRoute();
     }

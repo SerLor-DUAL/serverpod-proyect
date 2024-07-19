@@ -1,12 +1,11 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/routing/pages/login/login_screen.dart';
+import 'package:proyect_flutter/authentication/login/presentation/login_screen.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'todolist/to_do_list.dart';
-import 'alertdialogs/error_alert_dialog.dart';
-import 'contact/contact_list.dart';
-import 'route_generator.dart';
-import 'app_routes.dart';
+
+import 'common/services/app_routes.dart';
+import 'common/services/route_generator.dart';
+
 
 // SETS UP A SINGLETON CLIENT OBJECT THAT CAN BE USED TO TALK TO THE SERVER FROM
 // ANYWHERE IN OUR APP. THE CLIENT IS GENERATED FROM YOUR SERVER CODE.
