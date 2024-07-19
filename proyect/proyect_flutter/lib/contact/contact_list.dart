@@ -1,6 +1,8 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/app_routes.dart';
 import 'package:proyect_flutter/contact/contact_detail.dart';
+import 'package:proyect_flutter/route_generator.dart';
 import 'popups/create_contact_pop_up.dart';
 
 class ContactList extends StatefulWidget {
@@ -70,13 +72,8 @@ class _ContactListState extends State<ContactList> {
                 IconButton(
                   onPressed: () async {
                     // Push ContactDetails
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ContactDetails(
-                                  contact: contact,
-                                  client: widget.client,
-                                )));
+                    ContactDetailsArgs args = ContactDetailsArgs(client: widget.client, userID: widget.userId, contact: contact);
+                    await Navigator.pushNamed(context, AppRoutes.contactDetail, arguments: args);
                     // AFTER EDIT, LOAD EVERY TASK AGAIN.
                     _loadContacts();
                   },
