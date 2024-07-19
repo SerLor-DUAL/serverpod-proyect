@@ -6,6 +6,8 @@ import 'log-reg/login.dart';
 import 'todolist/to_do_list.dart';
 import 'alertdialogs/error_alert_dialog.dart';
 import 'contact/contact_list.dart';
+import 'route_generator.dart';
+import 'app_routes.dart';
 
 // SETS UP A SINGLETON CLIENT OBJECT THAT CAN BE USED TO TALK TO THE SERVER FROM
 // ANYWHERE IN OUR APP. THE CLIENT IS GENERATED FROM YOUR SERVER CODE.
@@ -16,52 +18,21 @@ Client client = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
-  runApp(MaterialApp(
-    routes: {
-      // This will set our basic routes for the proyect.
-      // Later we will have to work with dinamic routes.
-      '/': (context) => Login(
-            client: client,
-          ),
-      '/register': (context) => Register(
-            client: client,
-          ),
-      '/todolist': (context) {
-        // We will need to extract arguments to set our ToDoList.
-        // ModalRoute get the arguments and return a kind of object
-        final args = ModalRoute.of(context)?.settings.arguments;
+  runApp(const MyApp());
+}
 
-        // If in the args we get an integer (userID), we will adapt our ToDoList
-        if (args is int) {
-          return ToDoList(client: client, userId: args);
-        }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-        // YOU HAVE TO LOGIN TO ACCESS
-        return const ErrorAlertDialog(
-          errorTitle: 'LOGIN NEEDED',
-          errorContent: 'You need to login first.',
-        );
-      },
-      '/contacts' : (context) {
-        // We will need to extract arguments to set our ContactList.
-        // ModalRoute get the arguments and return a kind of object
-        final args = ModalRoute.of(context)?.settings.arguments;
-
-        // If in the args we get an integer (userID), we will adapt our ToDoList
-        if (args is int) {
-          return ContactList(client: client, userId: args);
-        }
-
-        // YOU HAVE TO LOGIN TO ACCESS
-        return const ErrorAlertDialog(
-          errorTitle: 'LOGIN NEEDED',
-          errorContent: 'You need to login first.',
-        );
-      },
-    },
-  ));
-} 
-
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sample App',
+      initialRoute: AppRoutes.login,
+      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+    );
+  }
+}
 
 
 
