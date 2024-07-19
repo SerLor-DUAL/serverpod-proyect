@@ -131,7 +131,7 @@ Future<void> welcomeUser(int userId) async
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),
-                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, '/todolist', arguments: args),
+                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, AppRoutes.todoList, arguments: args),
                                                                             child: const Text('OK'), 
             ),
           ],
