@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/route_generator.dart';
 
 class Register extends StatefulWidget {
   final Client client;
@@ -137,10 +138,11 @@ Future<void> welcomeUser(int userId) async
     else {
       // Navigator.pushNamed(context, '/todolist', arguments: user.id) will give arguments that the routing will call.
       // Go to main to see were they are applied.
+      BasicArguments args = BasicArguments(client: widget.client, userID: user.id!);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),
-                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, '/todolist', arguments: user.id),
+                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, '/todolist', arguments: args),
                                                                             child: const Text('OK'), 
             ),
           ],
@@ -404,7 +406,8 @@ Future<void> welcomeUser(int userId) async
       // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/contacts', arguments: 1);
+          BasicArguments args = BasicArguments(client: widget.client, userID: 1);
+          Navigator.pushNamed(context, '/contacts', arguments: args);
         },
         backgroundColor: Colors.lightBlue[900],
         child: const Text('Contact'),

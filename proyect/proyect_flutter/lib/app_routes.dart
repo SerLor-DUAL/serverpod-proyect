@@ -3,4 +3,5 @@ class AppRoutes{
   static const register = '/register';
   static const todoList = '/todolist';
   static const contacts = '/contactlist';
+  static const contactDetail = '/contactDetail';
 }

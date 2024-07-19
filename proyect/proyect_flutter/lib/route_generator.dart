@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/app_routes.dart';
 import 'package:proyect_flutter/contact/contact_list.dart';
+import 'package:proyect_flutter/contact/contact_detail.dart';
 import 'package:proyect_flutter/log-reg/register.dart';
 import 'package:proyect_flutter/todolist/to_do_list.dart';
 import 'log-reg/login.dart';
@@ -27,6 +28,10 @@ class RouteGenerator {
         var args = settings.arguments as BasicArguments;
         return buildRoute(ContactList(client: args.client, userId: args.userID),
             settings: settings);
+      case AppRoutes.contactDetail:
+        final args = settings.arguments as ContactDetailsArgs;
+        return buildRoute(ContactDetails(client: args.client, contact: args.contact),
+            settings: settings);
       default:
         return _errorRoute();
     }
@@ -51,3 +56,16 @@ class BasicArguments {
 
   const BasicArguments({required this.client, required this.userID});
 }
+
+class ContactDetailsArgs extends BasicArguments{
+  final Contact contact;
+
+  const ContactDetailsArgs({required super.client, required super.userID, required this.contact});
+}
+
+class TaskDetails extends BasicArguments{
+  final Task task;
+
+  const TaskDetails({required super.client, required super.userID, required this.task});
+}
+
