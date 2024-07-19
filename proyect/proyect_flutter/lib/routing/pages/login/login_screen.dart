@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/app_routes.dart';
+import 'package:proyect_flutter/route_generator.dart';
 
 part './login_controller.dart';
 
@@ -174,7 +176,7 @@ class _LoginScreen extends LoginController
 
                             // REGISTER BUTTON
                             ElevatedButton(
-                              onPressed: () { Navigator.pushNamed(context, '/register'); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
+                              onPressed: () { Navigator.pushNamed(context, AppRoutes.register, arguments: widget.client); }, // TRY TO REGISTRY THE INPUT DATA INTO DB
                               style: ElevatedButton.styleFrom( textStyle: const TextStyle(fontSize: 30.0), 
                                                                 padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 115.0),
                                                                 backgroundColor: Colors.white,
@@ -224,7 +226,8 @@ class _LoginScreen extends LoginController
       // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/contacts', arguments: 1);
+          BasicArguments args = BasicArguments(client: widget.client, userID: 1);
+          Navigator.pushNamed(context, AppRoutes.contacts, arguments: args);
         },
         backgroundColor: Colors.lightBlue[900],
         child: const Text('Contact'),
