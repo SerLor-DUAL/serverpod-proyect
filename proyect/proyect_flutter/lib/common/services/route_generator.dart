@@ -6,6 +6,7 @@ import 'package:proyect_flutter/authentication/login/presentation/login_screen.d
 import 'package:proyect_flutter/authentication/register/presentation/register_screen.dart';
 import 'package:proyect_flutter/home/domain/to_do_list/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/home/presentation/home_screen.dart';
 
 // WE WILL RUN ALL OUR ROUTES THROUGH A ROUTEGENERATOR.
 class RouteGenerator 
@@ -14,6 +15,11 @@ class RouteGenerator
   {
     switch (settings.name) 
     {
+
+      // NAV TO HOME SCREEN
+      case AppRoutes.home:
+        final client = settings.arguments as Client;        
+        return buildRoute(HomeScreen(client: client,), settings: settings);
 
       // NAV TO LOGIN SCREEN
       case AppRoutes.login:
