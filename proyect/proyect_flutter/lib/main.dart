@@ -18,7 +18,11 @@ Client client = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(
+      title: 'Sample App',
+      initialRoute: AppRoutes.login,
+      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+    ));
 }
 
 class MyApp extends StatelessWidget {

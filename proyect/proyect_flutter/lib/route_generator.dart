@@ -13,7 +13,11 @@ class RouteGenerator {
       case AppRoutes.login:
         // NAV TO LOGIN
         final client = settings.arguments as Client;
-        return buildRoute(Login(client: client), settings: settings);
+        if (client != null) {
+          return buildRoute(Login(client: client), settings: settings);
+        } else {
+          return _errorRoute();
+        }
       case AppRoutes.register:
         // NAV TO REGISTER
         final client = settings.arguments as Client;
