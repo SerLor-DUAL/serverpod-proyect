@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               flex: 1,
               child: Container(
-                color: const Color.fromARGB(255, 54, 157, 216),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 child: ListView(
                   padding: const EdgeInsets.all(25),
                   children: const [
