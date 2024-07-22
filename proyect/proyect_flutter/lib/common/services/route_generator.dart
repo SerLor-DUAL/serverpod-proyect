@@ -18,8 +18,8 @@ class RouteGenerator
 
       // NAV TO HOME SCREEN
       case AppRoutes.home:
-        final client = settings.arguments as Client;        
-        return buildRoute(HomeScreen(client: client,), settings: settings);
+        var args = settings.arguments as BasicArguments;   
+        return buildRoute(HomeScreen(client: args.client, userId: args.userID), settings: settings);
 
       // NAV TO LOGIN SCREEN
       case AppRoutes.login:

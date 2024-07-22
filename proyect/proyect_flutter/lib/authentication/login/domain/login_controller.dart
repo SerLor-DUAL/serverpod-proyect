@@ -8,7 +8,6 @@ abstract class LoginController extends State<LoginScreen>
 TextEditingController userController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 
-
 // USER LOGIN FUNCTION
 Future<void> loginUser() async 
 {
@@ -28,12 +27,8 @@ Future<void> loginUser() async
 
   try 
   {
-    /*
-    // CHECK IF THE USER EXISTS IN THE DB
-    bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);*/
-     // RETRIEVE USER INFORMATION
-    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
 
+    var userToLog = await widget.client.usersRegistry.getUserByName(userController.text);
 
     if (userToLog == null) 
     {
@@ -111,12 +106,13 @@ Future<void> welcomeUser(int userId) async
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else 
     {
+      BasicArguments args = BasicArguments(client:  widget.client, userID:  user.id!);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                     content: Text("Welcome ${user.userName}"),
                                                     actions: [ TextButton( onPressed: () {
                                                      Navigator.pop(context);
-                                                     Navigator.pushNamed(context, AppRoutes.home, arguments: widget.client);
+                                                     Navigator.pushNamed(context, AppRoutes.home, arguments:args);
                                                     },
                                                                             child: const Text('OK'), 
             ),
