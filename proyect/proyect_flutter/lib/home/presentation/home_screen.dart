@@ -24,19 +24,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: const Color.fromARGB(255, 255, 255, 255),
                 child: ListView(
                   padding: const EdgeInsets.all(25),
-                  children: const [
+                  children: [
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Align(
-                          alignment: AlignmentDirectional(0, 0),
-                          child: ListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.solidCircleUser,
-                              color: Color(0xFF369DD8),
-                              size: 50,
+                        GestureDetector(
+                          onTap: () {
+                            print("Hola");
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: const Align(
+                              alignment: AlignmentDirectional(0, 0),
+                              child: ListTile(
+                                leading: FaIcon(
+                                  FontAwesomeIcons.solidCircleUser,
+                                  color: Color(0xFF369DD8),
+                                  size: 50,
+                                ),
+                                title: Text('User'),
+                              ),
                             ),
-                            title: Text('User'),
                           ),
                         ),
                         Divider(
@@ -57,17 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: AlignmentDirectional(0, 0),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(40, 5, 0, 0),
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.login_rounded,
-                                color: Color(0xFF369DD8),
-                                size: 35,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: const Align(
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(40, 5, 0, 0),
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.login_rounded,
+                                    color: Color(0xFF369DD8),
+                                    size: 35,
+                                  ),
+                                  title: Text('Log Out'),
+                                ),
                               ),
-                              title: Text('Log Out'),
                             ),
                           ),
                         ),
