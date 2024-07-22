@@ -25,3 +25,5 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+proyect/proyect_server/lib/src/models/environment/env.g.dart
+proyect/proyect_server/lib/src/models/environment/env.dart
