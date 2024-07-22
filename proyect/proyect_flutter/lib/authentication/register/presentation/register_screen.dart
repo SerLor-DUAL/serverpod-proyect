@@ -248,16 +248,6 @@ class _RegisterScreen extends RegisterController
           ],
         ),
       ),
-
-      // TODO: DELETE - THIS IS FOR FAST USE OF TODOLIST
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BasicArguments args = BasicArguments(client: widget.client, userID: 1);
-          Navigator.pushNamed(context, AppRoutes.contacts, arguments: args);
-        },
-        backgroundColor: Colors.lightBlue[900],
-        child: const Text('Contact'),
-      ),
     );
   }
 

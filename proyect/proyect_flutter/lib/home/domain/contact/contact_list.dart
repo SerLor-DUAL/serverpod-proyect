@@ -6,8 +6,8 @@ import 'popups/create_contact_pop_up.dart';
 
 class ContactList extends StatefulWidget {
   final Client client;
-  final int userId;
-  const ContactList({super.key, required this.client, required this.userId});
+  final UsersRegistry user;
+  const ContactList({super.key, required this.client, required this.user});
 
   @override
   State<ContactList> createState() => _ContactListState();
@@ -26,7 +26,7 @@ class _ContactListState extends State<ContactList> {
   // Load everytask from userId in widget.
   void _loadContacts() async {
     final List<Contact> contactList =
-        await widget.client.contact.getEveryContactByUser(widget.userId);
+        await widget.client.contact.getEveryContactByUser(widget.user.id!);
     setState(() {
       _contactList = contactList;
     });
@@ -38,10 +38,11 @@ class _ContactListState extends State<ContactList> {
     return Scaffold(
       // APPBAR
       appBar: AppBar(
-        title: const Text("IntegraQS ToDoList",
-            style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+        title: Text("${widget.user.userName} - Contact List",
+            style: const TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.lightBlue[900],
+        backgroundColor: const Color.fromARGB(255, 124, 214, 255),
       ),
 
       //BODY : LISTVIEW
@@ -71,7 +72,7 @@ class _ContactListState extends State<ContactList> {
                 IconButton(
                   onPressed: () async {
                     // Push ContactDetails
-                    ContactDetailsArgs args = ContactDetailsArgs(client: widget.client, userID: widget.userId, contact: contact);
+                    ContactDetailsArgs args = ContactDetailsArgs(client: widget.client, user: widget.user, contact: contact);
                     await Navigator.pushNamed(context, AppRoutes.contactDetail, arguments: args);
                     // AFTER EDIT, LOAD EVERY TASK AGAIN.
                     _loadContacts();
@@ -93,7 +94,7 @@ class _ContactListState extends State<ContactList> {
             context: context,
             builder: (BuildContext context) => CreateContactPopUp(
               client: widget.client,
-              userID: widget.userId,
+              userID: widget.user.id!,
             ),
           );
           _loadContacts();

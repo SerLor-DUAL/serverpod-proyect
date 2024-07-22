@@ -106,7 +106,7 @@ Future<void> welcomeUser(int userId) async
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else 
     {
-      BasicArguments args = BasicArguments(client:  widget.client, userID:  user.id!);
+      BasicArguments args = BasicArguments(client:  widget.client, user:  user);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                     content: Text("Welcome ${user.userName}"),

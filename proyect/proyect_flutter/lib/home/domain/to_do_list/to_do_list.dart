@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'task_details.dart';
 import 'popups/create_task_pop_up.dart';
 
-
 class ToDoList extends StatefulWidget {
   final Client client;
-  final int userId;
-  const ToDoList({super.key, required this.client, required this.userId});
+  final UsersRegistry user;
+  const ToDoList({super.key, required this.client, required this.user});
 
   @override
   State<ToDoList> createState() => _ToDoListState();
@@ -24,7 +23,8 @@ class _ToDoListState extends State<ToDoList> {
 
   // Load everytask from userId in widget.
   void _loadTask() async {
-    final List<Task> taskList = await widget.client.tasks.getEveryTaskByUser(widget.userId);
+    final List<Task> taskList =
+        await widget.client.tasks.getEveryTaskByUser(widget.user.id!);
     setState(() {
       _taskList = taskList;
     });
@@ -37,7 +37,7 @@ class _ToDoListState extends State<ToDoList> {
       description: "Holaaa",
       deadLine: DateTime.now(),
       complete: false,
-      userID: widget.userId,
+      userID: widget.user.id!,
     );
     await widget.client.tasks.addTask(task);
     _loadTask();
@@ -56,10 +56,11 @@ class _ToDoListState extends State<ToDoList> {
     return Scaffold(
       // APPBAR
       appBar: AppBar(
-        title: const Text("IntegraQS ToDoList",
-            style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+        title: Text("${widget.user.userName} - ToDoList",
+            style: const TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.lightBlue[900],
+        backgroundColor: const Color.fromARGB(255, 124, 214, 255),
       ),
 
       //BODY : LISTVIEW
@@ -132,7 +133,7 @@ class _ToDoListState extends State<ToDoList> {
             context: context,
             builder: (BuildContext context) => CreateTaskPopUp(
               client: widget.client,
-              userID: widget.userId,
+              userID: widget.user.id!,
             ),
           );
           _loadTask();

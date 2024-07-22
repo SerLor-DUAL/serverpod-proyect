@@ -127,7 +127,7 @@ Future<void> welcomeUser(int userId) async
     else {
       // Navigator.pushNamed(context, '/todolist', arguments: user.id) will give arguments that the routing will call.
       // Go to main to see were they are applied.
-      BasicArguments args = BasicArguments(client: widget.client, userID: user.id!);
+      BasicArguments args = BasicArguments(client: widget.client, user: user);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),

@@ -19,7 +19,7 @@ class RouteGenerator
       // NAV TO HOME SCREEN
       case AppRoutes.home:
         var args = settings.arguments as BasicArguments;   
-        return buildRoute(HomeScreen(client: args.client, userId: args.userID), settings: settings);
+        return buildRoute(HomeScreen(client: args.client, user: args.user), settings: settings);
 
       // NAV TO LOGIN SCREEN
       case AppRoutes.login:
@@ -34,12 +34,12 @@ class RouteGenerator
       // NAV TO TODOLIST USING BasicArguments
       case AppRoutes.todoList:
         var args = settings.arguments as BasicArguments;
-        return buildRoute(ToDoList(client: args.client, userId: args.userID),
+        return buildRoute(ToDoList(client: args.client, user: args.user),
             settings: settings);
 
       case AppRoutes.contacts:
         var args = settings.arguments as BasicArguments;
-        return buildRoute(ContactList(client: args.client, userId: args.userID),
+        return buildRoute(ContactList(client: args.client, user: args.user),
             settings: settings);
 
       case AppRoutes.contactDetail:
@@ -67,20 +67,20 @@ MaterialPageRoute buildRoute(Widget child, {required RouteSettings settings}) {
 // Contacts and TodoList for example.
 class BasicArguments {
   final Client client;
-  final int userID;
+  final UsersRegistry user;
 
-  const BasicArguments({required this.client, required this.userID});
+  const BasicArguments({required this.client, required this.user});
 }
 
 class ContactDetailsArgs extends BasicArguments{
   final Contact contact;
 
-  const ContactDetailsArgs({required super.client, required super.userID, required this.contact});
+  const ContactDetailsArgs({required super.client, required super.user, required this.contact});
 }
 
 class TaskDetails extends BasicArguments{
   final Task task;
 
-  const TaskDetails({required super.client, required super.userID, required this.task});
+  const TaskDetails({required super.client, required super.user, required this.task});
 }
 
