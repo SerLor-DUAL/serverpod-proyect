@@ -114,7 +114,10 @@ Future<void> welcomeUser(int userId) async
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                     content: Text("Welcome ${user.userName}"),
-                                                    actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, AppRoutes.home, arguments: widget.client),
+                                                    actions: [ TextButton( onPressed: () {
+                                                     Navigator.pop(context);
+                                                     Navigator.pushNamed(context, AppRoutes.home, arguments: widget.client);
+                                                    },
                                                                             child: const Text('OK'), 
             ),
           ],
