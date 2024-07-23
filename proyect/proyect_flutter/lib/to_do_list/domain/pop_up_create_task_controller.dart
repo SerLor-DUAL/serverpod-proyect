@@ -1,14 +1,14 @@
 part of '../presentation/pop_up_create_to_do_task.dart';
 
-abstract class CreateTaskPopUpController extends State<CreateTaskPopUp> {
 
+abstract class CreateTaskPopUpController extends State<CreateTaskPopUp> {
   @override
-void dispose() {
-  _titleCon.dispose();
-  _descriptionCon.dispose();
-  _dateCon.dispose();
-  super.dispose();
-}
+  void dispose() {
+    _titleCon.dispose();
+    _descriptionCon.dispose();
+    _dateCon.dispose();
+    super.dispose();
+  }
 
   // CONTROLLERS
   final TextEditingController _titleCon = TextEditingController();
@@ -42,6 +42,9 @@ void dispose() {
     if (error == '') {
       Task newTask = createTaskWithData();
       await widget.client.tasks.addTask(newTask);
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } else {
       await showDialog(
         context: context,

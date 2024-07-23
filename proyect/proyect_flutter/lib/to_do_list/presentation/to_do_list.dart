@@ -20,107 +20,109 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoList extends ToDoListController {
-  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 20.0,
-            color: Colors.white,
-          ),
-          // AppBar
-          AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text(
-              "To Do List",
-              style: TextStyle(color: Colors.white),
-            ),
-            centerTitle: true,
-            backgroundColor: const Color(0xFF369DD8),
-            toolbarHeight: 78,
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: _taskList.length,
-              itemBuilder: (BuildContext context, int index) {
-                Task task = _taskList[index];
-                return ListTile(
-                  title: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          task.title,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            decoration: (task.complete)
-                                ? TextDecoration.lineThrough
-                                : null,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          toogleCompleted(task);
-                        },
-                        icon: Icon(
-                          task.complete
-                              ? Icons.brightness_1
-                              : Icons.brightness_1_outlined,
-                          color: const Color.fromARGB(255, 124, 214, 255),
-                        ),
-                        tooltip: 'Complete/Uncomplete',
-                      ),
-                      IconButton(
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TaskDetails(
-                                task: task,
-                                client: widget.client,
-                              ),
-                            ),
-                          );
-                          _loadTask(); // Reload tasks after returning from TaskDetails
-                        },
-                        icon: const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color.fromARGB(255, 1, 3, 3),
-                        ),
-                        tooltip: 'See details',
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(3, 0),
+            spreadRadius: 5,
+            blurRadius: 7,
           ),
         ],
       ),
-      // FLOATING ACTION BUTTON
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Show CreateTaskPopUp and wait for it to be closed
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) => CreateTaskPopUp(
-              client: widget.client,
-              userID: widget.user.id!,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Container(
+              height: 20.0,
+              color: Colors.white,
             ),
-          );
-          _loadTask(); // Reload tasks after closing the popup
-        },
-        backgroundColor: Colors.lightBlue[900],
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+            // AppBar
+            AppBar(
+              automaticallyImplyLeading: false,
+              title: const Text(
+                "To Do List",
+                style: TextStyle(color: Colors.white),
+              ),
+              centerTitle: true,
+              backgroundColor: const Color(0xFF369DD8),
+              toolbarHeight: 78,
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: _taskList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Task task = _taskList[index];
+                  return ListTile(
+                    title: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            task.title,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              decoration: (task.complete)
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            toogleCompleted(task);
+                          },
+                          icon: Icon(
+                            task.complete
+                                ? Icons.brightness_1
+                                : Icons.brightness_1_outlined,
+                            color: const Color.fromARGB(255, 124, 214, 255),
+                          ),
+                          tooltip: 'Complete/Uncomplete',
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TaskDetails(
+                                  task: task,
+                                  client: widget.client,
+                                ),
+                              ),
+                            );
+                            _loadTask();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color.fromARGB(255, 1, 3, 3),
+                          ),
+                          tooltip: 'See details',
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        // FLOATING ACTION BUTTON
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            _askForToDoInput();
+          },
+          backgroundColor: Colors.lightBlue[900],
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
 }
-

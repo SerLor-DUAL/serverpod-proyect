@@ -17,4 +17,15 @@ abstract class ContactListController extends State<ContactList> {
       _contactList = contactList;
     });
   }
+
+    void _askForContactInput() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) => CreateContactPopUp(
+        client: widget.client,
+        userID: widget.user.id!,
+      ),
+    );
+    _loadContacts();
+  }
 }

@@ -24,121 +24,137 @@ class _Home extends HomeController {
         top: true,
         child: Row(
           children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      width: 400,
+                      height: 20,
                     ),
                   ],
-                  border: Border(
-                    right: BorderSide(
-                      color: Color(0xFF369DD8),
-                      width: 2,
+                ),
+                Expanded(
+                  child: Container(
+                    width: 400,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        right: BorderSide(
+                          color: Color(0xFF369DD8),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    // LISTA DE MENUS
+                    child: ListView(
+                      padding: const EdgeInsets.only(left: 20, bottom: 20),
+                      children: [
+                        // MENU USARIO
+                        buildSideBarItem(
+                          icon: FontAwesomeIcons.solidCircleUser,
+                          text: widget.user.userName,
+                        ),
+                
+                        const SizedBox(height: 20),
+                
+                        // OPCIONES MENU USUARIO
+                        buildSideBarSubItem(
+                          isHovering: _isHoveringOptions,
+                          icon: Icons.settings_sharp,
+                          text: 'Options',
+                          onTap: () {
+                            setState(() {
+                              _currentIndex = 0;
+                            });
+                          },
+                          onEnter: (_) =>
+                              setState(() => _isHoveringOptions = true),
+                          onExit: (_) =>
+                              setState(() => _isHoveringOptions = false),
+                        ),
+                
+                        // TO DO LIST MENU USUARIO
+                        buildSideBarSubItem(
+                          isHovering: _isHoveringToDo,
+                          icon: Icons.toc,
+                          text: 'To Do List',
+                          onTap: () {
+                            setState(() {
+                              _currentIndex = 2;
+                            });
+                          },
+                          onEnter: (_) =>
+                              setState(() => _isHoveringToDo = true),
+                          onExit: (_) =>
+                              setState(() => _isHoveringToDo = false),
+                        ),
+                
+                        // LOG OUT MENU USUARIO
+                        buildSideBarSubItem(
+                          isHovering: _isHoveringLogOut,
+                          icon: Icons.login_rounded,
+                          text: 'Log Out',
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          onEnter: (_) =>
+                              setState(() => _isHoveringLogOut = true),
+                          onExit: (_) =>
+                              setState(() => _isHoveringLogOut = false),
+                        ),
+                
+                        const SizedBox(height: 30),
+                
+                        // MENU CONTACTOS
+                        buildSideBarItem(
+                          icon: Icons.people,
+                          text: 'Contacts',
+                        ),
+                
+                        const SizedBox(height: 20),
+                
+                        // LIST OF CONTACTS MENU CONTACTOS
+                        buildSideBarSubItem(
+                          isHovering: _isHoveringList,
+                          icon: Icons.contact_page_rounded,
+                          text: 'List',
+                          onTap: () {
+                            setState(() {
+                              _currentIndex = 1;
+                            });
+                          },
+                          onEnter: (_) =>
+                              setState(() => _isHoveringList = true),
+                          onExit: (_) =>
+                              setState(() => _isHoveringList = false),
+                        ),
+                
+                        const SizedBox(height: 10),
+                
+                        // CHAT MENU CONTACTOS
+                        buildSideBarSubItem(
+                          isHovering: _isHoveringChat,
+                          icon: Icons.chat_bubble_rounded,
+                          text: 'Chat',
+                          onTap: () {
+                            setState(() {
+                              _currentIndex = 3;
+                            });
+                          },
+                          onEnter: (_) =>
+                              setState(() => _isHoveringChat = true),
+                          onExit: (_) =>
+                              setState(() => _isHoveringChat = false),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-
-                // LISTA DE MENUS
-                child: ListView(
-                  padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                  children: [
-                    // MENU USARIO
-                    buildSideBarItem(
-                      icon: FontAwesomeIcons.solidCircleUser,
-                      text: widget.user.userName,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // OPCIONES MENU USUARIO
-                    buildSideBarSubItem(
-                      isHovering: _isHoveringOptions,
-                      icon: Icons.settings_sharp,
-                      text: 'Options',
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = 0;
-                        });
-                      },
-                      onEnter: (_) => setState(() => _isHoveringOptions = true),
-                      onExit: (_) => setState(() => _isHoveringOptions = false),
-                    ),
-
-                    // TO DO LIST MENU USUARIO
-                    buildSideBarSubItem(
-                      isHovering: _isHoveringToDo,
-                      icon: Icons.toc,
-                      text: 'To Do List',
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = 2;
-                        });
-                      },
-                      onEnter: (_) => setState(() => _isHoveringToDo = true),
-                      onExit: (_) => setState(() => _isHoveringToDo = false),
-                    ),
-
-                    // LOG OUT MENU USUARIO
-                    buildSideBarSubItem(
-                      isHovering: _isHoveringLogOut,
-                      icon: Icons.login_rounded,
-                      text: 'Log Out',
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      onEnter: (_) => setState(() => _isHoveringLogOut = true),
-                      onExit: (_) => setState(() => _isHoveringLogOut = false),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    // MENU CONTACTOS
-                    buildSideBarItem(
-                      icon: Icons.people,
-                      text: 'Contacts',
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // LIST OF CONTACTS MENU CONTACTOS
-                    buildSideBarSubItem(
-                      isHovering: _isHoveringList,
-                      icon: Icons.contact_page_rounded,
-                      text: 'List',
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = 1;
-                        });
-                      },
-                      onEnter: (_) => setState(() => _isHoveringList = true),
-                      onExit: (_) => setState(() => _isHoveringList = false),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    // CHAT MENU CONTACTOS
-                    buildSideBarSubItem(
-                      isHovering: _isHoveringChat,
-                      icon: Icons.chat_bubble_rounded,
-                      text: 'Chat',
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = 3;
-                        });
-                      },
-                      onEnter: (_) => setState(() => _isHoveringChat = true),
-                      onExit: (_) => setState(() => _isHoveringChat = false),
-                    ),
-                  ],
-                ),
-              ),
+              ],
             ),
             Expanded(
               flex: 3,

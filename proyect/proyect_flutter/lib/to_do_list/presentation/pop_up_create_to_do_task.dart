@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+
 import 'package:proyect_flutter/common/ui/error_alert_dialog.dart'
     as error_dialog;
+
 part '../domain/pop_up_create_task_controller.dart';
 
 class CreateTaskPopUp extends StatefulWidget {
@@ -152,66 +154,66 @@ class _CreateTaskPopUpState extends CreateTaskPopUpController {
             ),
             Container(
               padding: const EdgeInsets.only(
-                  top: 10.0, left: 30, right: 30, bottom: 40),
+                  top: 30.0, left: 30, right: 30, bottom: 10),
               alignment: Alignment.center,
               child: Row(
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 30.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 40.0),
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color.fromARGB(255, 54, 157, 216),
-                      shadowColor: const Color.fromARGB(255, 54, 157, 216),
-                      elevation: 3,
-                      shape: ContinuousRectangleBorder(
-                        side: const BorderSide(
-                          color: Color.fromARGB(255, 54, 157, 216),
-                          width: 2,
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        backgroundColor: Colors.white,
+                        foregroundColor:
+                            const Color.fromARGB(255, 54, 157, 216),
+                        shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                        elevation: 3,
+                        shape: ContinuousRectangleBorder(
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 54, 157, 216),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 54, 157, 216),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 54, 157, 216),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 15),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await createTask();
-                      if (mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 30.0),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 40.0),
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color.fromARGB(255, 54, 157, 216),
-                      shadowColor: const Color.fromARGB(255, 54, 157, 216),
-                      elevation: 3,
-                      shape: ContinuousRectangleBorder(
-                        side: const BorderSide(
-                          color: Color.fromARGB(255, 54, 157, 216),
-                          width: 2,
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await createTask();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        backgroundColor: Colors.white,
+                        foregroundColor:
+                            const Color.fromARGB(255, 54, 157, 216),
+                        shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                        elevation: 3,
+                        shape: ContinuousRectangleBorder(
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 54, 157, 216),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: const Text(
-                      'Add Task',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 54, 157, 216),
+                      child: const Text(
+                        'Add Task',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 54, 157, 216),
+                        ),
                       ),
                     ),
                   ),

@@ -24,4 +24,15 @@ abstract class ToDoListController extends State<ToDoList> {
     super.initState();
     _loadTask();
   }
+
+  void _askForToDoInput() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) => CreateTaskPopUp(
+        client: widget.client,
+        userID: widget.user.id!,
+      ),
+    );
+    _loadTask();
+  }
 }
