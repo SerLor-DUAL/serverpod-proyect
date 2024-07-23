@@ -5,7 +5,8 @@ class ErrorAlertDialog extends StatelessWidget {
   final String errorTitle;
   final String errorContent;
 
-  const ErrorAlertDialog({super.key, required this.errorTitle, required this.errorContent});
+  const ErrorAlertDialog(
+      {super.key, required this.errorTitle, required this.errorContent});
 
 // ----------------------- BUILDER ------------------------------ //
   @override
@@ -17,7 +18,6 @@ class ErrorAlertDialog extends StatelessWidget {
           TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('OK'))
-          ]
-        );
+        ]);
   }
 }

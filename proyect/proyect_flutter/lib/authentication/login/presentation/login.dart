@@ -5,15 +5,15 @@ import 'package:proyect_flutter/common/services/route_generator.dart';
 
 part '../domain/login_controller.dart';
 
-class LoginScreen extends StatefulWidget {
+class Login extends StatefulWidget {
   final Client client;
-  const LoginScreen({super.key, required this.client});
+  const Login({super.key, required this.client});
 
   @override
-  createState() => _LoginScreen();
+  createState() => _Login();
 }
 
-class _LoginScreen extends LoginController {
+class _Login extends LoginController {
   // ------------------------------------- UI ------------------------------------------- //
 
   @override
@@ -102,7 +102,7 @@ class _LoginScreen extends LoginController {
                               filled: true,
                               fillColor: Colors.white,
                               focusColor: Colors.white,
-                              focusedBorder:  OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   color: Color.fromARGB(255, 54, 157, 216),
                                   width: 2,

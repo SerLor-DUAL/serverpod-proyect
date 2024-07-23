@@ -4,41 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import '../../contacts/presentation/contact_list.dart';
+part '../domain/home_controller.dart';
 
-class HomeScreen extends StatefulWidget {
+class Home extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-  const HomeScreen({super.key, required this.client, required this.user});
+  const Home({super.key, required this.client, required this.user});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  createState() => _Home();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  // HOVERING BOOLS
-  bool _isHoveringOptions = false;
-  bool _isHoveringLogOut = false;
-  bool _isHoveringList = false;
-  bool _isHoveringChat = false;
-  bool _isHoveringToDo = false;
-
-  int _currentIndex = 0;
-
-  // PAGING INDEX
-  Widget _getCurrentPage() {
-    switch (_currentIndex) {
-      case 0:
-        return const Center(child: Text('Options Screen', style: TextStyle(fontSize: 24)));
-      case 1:
-        return ContactList(client: widget.client, user: widget.user);
-      case 2:
-        return ToDoList(client: widget.client, user: widget.user);
-      default:
-        return const Center(
-            child: Text('Unknown Screen', style: TextStyle(fontSize: 24)));
-    }
-  }
-
+class _Home extends HomeController {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

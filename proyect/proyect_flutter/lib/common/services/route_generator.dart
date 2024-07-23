@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_list.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
-import 'package:proyect_flutter/authentication/login/presentation/login_screen.dart';
-import 'package:proyect_flutter/authentication/register/presentation/register_screen.dart';
+import 'package:proyect_flutter/authentication/login/presentation/login.dart';
+import 'package:proyect_flutter/authentication/register/presentation/register.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
-import 'package:proyect_flutter/home/presentation/home_screen.dart';
+import 'package:proyect_flutter/home/presentation/home.dart';
 
 // WE WILL RUN ALL OUR ROUTES THROUGH A ROUTEGENERATOR.
 class RouteGenerator 
@@ -19,17 +19,17 @@ class RouteGenerator
       // NAV TO HOME SCREEN
       case AppRoutes.home:
         var args = settings.arguments as BasicArguments;   
-        return buildRoute(HomeScreen(client: args.client, user: args.user), settings: settings);
+        return buildRoute(Home(client: args.client, user: args.user), settings: settings);
 
       // NAV TO LOGIN SCREEN
       case AppRoutes.login:
         final client = settings.arguments as Client;        
-        return buildRoute(LoginScreen(client: client,), settings: settings);
+        return buildRoute(Login(client: client,), settings: settings);
 
       // NAV TO REGISTER SCREEN
       case AppRoutes.register:
         var client = settings.arguments as Client;
-        return buildRoute(RegisterScreen(client: client), settings: settings);
+        return buildRoute(Register(client: client), settings: settings);
 
       // NAV TO TODOLIST USING BasicArguments
       case AppRoutes.todoList:

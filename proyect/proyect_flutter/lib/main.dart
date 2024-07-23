@@ -1,11 +1,9 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/authentication/login/presentation/login_screen.dart';
+import 'package:proyect_flutter/authentication/login/presentation/login.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-
 import 'common/services/app_routes.dart';
 import 'common/services/route_generator.dart';
-
 
 // SETS UP A SINGLETON CLIENT OBJECT THAT CAN BE USED TO TALK TO THE SERVER FROM
 // ANYWHERE IN OUR APP. THE CLIENT IS GENERATED FROM YOUR SERVER CODE.
@@ -22,19 +20,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // THIS WIDGET IS THE ROOT OF YOUR APPLICATION.
   @override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Sample App',
-    home: LoginScreen(client: client,),
-    onGenerateRoute: RouteGenerator.generateRoute,
-  );
-}
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Sample App',
+      home: Login(
+        client: client,
+      ),
+      onGenerateRoute: RouteGenerator.generateRoute,
+    );
+  }
 
   String getInitialPage() => AppRoutes.login;
 }
-
-
-

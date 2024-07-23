@@ -1,6 +1,6 @@
-part of '../presentation/register_screen.dart';
+part of '../presentation/register.dart';
 
-abstract class RegisterController extends State<RegisterScreen>  
+abstract class RegisterController extends State<Register>  
 {
 
 // SET USER TEXT CONTROLLERS

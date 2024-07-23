@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import '../../../common/services/route_generator.dart';
 import '../../../common/services/app_routes.dart';
-
 part '../domain/register_controller.dart';
 
-class RegisterScreen extends StatefulWidget 
+class Register extends StatefulWidget 
 {
 
   final Client client;
-  const RegisterScreen({super.key, required this.client});
+  const Register({super.key, required this.client});
 
   @override
-  createState() => _RegisterScreen();
+  createState() => _Register();
 }
 
-class _RegisterScreen extends RegisterController 
+class _Register extends RegisterController 
 {
 
   // ------------------------------------- UI ------------------------------------------- //
