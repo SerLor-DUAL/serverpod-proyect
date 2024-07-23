@@ -1,5 +1,5 @@
-import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_client/proyect_client.dart';
 import 'to_do_task_details.dart';
 import 'pop_up_create_to_do_task.dart';
 
@@ -8,92 +8,103 @@ part '../domain/to_do_list_controller.dart';
 class ToDoList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-  const ToDoList({super.key, required this.client, required this.user});
+
+  const ToDoList({
+    super.key,
+    required this.client,
+    required this.user,
+  });
 
   @override
   createState() => _ToDoList();
 }
 
 class _ToDoList extends ToDoListController {
-// ----------------------- BUILDER ------------------------------ //
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // APPBAR
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("${widget.user.userName} - ToDoList",
-            style: const TextStyle(color: Colors.white)),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 124, 214, 255),
-      ),
-
-      //BODY : LISTVIEW
-      body: ListView.builder(
-        // STYLE AND LISTVIEW SETUP.
-        padding: const EdgeInsets.all(8),
-        itemCount: _taskList.length,
-        itemBuilder: (BuildContext context, int index) {
-          Task task = _taskList[index];
-
-          // FOR EACH ITEM - ListTile
-          return ListTile(
-            // TITLE: ROW
-            title: Row(
-              children: [
-                // LEFT SIDE : TITLE
-                Expanded(
-                  child: Text(
-                    task.title,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        decoration: (task.complete)
-                            ? TextDecoration.lineThrough
-                            : null),
-                  ),
-                ),
-
-                // RIGHT SIDE : ICONS
-                // FIRST ICONBUTTON
-                IconButton(
-                  onPressed: () {
-                    toogleCompleted(task);
-                  },
-                  icon: Icon(
-                      // If task is not completed. The button is outlined.
-                      ((task.complete)
-                          ? Icons.brightness_1
-                          : Icons.brightness_1_outlined),
-                      color: const Color.fromARGB(255, 124, 214, 255)),
-                  tooltip: 'Complete/Uncomplete',
-                ),
-                // SECOND ICONBUTTON
-                IconButton(
-                  onPressed: () async {
-                    // Push TaskDetails
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TaskDetails(
-                                  task: task,
-                                  client: widget.client,
-                                )));
-                    // AFTER EDIT, LOAD EVERY TASK AGAIN.
-                    _loadTask();
-                  },
-                  icon: const Icon((Icons.arrow_forward_ios),
-                      color: Color.fromARGB(255, 1, 3, 3)),
-                  tooltip: 'See details',
-                ),
-              ],
+      body: Column(
+        children: [
+          Container(
+            height: 20.0,
+            color: Colors.white,
+          ),
+          // AppBar
+          AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text(
+              "To Do List",
+              style: TextStyle(color: Colors.white),
             ),
-          );
-        },
+            centerTitle: true,
+            backgroundColor: const Color(0xFF369DD8),
+            toolbarHeight: 78,
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: _taskList.length,
+              itemBuilder: (BuildContext context, int index) {
+                Task task = _taskList[index];
+                return ListTile(
+                  title: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          task.title,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            decoration: (task.complete)
+                                ? TextDecoration.lineThrough
+                                : null,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          toogleCompleted(task);
+                        },
+                        icon: Icon(
+                          task.complete
+                              ? Icons.brightness_1
+                              : Icons.brightness_1_outlined,
+                          color: const Color.fromARGB(255, 124, 214, 255),
+                        ),
+                        tooltip: 'Complete/Uncomplete',
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskDetails(
+                                task: task,
+                                client: widget.client,
+                              ),
+                            ),
+                          );
+                          _loadTask(); // Reload tasks after returning from TaskDetails
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Color.fromARGB(255, 1, 3, 3),
+                        ),
+                        tooltip: 'See details',
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      // FLOATING ACTION
+      // FLOATING ACTION BUTTON
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          // Show CreateTaskPopUp and wait for it to be closed
           await showDialog(
             context: context,
             builder: (BuildContext context) => CreateTaskPopUp(
@@ -101,10 +112,9 @@ class _ToDoList extends ToDoListController {
               userID: widget.user.id!,
             ),
           );
-          _loadTask();
+          _loadTask(); // Reload tasks after closing the popup
         },
         backgroundColor: Colors.lightBlue[900],
-        // ICON AS CHILD
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -113,3 +123,4 @@ class _ToDoList extends ToDoListController {
     );
   }
 }
+

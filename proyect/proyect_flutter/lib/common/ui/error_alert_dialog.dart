@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
 
 class ErrorAlertDialog extends StatelessWidget {
-  // PERSONALIZED TITLE AND CONTENT
   final String errorTitle;
   final String errorContent;
 
   const ErrorAlertDialog(
       {super.key, required this.errorTitle, required this.errorContent});
 
-// ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text(errorTitle),
-        content: Text(errorContent),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'))
-        ]);
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      backgroundColor: Colors.white,
+      title: Text(
+        errorTitle,
+        style: const TextStyle(
+          color: Color(0xFF369DD8),
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Text(
+        errorContent,
+        style: const TextStyle(color: Colors.black87),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text(
+            'OK',
+            style: TextStyle(
+              color: Color(0xFF369DD8),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

@@ -1,6 +1,15 @@
 part of '../presentation/pop_up_create_to_do_task.dart';
 
 abstract class CreateTaskPopUpController extends State<CreateTaskPopUp> {
+
+  @override
+void dispose() {
+  _titleCon.dispose();
+  _descriptionCon.dispose();
+  _dateCon.dispose();
+  super.dispose();
+}
+
   // CONTROLLERS
   final TextEditingController _titleCon = TextEditingController();
   final TextEditingController _descriptionCon = TextEditingController();
@@ -20,7 +29,7 @@ abstract class CreateTaskPopUpController extends State<CreateTaskPopUp> {
   String checkIfError() {
     String error = '';
 
-    if (_titleCon.text == '') {
+    if (_titleCon.text.isEmpty) {
       error += 'Title';
     }
     return error;
@@ -35,14 +44,11 @@ abstract class CreateTaskPopUpController extends State<CreateTaskPopUp> {
       await widget.client.tasks.addTask(newTask);
     } else {
       await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return ErrorAlertDialog(
-              errorTitle: 'Error in $error',
-              errorContent: '$error cannot be empty.',
-            );
-          });
-      return;
+        context: context,
+        builder: (BuildContext context) => error_dialog.ErrorAlertDialog(
+            errorTitle: 'Error in $error',
+            errorContent: '$error cannot be empty.'),
+      );
     }
   }
 }
