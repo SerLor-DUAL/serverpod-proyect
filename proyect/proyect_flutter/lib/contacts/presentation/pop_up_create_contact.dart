@@ -131,7 +131,7 @@ class _CreateContactPopUp extends CreateContactPopUpController {
                               Navigator.of(context).pop();
                             },
                             style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20.0),
+                              textStyle: const TextStyle(fontSize: 25.0),
                               padding:
                                   const EdgeInsets.symmetric(vertical: 15.0),
                               backgroundColor: Colors.white,
@@ -165,7 +165,7 @@ class _CreateContactPopUp extends CreateContactPopUpController {
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20.0),
+                              textStyle: const TextStyle(fontSize: 25.0),
                               padding:
                                   const EdgeInsets.symmetric(vertical: 15.0),
                               backgroundColor: Colors.white,

@@ -164,8 +164,8 @@ class _CreateTaskPopUpState extends CreateTaskPopUpController {
                         Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 30.0),
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        textStyle: const TextStyle(fontSize: 25.0),
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
                         backgroundColor: Colors.white,
                         foregroundColor:
                             const Color.fromARGB(255, 54, 157, 216),
@@ -194,8 +194,8 @@ class _CreateTaskPopUpState extends CreateTaskPopUpController {
                         await createTask();
                       },
                       style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 30.0),
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        textStyle: const TextStyle(fontSize: 25.0),
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
                         backgroundColor: Colors.white,
                         foregroundColor:
                             const Color.fromARGB(255, 54, 157, 216),
