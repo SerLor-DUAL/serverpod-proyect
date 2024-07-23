@@ -2,15 +2,6 @@ import 'package:proyect_server/src/models/environment/env.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
-class JwtEndpoint extends Endpoint{
-
-}
-
-
-
-
-
-
 
 /* JwtUtils is a class that allows you to create your own JwtUtils. */
 class JwtUtils {
