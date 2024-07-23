@@ -2,7 +2,8 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/common/services/route_generator.dart';
-import 'popups/create_contact_pop_up.dart';
+import 'pop_up_create_contact.dart';
+part '../domain/contact_list_controller.dart';
 
 class ContactList extends StatefulWidget {
   final Client client;
@@ -10,28 +11,10 @@ class ContactList extends StatefulWidget {
   const ContactList({super.key, required this.client, required this.user});
 
   @override
-  State<ContactList> createState() => _ContactListState();
+  createState() => _ContactList();
 }
 
-class _ContactListState extends State<ContactList> {
-  List<Contact> _contactList = [];
-
-
-  @override
-  void initState() {
-    super.initState();
-    _loadContacts();
-  }
-
-  // Load everytask from userId in widget.
-  void _loadContacts() async {
-    final List<Contact> contactList =
-        await widget.client.contact.getEveryContactByUser(widget.user.id!);
-    setState(() {
-      _contactList = contactList;
-    });
-  }
-
+class _ContactList extends ContactListController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {
@@ -72,8 +55,12 @@ class _ContactListState extends State<ContactList> {
                 IconButton(
                   onPressed: () async {
                     // Push ContactDetails
-                    ContactDetailsArgs args = ContactDetailsArgs(client: widget.client, user: widget.user, contact: contact);
-                    await Navigator.pushNamed(context, AppRoutes.contactDetail, arguments: args);
+                    ContactDetailsArgs args = ContactDetailsArgs(
+                        client: widget.client,
+                        user: widget.user,
+                        contact: contact);
+                    await Navigator.pushNamed(context, AppRoutes.contactDetail,
+                        arguments: args);
                     // AFTER EDIT, LOAD EVERY TASK AGAIN.
                     _loadContacts();
                   },

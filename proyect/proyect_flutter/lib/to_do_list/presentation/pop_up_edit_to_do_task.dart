@@ -1,40 +1,20 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 
+part '../domain/pop_up_edit_task_controller.dart';
+
 class EditTaskPopUp extends StatefulWidget {
   // WORKS WITH CLIENT AND TASK
   final Client client;
   final Task task;
 
   const EditTaskPopUp({super.key, required this.client, required this.task});
+
   @override
-  EditTaskPopUpState createState() => EditTaskPopUpState();
+  createState() => _EditTaskPopUp();
 }
 
-class EditTaskPopUpState extends State<EditTaskPopUp> {
-  // CONTROLLERS
-  final TextEditingController _titleCon = TextEditingController();
-  final TextEditingController _descriptionCon = TextEditingController();
-  final TextEditingController _dateCon = TextEditingController();
-
-// Edit the selected task. Changing, just if the user wanted to, the title, description and/or deadline.
-  Task editTaskWithData() {
-    Task task = widget.task;
-    task.title = (_titleCon.text != '') ? _titleCon.text : task.title;
-    task.description =
-        (_descriptionCon.text != '') ? _descriptionCon.text : task.description;
-    task.deadLine =
-        (_dateCon.text != '') ? DateTime.parse(_dateCon.text) : task.deadLine;
-
-    return task;
-  }
-
-  // Update the Task in the DB.
-  Future<void> updateTask() async {
-    Task newTask = editTaskWithData();
-    await widget.client.tasks.updateTask(newTask);
-  }
-
+class _EditTaskPopUp extends EditTaskPopUpController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {

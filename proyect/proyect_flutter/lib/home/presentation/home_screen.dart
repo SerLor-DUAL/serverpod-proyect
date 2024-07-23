@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
-import '../domain/to_do_list/to_do_list.dart';
-import '../domain/contact/contact_list.dart';
+import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
+import '../../contacts/presentation/contact_list.dart';
 
 class HomeScreen extends StatefulWidget {
   final Client client;
@@ -16,20 +15,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // HOVERING BOOLS
   bool _isHoveringOptions = false;
   bool _isHoveringLogOut = false;
   bool _isHoveringList = false;
   bool _isHoveringChat = false;
   bool _isHoveringToDo = false;
-  bool _isHoveringContacts = false;
 
   int _currentIndex = 0;
 
+  // PAGING INDEX
   Widget _getCurrentPage() {
     switch (_currentIndex) {
       case 0:
-        return const Center(
-            child: Text('Options Screen', style: TextStyle(fontSize: 24)));
+        return const Center(child: Text('Options Screen', style: TextStyle(fontSize: 24)));
       case 1:
         return ContactList(client: widget.client, user: widget.user);
       case 2:
@@ -175,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // CONTEXT MENU
   Widget _buildMenuContext({
     required IconData icon,
     required String text,
@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // MENU ITEM
   Widget _buildMenuItem({
     required bool isHovering,
     required IconData icon,
@@ -218,20 +219,35 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          padding: const EdgeInsets.only(left: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: isHovering ? const Color(0xFF369DD8) : Colors.transparent,
-              width: 1.5,
+            borderRadius:
+                const BorderRadius.horizontal(left: Radius.circular(40)),
+            border: Border(
+              top: BorderSide(
+                color:
+                    isHovering ? const Color(0xFF369DD8) : Colors.transparent,
+                width: 2,
+              ),
+              bottom: BorderSide(
+                color:
+                    isHovering ? const Color(0xFF369DD8) : Colors.transparent,
+                width: 2,
+              ),
+              left: BorderSide(
+                color:
+                    isHovering ? const Color(0xFF369DD8) : Colors.transparent,
+                width: 2,
+              ),
             ),
             color: isHovering
-                ? const Color(0xFF369DD8).withOpacity(0.1)
+                ? const Color(0xFF369DD8).withOpacity(0.05)
                 : Colors.transparent,
           ),
           child: ListTile(
+            mouseCursor: SystemMouseCursors.click,
             leading: Icon(
               icon,
               color: const Color(0xFF369DD8),

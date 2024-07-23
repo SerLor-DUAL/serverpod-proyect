@@ -1,7 +1,9 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/main.dart';
-import 'popups/edit_task_pop_up.dart';
+import 'pop_up_edit_to_do_task.dart';
+part '../domain/to_do_task_details_controller.dart';
+
 class TaskDetails extends StatefulWidget {
   // NEEDS A TASK TO EDIT AND CLIENT TO WORK WITH DB
   final Task task;
@@ -10,15 +12,10 @@ class TaskDetails extends StatefulWidget {
   const TaskDetails({super.key, required this.task, required this.client});
 
   @override
-  State<TaskDetails> createState() => _TaskDetailsState();
+  createState() => _TaskDetailsState();
 }
 
-// DELETE TASK
-Future<void> deleteTask(Task task) async {
-  await client.tasks.deleteTask(task);
-}
-
-class _TaskDetailsState extends State<TaskDetails> {
+class _TaskDetailsState extends TaskDetailsController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {

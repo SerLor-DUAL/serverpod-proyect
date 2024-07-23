@@ -1,7 +1,9 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'task_details.dart';
-import 'popups/create_task_pop_up.dart';
+import 'to_do_task_details.dart';
+import 'pop_up_create_to_do_task.dart';
+
+part '../domain/to_do_list_controller.dart';
 
 class ToDoList extends StatefulWidget {
   final Client client;
@@ -9,47 +11,10 @@ class ToDoList extends StatefulWidget {
   const ToDoList({super.key, required this.client, required this.user});
 
   @override
-  State<ToDoList> createState() => _ToDoListState();
+  createState() => _ToDoList();
 }
 
-class _ToDoListState extends State<ToDoList> {
-  List<Task> _taskList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTask();
-  }
-
-  // Load everytask from userId in widget.
-  void _loadTask() async {
-    final List<Task> taskList =
-        await widget.client.tasks.getEveryTaskByUser(widget.user.id!);
-    setState(() {
-      _taskList = taskList;
-    });
-  }
-
-  // Creates tasks for userId in widget.
-  void createTask() async {
-    Task task = Task(
-      title: "Hola",
-      description: "Holaaa",
-      deadLine: DateTime.now(),
-      complete: false,
-      userID: widget.user.id!,
-    );
-    await widget.client.tasks.addTask(task);
-    _loadTask();
-  }
-
-  // Invert task's complete attribute.
-  void toogleCompleted(Task task) async {
-    task.complete = !task.complete;
-    await widget.client.tasks.updateTask(task);
-    setState(() {});
-  }
-
+class _ToDoList extends ToDoListController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {

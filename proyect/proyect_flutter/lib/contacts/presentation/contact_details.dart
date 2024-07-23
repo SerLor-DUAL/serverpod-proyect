@@ -1,26 +1,22 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/main.dart';
-import 'popups/edit_contact_pop_up.dart';
-
+import 'pop_up_edit_contact.dart';
+part '../domain/contact_details_controller.dart';
 
 class ContactDetails extends StatefulWidget {
   // NEEDS A TASK TO EDIT AND CLIENT TO WORK WITH DB
   final Contact contact;
   final Client client;
 
-  const ContactDetails({super.key, required this.contact, required this.client});
+  const ContactDetails(
+      {super.key, required this.contact, required this.client});
 
   @override
-  State<ContactDetails> createState() => _ContactDetailsState();
+  createState() => _ContactDetails();
 }
 
-// DELETE TASK
-Future<void> deleteContact(Contact contact) async {
-  await client.contact.deleteContact(contact);
-}
-
-class _ContactDetailsState extends State<ContactDetails> {
+class _ContactDetails extends ContactDetailsController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {
@@ -30,10 +26,7 @@ class _ContactDetailsState extends State<ContactDetails> {
     return Scaffold(
       // APPBAR
       appBar: AppBar(
-        title: const Text(
-                        "Contact", 
-                        style: TextStyle(
-                        color: Colors.white)),
+        title: const Text("Contact", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.lightBlue[900],
       ),
@@ -44,14 +37,14 @@ class _ContactDetailsState extends State<ContactDetails> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             RichText(
-              text: TextSpan(
-                text: 'Name: ',
-                style: const TextStyle(
-                  fontSize: 30.00,
-                  color: Color.fromARGB(255, 124, 214, 255),
-                  fontWeight: FontWeight.w800,
-                ),
-                children: [
+                text: TextSpan(
+                    text: 'Name: ',
+                    style: const TextStyle(
+                      fontSize: 30.00,
+                      color: Color.fromARGB(255, 124, 214, 255),
+                      fontWeight: FontWeight.w800,
+                    ),
+                    children: [
                   TextSpan(
                     text: contact.name,
                     style: const TextStyle(
@@ -60,18 +53,16 @@ class _ContactDetailsState extends State<ContactDetails> {
                       fontWeight: FontWeight.w100,
                     ),
                   ),
-                ]
-                )
-            ),
+                ])),
             RichText(
-              text: TextSpan(
-                text: 'Phone: ',
-                style: const TextStyle(
-                  fontSize: 30.00,
-                  color: Color.fromARGB(255, 124, 214, 255),
-                  fontWeight: FontWeight.w800,
-                ),
-                children: [
+                text: TextSpan(
+                    text: 'Phone: ',
+                    style: const TextStyle(
+                      fontSize: 30.00,
+                      color: Color.fromARGB(255, 124, 214, 255),
+                      fontWeight: FontWeight.w800,
+                    ),
+                    children: [
                   TextSpan(
                     text: contact.phoneNumber,
                     style: const TextStyle(
@@ -80,51 +71,42 @@ class _ContactDetailsState extends State<ContactDetails> {
                       fontWeight: FontWeight.w100,
                     ),
                   ),
-                ]
-                )
-            ),
+                ])),
             const SizedBox(height: 20.0),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                double maxWidth = constraints.maxWidth*0.3;
+            LayoutBuilder(builder: (context, constraints) {
+              double maxWidth = constraints.maxWidth * 0.3;
 
-                return SizedBox(
-                  width: maxWidth,
-                  child: TextFormField(
-                    minLines: 2,
-                    maxLines: 12,
-                    decoration: InputDecoration(
-                      icon: const Icon(
-                        Icons.message,
-                        color: Color.fromARGB(255, 124, 214, 255)),
+              return SizedBox(
+                width: maxWidth,
+                child: TextFormField(
+                  minLines: 2,
+                  maxLines: 12,
+                  decoration: InputDecoration(
+                      icon: const Icon(Icons.message,
+                          color: Color.fromARGB(255, 124, 214, 255)),
                       hintText: "Send a message!",
-                      border : OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       filled: true,
-                      fillColor: const Color.fromARGB(255, 255, 250, 250)
-                    ),
-                    validator: (String? value) {
-                      return (value == '')? 'Please, fill the text area' : null; 
-                    },
-                  ),
-                );
-              }
-            ),
+                      fillColor: const Color.fromARGB(255, 255, 250, 250)),
+                  validator: (String? value) {
+                    return (value == '') ? 'Please, fill the text area' : null;
+                  },
+                ),
+              );
+            }),
             const SizedBox(height: 20.0),
-            TextButton.icon(onPressed: () {
-              
-            },
-            icon: const Icon(
-              Icons.send_sharp,
-              color: Color.fromRGBO(236,229,221,1.000),
-            ),
-            label: const Text("Send Whatsapp"),
-            style: TextButton.styleFrom(
-              foregroundColor: const Color.fromRGBO(236,229,221,1.000),
-              backgroundColor: const Color.fromRGBO(37,211,102,1.000)
-            )
-        )
+            TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.send_sharp,
+                  color: Color.fromRGBO(236, 229, 221, 1.000),
+                ),
+                label: const Text("Send Whatsapp"),
+                style: TextButton.styleFrom(
+                    foregroundColor: const Color.fromRGBO(236, 229, 221, 1.000),
+                    backgroundColor: const Color.fromRGBO(37, 211, 102, 1.000)))
           ],
         ),
       ),
@@ -135,15 +117,13 @@ class _ContactDetailsState extends State<ContactDetails> {
           // EDIT TASK BUTTON
           FloatingActionButton(
             onPressed: () async {
-              
               await showDialog(
                 context: context,
-                builder: (BuildContext context) =>
-                    EditContactPopUp(client: widget.client, contact: widget.contact),
+                builder: (BuildContext context) => EditContactPopUp(
+                    client: widget.client, contact: widget.contact),
               );
               // UPDATES STATE AFTER EditTaskPopUp
               setState(() {});
-              
             },
             backgroundColor: Colors.lightBlue[900],
             child: const Icon(

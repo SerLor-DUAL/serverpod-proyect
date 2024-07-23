@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
-import 'package:proyect_flutter/home/domain/contact/contact_list.dart';
-import 'package:proyect_flutter/home/domain/contact/contact_detail.dart';
+import 'package:proyect_flutter/contacts/presentation/contact_list.dart';
+import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
 import 'package:proyect_flutter/authentication/login/presentation/login_screen.dart';
 import 'package:proyect_flutter/authentication/register/presentation/register_screen.dart';
-import 'package:proyect_flutter/home/domain/to_do_list/to_do_list.dart';
+import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/home/presentation/home_screen.dart';
 
