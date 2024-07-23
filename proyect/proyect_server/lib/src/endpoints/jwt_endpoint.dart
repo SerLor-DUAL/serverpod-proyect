@@ -4,8 +4,6 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 class JwtEndpoint extends Endpoint{
 
-  Future<void> handleRequest(Session session) async{
-  }
 }
 
 
@@ -14,7 +12,7 @@ class JwtEndpoint extends Endpoint{
 
 
 
-
+/* JwtUtils is a class that allows you to create your own JwtUtils. */
 class JwtUtils {
   static final String _secretKey = 'your_secret_key';
 
