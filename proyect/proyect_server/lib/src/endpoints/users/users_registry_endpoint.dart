@@ -81,7 +81,7 @@ class UsersRegistryEndpoint extends Endpoint {
       Session session, String username, String password) async {
     // Get a user that has the same username.
     UsersRegistry? user = await getUserByName(session, username);
-
+    
     // Validate if that user is authentic
     bool isUserAuthentic = await authenticateUser(session, user, password);
 

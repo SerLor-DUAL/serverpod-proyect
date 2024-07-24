@@ -50,7 +50,7 @@ abstract class LoginController extends State<Login> {
             response.userInfo!,
             response.keyId!,
             response.key!,
-        );
+      );
         await welcomeUser(userToLog.id!);
       } else {
         if (mounted) {
