@@ -1,6 +1,6 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import '../../common/ui/error_alert_dialog.dart';
+import '../../common/ui/custom_alert_dialog.dart';
 part '../domain/pop_up_edit_contact_controller.dart';
 
 class EditContactPopUp extends StatefulWidget {

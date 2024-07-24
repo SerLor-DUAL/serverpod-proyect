@@ -10,13 +10,14 @@ abstract class LoginController extends State<Login> {
     // CHECK ALL FIELDS ARE BEING USED
     if (userController.text.isEmpty || passwordController.text.isEmpty) {
       if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-            title: Text("Error"),
-            content: Text("Please fill in all fields."),
-          ),
-        );
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: "Empty Fields",
+                customContent: "Fill all fields to login!",
+              );
+            });
       }
       return;
     }
@@ -28,12 +29,14 @@ abstract class LoginController extends State<Login> {
       if (userToLog == null) {
         if (mounted) {
           showDialog(
-            context: context,
-            builder: (context) => const AlertDialog(
-              title: Text("Error"),
-              content: Text("User doesn't exist. Try registering a new user."),
-            ),
-          );
+              context: context,
+              builder: (BuildContext context) {
+                return const CustomAlertDialog(
+                  customTitle: ("User Not Found"),
+                  customContent:
+                      ("User doesn't exist. Try registering a new user."),
+                );
+              });
         }
         return;
       }
@@ -46,12 +49,13 @@ abstract class LoginController extends State<Login> {
       } else {
         if (mounted) {
           showDialog(
-            context: context,
-            builder: (context) => const AlertDialog(
-              title: Text("Error"),
-              content: Text("Password is incorrect. Please try again."),
-            ),
-          );
+              context: context,
+              builder: (BuildContext context) {
+                return const CustomAlertDialog(
+                  customTitle: ("Incorrect Password"),
+                  customContent: ("Password is incorrect. Please try again."),
+                );
+              });
         }
       }
     } catch (e) {
@@ -88,12 +92,14 @@ abstract class LoginController extends State<Login> {
       // USER NOT FOUND
       if (user == null) {
         showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-            title: Text("User"),
-            content: Text("User not found."),
-          ),
-        );
+         context: context,
+              builder: (BuildContext context) {
+                return const CustomAlertDialog(
+                  customTitle: ("User Not Found"),
+                  customContent:
+                      ("User doesn't exist. Try registering a new user."),
+                );
+              });
       }
 
       // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
@@ -101,11 +107,11 @@ abstract class LoginController extends State<Login> {
         BasicArguments args = BasicArguments(client: widget.client, user: user);
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: const Text("User"),
-            content: Text("Welcome ${user.userName}"),
-            actions: [
-              TextButton(
+          builder: (context) => CustomAlertDialog(
+            customTitle: "Succesfull Login!",
+            customContent: "Welcome ${user.userName}",
+            customActions: [
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, AppRoutes.home, arguments: args);
@@ -120,11 +126,11 @@ abstract class LoginController extends State<Login> {
       if (mounted) {
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: const Text("Error"),
-            content: Text("Failed to get user information: $e"),
-            actions: [
-              TextButton(
+          builder: (context) => CustomAlertDialog(
+            customTitle: "Error",
+            customContent: "Failed to get user information: $e",
+            customActions: [
+              ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Text('OK'),
               ),

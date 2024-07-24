@@ -41,9 +41,9 @@ abstract class EditContactPopUpController extends State<EditContactPopUp> {
         : await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return ErrorAlertDialog(
-                errorTitle: error["errorTitle"]!,
-                errorContent: error["errorMessage"]!,
+              return CustomAlertDialog(
+                customTitle: error["errorTitle"]!,
+                customContent: error["errorMessage"]!,
               );
             });
   }

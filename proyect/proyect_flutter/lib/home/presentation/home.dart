@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import '../../contacts/presentation/contact_list.dart';
+import '../../common/ui/custom_alert_dialog.dart';
 import './widget_sidebar_item.dart';
 import './widget_sidebar_sub_item.dart';
 part '../domain/home_controller.dart';
@@ -58,9 +60,9 @@ class _Home extends HomeController {
                           icon: FontAwesomeIcons.solidCircleUser,
                           text: widget.user.userName,
                         ),
-                
+
                         const SizedBox(height: 20),
-                
+
                         // OPCIONES MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringOptions,
@@ -76,7 +78,7 @@ class _Home extends HomeController {
                           onExit: (_) =>
                               setState(() => _isHoveringOptions = false),
                         ),
-                
+
                         // TO DO LIST MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringToDo,
@@ -92,31 +94,31 @@ class _Home extends HomeController {
                           onExit: (_) =>
                               setState(() => _isHoveringToDo = false),
                         ),
-                
+
                         // LOG OUT MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringLogOut,
                           icon: Icons.login_rounded,
                           text: 'Log Out',
                           onTap: () {
-                            Navigator.of(context).pop();
+                            _askForExitConfirmation();
                           },
                           onEnter: (_) =>
                               setState(() => _isHoveringLogOut = true),
                           onExit: (_) =>
                               setState(() => _isHoveringLogOut = false),
                         ),
-                
+
                         const SizedBox(height: 30),
-                
+
                         // MENU CONTACTOS
                         buildSideBarItem(
                           icon: Icons.people,
                           text: 'Contacts',
                         ),
-                
+
                         const SizedBox(height: 20),
-                
+
                         // LIST OF CONTACTS MENU CONTACTOS
                         buildSideBarSubItem(
                           isHovering: _isHoveringList,
@@ -132,9 +134,9 @@ class _Home extends HomeController {
                           onExit: (_) =>
                               setState(() => _isHoveringList = false),
                         ),
-                
+
                         const SizedBox(height: 10),
-                
+
                         // CHAT MENU CONTACTOS
                         buildSideBarSubItem(
                           isHovering: _isHoveringChat,
