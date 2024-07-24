@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
-import 'to_do_task_details.dart';
 
 part '../domain/to_do_list_controller.dart';
 
@@ -10,10 +9,15 @@ class ToDoList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
 
+  final void Function(int) updateHomeIndex;  // Función de callback para actualizar el índice
+  final void Function(Task) selectTask; // Función de callback para seleccionar task
+
   const ToDoList({
     super.key,
     required this.client,
     required this.user,
+    required this.selectTask, 
+    required this.updateHomeIndex
   });
 
   @override
@@ -87,15 +91,8 @@ class _ToDoList extends ToDoListController {
                         ),
                         IconButton(
                           onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TaskDetails(
-                                  task: task,
-                                  client: widget.client,
-                                ),
-                              ),
-                            );
+                            widget.selectTask(task);
+                            widget.updateHomeIndex(5);
                             _loadTask();
                           },
                           icon: const Icon(

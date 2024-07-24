@@ -1,13 +1,14 @@
 part of '../presentation/contact_list.dart';
 
 abstract class ContactListController extends State<ContactList> {
-  List<Contact> _contactList = [];
 
   @override
   void initState() {
     super.initState();
     _loadContacts();
   }
+
+  List<Contact> _contactList = [];
 
   // CONTROLLERS
   final TextEditingController _nameCon = TextEditingController();

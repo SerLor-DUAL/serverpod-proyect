@@ -7,45 +7,42 @@ import 'package:proyect_flutter/authentication/register/presentation/register.da
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/home/presentation/home.dart';
+import 'package:proyect_flutter/to_do_list/presentation/to_do_task_details.dart';
 
-// WE WILL RUN ALL OUR ROUTES THROUGH A ROUTEGENERATOR.
-class RouteGenerator 
-{
-  static Route<dynamic> generateRoute(RouteSettings settings) 
-  {
-    switch (settings.name) 
-    {
-
-      // NAV TO HOME SCREEN
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case AppRoutes.home:
-        var args = settings.arguments as BasicArguments;   
+        var args = settings.arguments as BasicArguments;
         return buildRoute(Home(client: args.client, user: args.user), settings: settings);
 
-      // NAV TO LOGIN SCREEN
       case AppRoutes.login:
-        final client = settings.arguments as Client;        
-        return buildRoute(Login(client: client,), settings: settings);
+        final client = settings.arguments as Client;
+        return buildRoute(Login(client: client), settings: settings);
 
-      // NAV TO REGISTER SCREEN
       case AppRoutes.register:
         var client = settings.arguments as Client;
         return buildRoute(Register(client: client), settings: settings);
 
-      // NAV TO TODOLIST USING BasicArguments
+      // TO DO LIST
       case AppRoutes.todoList:
         var args = settings.arguments as BasicArguments;
-        return buildRoute(ToDoList(client: args.client, user: args.user),
-            settings: settings);
+        return buildRoute(ToDoList(client: args.client, user: args.user, updateHomeIndex: (_) {}, selectTask: (_) {}), settings: settings);
 
+      // TASKS FROM TO DO LIST
+      case AppRoutes.taskDetail:
+        final args = settings.arguments as TaskDetailsArgs;
+        return buildRoute(TaskDetails(client: args.client, task: args.task), settings: settings);
+
+      // CONTACTS LIST
       case AppRoutes.contacts:
         var args = settings.arguments as BasicArguments;
-        return buildRoute(ContactList(client: args.client, user: args.user),
-            settings: settings);
+        return buildRoute(ContactList(client: args.client, user: args.user, updateHomeIndex: (_) {}, selectContact: (_) {}), settings: settings);
 
+      // DETAILS FROM SELECTED CONTACT OF THE CONTACT LIST
       case AppRoutes.contactDetail:
         final args = settings.arguments as ContactDetailsArgs;
-        return buildRoute(ContactDetails(client: args.client, contact: args.contact),
-            settings: settings);
+        return buildRoute(ContactDetails(client: args.client, contact: args.contact), settings: settings);
 
       default:
         return _errorRoute();
@@ -54,17 +51,15 @@ class RouteGenerator
 }
 
 Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(builder: (_) {
-      return const Text("Route not found");
+  return MaterialPageRoute(builder: (_) {
+    return const Text("Route not found");
   });
 }
-// RouteBuilder
+
 MaterialPageRoute buildRoute(Widget child, {required RouteSettings settings}) {
   return MaterialPageRoute(builder: (BuildContext context) => child);
 }
 
-// BasicArguments will be useful for multiple routes.
-// Contacts and TodoList for example.
 class BasicArguments {
   final Client client;
   final UsersRegistry user;
@@ -72,15 +67,14 @@ class BasicArguments {
   const BasicArguments({required this.client, required this.user});
 }
 
-class ContactDetailsArgs extends BasicArguments{
+class ContactDetailsArgs extends BasicArguments {
   final Contact contact;
 
   const ContactDetailsArgs({required super.client, required super.user, required this.contact});
 }
 
-class TaskDetails extends BasicArguments{
+class TaskDetailsArgs extends BasicArguments {
   final Task task;
 
-  const TaskDetails({required super.client, required super.user, required this.task});
+  const TaskDetailsArgs({required super.client, required super.user, required this.task});
 }
-

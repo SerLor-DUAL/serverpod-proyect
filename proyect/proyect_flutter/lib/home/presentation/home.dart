@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
+import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
+import 'package:proyect_flutter/to_do_list/presentation/to_do_task_details.dart';
 import '../../contacts/presentation/contact_list.dart';
 import '../../common/ui/custom_alert_dialog.dart';
 import './widget_sidebar_item.dart';
@@ -70,7 +72,7 @@ class _Home extends HomeController {
                           text: 'Options',
                           onTap: () {
                             setState(() {
-                              _currentIndex = 0;
+                              currentIndex = 0;
                             });
                           },
                           onEnter: (_) =>
@@ -86,7 +88,7 @@ class _Home extends HomeController {
                           text: 'To Do List',
                           onTap: () {
                             setState(() {
-                              _currentIndex = 2;
+                              currentIndex = 2;
                             });
                           },
                           onEnter: (_) =>
@@ -126,7 +128,7 @@ class _Home extends HomeController {
                           text: 'List',
                           onTap: () {
                             setState(() {
-                              _currentIndex = 1;
+                              currentIndex = 1;
                             });
                           },
                           onEnter: (_) =>
@@ -144,7 +146,7 @@ class _Home extends HomeController {
                           text: 'Chat',
                           onTap: () {
                             setState(() {
-                              _currentIndex = 3;
+                              currentIndex = 3;
                             });
                           },
                           onEnter: (_) =>

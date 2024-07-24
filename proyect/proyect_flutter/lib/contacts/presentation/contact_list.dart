@@ -1,7 +1,5 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/common/services/app_routes.dart';
-import 'package:proyect_flutter/common/services/route_generator.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/main.dart';
@@ -10,7 +8,9 @@ part '../domain/contact_list_controller.dart';
 class ContactList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-  const ContactList({super.key, required this.client, required this.user});
+  final void Function(int) updateHomeIndex;  // Función de callback para actualizar el índice
+  final void Function(Contact) selectContact; // Función de callback para seleccionar contacto
+  const ContactList({super.key, required this.client, required this.user, required this.selectContact, required this.updateHomeIndex});
 
   @override
   createState() => _ContactList();
@@ -67,16 +67,8 @@ class _ContactList extends ContactListController {
                         ),
                         IconButton(
                           onPressed: () async {
-                            ContactDetailsArgs args = ContactDetailsArgs(
-                              client: widget.client,
-                              user: widget.user,
-                              contact: contact,
-                            );
-                            await Navigator.pushNamed(
-                              context,
-                              AppRoutes.contactDetail,
-                              arguments: args,
-                            );
+                            widget.selectContact(contact);
+                            widget.updateHomeIndex(4);
                             _loadContacts();
                           },
                           icon: const Icon(

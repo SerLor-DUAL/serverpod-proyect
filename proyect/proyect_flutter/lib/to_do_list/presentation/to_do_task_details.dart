@@ -12,10 +12,10 @@ class TaskDetails extends StatefulWidget {
   const TaskDetails({super.key, required this.task, required this.client});
 
   @override
-  createState() => _TaskDetailsState();
+  createState() => _TaskDetails();
 }
 
-class _TaskDetailsState extends TaskDetailsController {
+class _TaskDetails extends TaskDetailsController {
 // ----------------------- BUILDER ------------------------------ //
   @override
   Widget build(BuildContext context) {
