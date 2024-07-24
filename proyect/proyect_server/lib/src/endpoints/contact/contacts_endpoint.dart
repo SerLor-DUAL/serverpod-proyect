@@ -5,6 +5,10 @@ class ContactEndpoint extends Endpoint {
   // WHAT Session is? When a call is generated to the sv, a
   // Session is created, it has all the current data.
 
+  // AUTHORIZATION METHOD. THIS ENDPOINT REQUIRES THE USER TO BE LOGGED IN.
+  @override
+  bool get requireLogin => true;
+
   //DB ENDPOINT METHODS
   
   // CREATE
