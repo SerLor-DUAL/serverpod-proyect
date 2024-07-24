@@ -14,7 +14,8 @@ import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i3;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i5;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
+import 'protocol.dart' as _i8;
 
 /// {@category Endpoint}
 class EndpointContact extends _i1.EndpointRef {
@@ -304,6 +305,14 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 }
 
+class _Modules {
+  _Modules(Client client) {
+    auth = _i7.Caller(client);
+  }
+
+  late final _i7.Caller auth;
+}
+
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
@@ -319,7 +328,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -332,6 +341,7 @@ class Client extends _i1.ServerpodClient {
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
+    modules = _Modules(this);
   }
 
   late final EndpointContact contact;
@@ -344,6 +354,8 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
+  late final _Modules modules;
+
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'contact': contact,
@@ -354,5 +366,6 @@ class Client extends _i1.ServerpodClient {
       };
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
+      {'auth': modules.auth};
 }

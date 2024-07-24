@@ -19,6 +19,7 @@ import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i8;
 import 'package:proyect_server/src/generated/users/password_options.dart'
     as _i9;
 import 'package:proyect_server/src/generated/users/users_registry.dart' as _i10;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i11;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -686,5 +687,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    modules['serverpod_auth'] = _i11.Endpoints()..initializeEndpoints(server);
   }
 }
