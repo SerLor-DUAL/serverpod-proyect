@@ -8,8 +8,7 @@ part '../domain/login_controller.dart';
 
 class Login extends StatefulWidget {
   final Client client;
-  final SessionManager sessionManager;
-  const Login({super.key, required this.client, required this.sessionManager});
+  const Login({super.key, required this.client});
 
   @override
   createState() => _Login();
@@ -19,15 +18,6 @@ class Login extends StatefulWidget {
 
 class _Login extends LoginController {
   // ------------------------------------- UI ------------------------------------------- //
-    @override
-  void initState() {
-    super.initState();
-
-    // Rebuild the page if signed in status changes.
-    widget.sessionManager.addListener(() {
-      setState(() {});
-    });
-  }
   @override
   Widget build(BuildContext context) {
     // GETS SCREEN SIZING

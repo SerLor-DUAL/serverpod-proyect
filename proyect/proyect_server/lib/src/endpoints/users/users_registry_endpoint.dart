@@ -56,13 +56,13 @@ class UsersRegistryEndpoint extends Endpoint {
         passwordInput: selectedUserPassword);
     String hashedPass = bcryptPassword(passwordGenerated);
     // CREATE USERINFO
-    UserInfo userInfo = await createUserInfo(session, name);
+    UserInfo? userInfo = await createUserInfo(session, name);
     // CREATE USERS
     UsersRegistry createdUser = UsersRegistry(
         userName: name,
         userPassword: hashedPass,
         options: selectedUserOptions.id!,
-        userInfoId: userInfo.id!,
+        userInfoId: userInfo!.id!
         );
 
     return await UsersRegistry.db.insertRow(session, createdUser);
@@ -254,13 +254,17 @@ class UsersRegistryEndpoint extends Endpoint {
     return passwordChars.take(options.passwordLengthOption!).join('');
   }
 
-  Future<UserInfo> createUserInfo(Session session, String username) async {
-    UserInfo userInfo = UserInfo(
+  Future<UserInfo?> createUserInfo(Session session, String username) async {
+    // CREATE UserInfo
+    UserInfo? userInfo = UserInfo(
         userIdentifier: username,
         created: DateTime.now(),
         scopeNames: [],
         blocked: false);
+    // INSERT UserInfo to db
     await UserInfo.db.insertRow(session, userInfo);
+    userInfo = await UserInfo.db.findFirstRow(session, 
+                                              where: (userInfo) => userInfo.userIdentifier.equals(username));
     return userInfo;
   }
 }

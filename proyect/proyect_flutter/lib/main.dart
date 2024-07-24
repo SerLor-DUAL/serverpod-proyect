@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
       title: 'Sample App',
       home: Login(
         client: client,
-        sessionManager: sessionManager,
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
     );
