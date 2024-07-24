@@ -92,14 +92,18 @@ class UsersRegistryEndpoint extends Endpoint {
     var authToken = await UserAuthentication.signInUser(
         session, user!.id!, 'myAuthMethod',
         scopes: {},);
-
-    // GET AUTHENTICATIONRESPONSE TRUE.
-    return AuthenticationResponse(
-        success: true, 
-        keyId: authToken.id, 
-        key: authToken.key, 
-        userInfo: user.userInfo);
-  }
+    // GET USER INFO
+    UserInfo? userInfo = await UserInfo.db.findById(session, user.userInfoId);
+    if (userInfo != null) {
+      // GET AUTHENTICATIONRESPONSE TRUE.
+      return AuthenticationResponse(
+          success: true, 
+          keyId: authToken.id, 
+          key: authToken.key, 
+          userInfo: userInfo);
+    }
+    return AuthenticationResponse(success: false);
+    }
 
   Future<bool> authenticateUser(
       Session session, UsersRegistry? user, String password) async {

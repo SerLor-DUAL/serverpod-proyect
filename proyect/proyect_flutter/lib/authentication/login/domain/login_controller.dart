@@ -53,8 +53,8 @@ abstract class LoginController extends State<Login> {
             response.userInfo!,
             response.keyId!,
             response.key!,
-      );
-        await welcomeUser(userToLog.id!);
+        );
+        await welcomeUser(userController.text);
       } else {
         if (mounted) {
           showDialog(
@@ -87,11 +87,11 @@ abstract class LoginController extends State<Login> {
   }
 
 // RETURNS THE USER FROM SELECTED ID
-  Future<void> welcomeUser(int userId) async {
+  Future<void> welcomeUser(String userName) async {
     // TRY - CATCH BLOCK FOR HANDLE ERRORS
     try {
       // FETCH USER BY ID
-      var user = await widget.client.usersRegistry.getUserById(userId);
+      var user = await widget.client.usersRegistry.getUserByName(userName);
 
       // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
       if (!mounted) return;
