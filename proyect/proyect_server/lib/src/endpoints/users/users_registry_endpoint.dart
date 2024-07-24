@@ -20,7 +20,6 @@ class UsersRegistryEndpoint extends Endpoint {
   }
 
   Future<UsersRegistry?> getUserByName(Session session, String name) async {
-    // TODO: VALIDATE
     return await UsersRegistry.db.findFirstRow(session,
         where: (userRegistry) => userRegistry.userName.equals(name));
   }
@@ -150,100 +149,28 @@ class UsersRegistryEndpoint extends Endpoint {
 
     // LISTAS DE CARÁCTERES POSIBLES PARA LA GENERACIÓN
     final List<String> lowercaseList = [
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f',
-      'g',
-      'h',
-      'i',
-      'j',
-      'k',
-      'l',
-      'm',
-      'n',
-      'ñ',
-      'o',
-      'p',
-      'q',
-      'r',
-      's',
-      't',
-      'u',
-      'v',
-      'w',
-      'x',
-      'y',
-      'z'
+      'a','b','c','d','e','f','g','h','i',
+      'j','k','l','m','n','ñ','o','p','q',
+      'r','s','t','u','v','w','x','y','z'
     ];
 
     final List<String> uppercaseList = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'Ñ',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z'
+      'A','B','C','D','E','F','G','H','I',
+      'J','K','L','M','N','Ñ','O','P','Q',
+      'R','S','T','U','V','W','X','Y','Z'
     ];
 
     final List<String> specialsList = [
-      '!',
-      '@',
-      '#',
-      '\$',
-      '%',
-      '^',
-      'ç',
-      '&',
-      '*',
-      '(',
-      ')',
-      '-',
-      '_',
-      '=',
-      '+',
-      ';',
-      ':',
-      '.',
-      '<',
-      '>',
+      '!','@','#','\$','%',
+      '^','ç','&','*','(',
+      ')','-','_','=','+',
+      ';',':','.','<','>',
       '?'
     ];
 
     final List<String> numbersList = [
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9'
+      '0','1','2','3','4',
+      '5','6','7','8','9'
     ];
 
     // AÑADIR LOS CARÁCTERES A UNA NUEVA LISTA DESDE OTRAS LISTAS

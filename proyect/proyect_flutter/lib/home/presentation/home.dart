@@ -4,7 +4,6 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/main.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
-import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import '../../contacts/presentation/contact_list.dart';
 import '../../common/ui/custom_alert_dialog.dart';
 import './widget_sidebar_item.dart';
@@ -23,7 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends HomeController {
-  
+
   @override
   Widget build(BuildContext context) {
     if (!sessionManager.isSignedIn){

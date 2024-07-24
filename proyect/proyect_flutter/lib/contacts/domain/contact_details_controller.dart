@@ -38,15 +38,19 @@ abstract class ContactDetailsController extends State<ContactDetails> {
         await checkIfContactIsOnList(updatedContact.phoneNumber);
     (error == null)
         ? await widget.client.contact.updateContact(updatedContact)
-        : await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CustomAlertDialog(
-                customTitle: error["errorTitle"]!,
-                customContent: error["errorMessage"]!,
-              );
-            });
-  }
+        : { if (mounted) 
+            {
+              await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CustomAlertDialog(
+                      customTitle: error["errorTitle"]!,
+                      customContent: error["errorMessage"]!,
+                    );
+                  })
+              }
+          };
+    }
 
     Future<void> deleteContact(Contact contact) async {
     await widget.client.contact.deleteContact(contact);
@@ -80,4 +84,4 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       ),
     );
   }
-}
+  }
