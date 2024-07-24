@@ -27,7 +27,7 @@ abstract class ContactListController extends State<ContactList> {
       errorTitle += 'phone ';
       errorMessage += 'phone is empty \n';
     }
-    bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text);
+    bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
     if (isContactOnList) {
       errorTitle = 'Contact already in your list';
       errorMessage = 'That contact is already in your list';

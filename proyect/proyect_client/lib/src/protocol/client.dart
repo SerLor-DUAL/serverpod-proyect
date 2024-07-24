@@ -52,11 +52,17 @@ class EndpointContact extends _i1.EndpointRef {
         {'userID': userID},
       );
 
-  _i2.Future<bool> isContactOnList(String phoneNumber) =>
+  _i2.Future<bool> isContactOnList(
+    String phoneNumber,
+    int userID,
+  ) =>
       caller.callServerEndpoint<bool>(
         'contact',
         'isContactOnList',
-        {'phoneNumber': phoneNumber},
+        {
+          'phoneNumber': phoneNumber,
+          'userID': userID,
+        },
       );
 
   _i2.Future<void> updateContact(_i3.Contact contact) =>

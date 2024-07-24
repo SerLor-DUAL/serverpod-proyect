@@ -15,10 +15,12 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
+
+  // TODO: CHECK TOMORROW. THIS IsContactOnList need to check the user too.
   Future<Map<String, String>?> checkIfContactIsOnList(
       String phoneNumber) async {
     bool isContactOnList =
-        await widget.client.contact.isContactOnList(phoneNumber);
+        await widget.client.contact.isContactOnList(phoneNumber, 1);
     Map<String, String>? error;
 
     if (isContactOnList) {

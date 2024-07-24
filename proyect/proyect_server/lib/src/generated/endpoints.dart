@@ -147,7 +147,12 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'phoneNumber',
               type: _i1.getType<String>(),
               nullable: false,
-            )
+            ),
+            'userID': _i1.ParameterDescription(
+              name: 'userID',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -156,6 +161,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['contact'] as _i2.ContactEndpoint).isContactOnList(
             session,
             params['phoneNumber'],
+            params['userID'],
           ),
         ),
         'updateContact': _i1.MethodConnector(

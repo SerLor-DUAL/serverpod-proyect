@@ -33,10 +33,11 @@ class ContactEndpoint extends Endpoint {
         where: (contact) => contact.userID.equals(userID));
   }
 
-  Future<bool> isContactOnList(Session session, String phoneNumber) async {
+  Future<bool> isContactOnList(Session session, String phoneNumber, int userID) async {
     Contact? contactFound = await Contact.db.findFirstRow(
                                                 session,
-                                                where: (contact) => contact.phoneNumber.equals(phoneNumber));
+                                                where: (contact) => contact.phoneNumber.equals(phoneNumber) & 
+                                                       (contact.userID.equals(userID)));
     return (contactFound == null)? false : true;
   }
 
