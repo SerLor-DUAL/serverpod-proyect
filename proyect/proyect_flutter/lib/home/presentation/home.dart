@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
+import 'package:proyect_flutter/main.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_task_details.dart';
 import '../../contacts/presentation/contact_list.dart';
@@ -18,11 +19,17 @@ class Home extends StatefulWidget {
 
   @override
   createState() => _Home();
+
+  
 }
 
 class _Home extends HomeController {
+
   @override
   Widget build(BuildContext context) {
+    if (!sessionManager.isSignedIn){
+      return const Text("401 - NOT AUTHORIZED");
+    }
     return Scaffold(
       body: SafeArea(
         top: true,

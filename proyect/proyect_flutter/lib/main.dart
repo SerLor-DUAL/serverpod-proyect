@@ -2,9 +2,9 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/authentication/login/presentation/login.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'common/services/app_routes.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+
 
 late SessionManager sessionManager;
 late Client client;
@@ -37,7 +37,7 @@ void main() async {
   );
   await sessionManager.initialize();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample App',
+      // Test
       home: Login(
         client: client,
       ),
@@ -56,5 +57,4 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  String getInitialPage() => AppRoutes.login;
 }

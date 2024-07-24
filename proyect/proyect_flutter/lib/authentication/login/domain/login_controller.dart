@@ -24,24 +24,6 @@ abstract class LoginController extends State<Login> {
     }
 
     try {
-      var userToLog =
-          await widget.client.usersRegistry.getUserByName(userController.text);
-
-      if (userToLog == null) {
-        if (mounted) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const CustomAlertDialog(
-                  customTitle: ("User Not Found"),
-                  customContent:
-                      ("User doesn't exist. Try registering a new user."),
-                );
-              });
-        }
-        return;
-      }
-
       var response = await widget.client.usersRegistry.login(userController.text, passwordController.text);
 
       // CHECK IF THE PASSWORD IS CORRECT
