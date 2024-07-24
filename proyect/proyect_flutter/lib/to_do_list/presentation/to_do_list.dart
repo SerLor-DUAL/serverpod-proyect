@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
+import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'to_do_task_details.dart';
-import 'pop_up_create_to_do_task.dart';
 
 part '../domain/to_do_list_controller.dart';
 
@@ -114,7 +115,7 @@ class _ToDoList extends ToDoListController {
         // FLOATING ACTION BUTTON
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            _askForToDoInput();
+            await _askForToDoInput();
           },
           backgroundColor: Colors.lightBlue[900],
           child: const Icon(

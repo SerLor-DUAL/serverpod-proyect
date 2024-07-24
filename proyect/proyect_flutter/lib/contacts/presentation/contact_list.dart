@@ -2,7 +2,9 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/common/services/route_generator.dart';
-import 'pop_up_create_contact.dart';
+import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
+import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
+import 'package:proyect_flutter/main.dart';
 part '../domain/contact_list_controller.dart';
 
 class ContactList extends StatefulWidget {
@@ -93,7 +95,7 @@ class _ContactList extends ContactListController {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            _askForContactInput();
+            await _askForContactInput();
           },
           backgroundColor: Colors.lightBlue[900],
           child: const Icon(

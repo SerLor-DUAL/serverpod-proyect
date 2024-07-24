@@ -1,7 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
+import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/main.dart';
-import 'pop_up_edit_to_do_task.dart';
 part '../domain/to_do_task_details_controller.dart';
 
 class TaskDetails extends StatefulWidget {
@@ -91,11 +91,7 @@ class _TaskDetailsState extends TaskDetailsController {
           // EDIT TASK BUTTON
           FloatingActionButton(
             onPressed: () async {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    EditTaskPopUp(client: widget.client, task: widget.task),
-              );
+              await _askForUpdateToDoInput();
               // UPDATES STATE AFTER EditTaskPopUp
               setState(() {});
             },
@@ -111,7 +107,6 @@ class _TaskDetailsState extends TaskDetailsController {
           FloatingActionButton(
             onPressed: () async {
               await deleteTask(task);
-
               if (!context.mounted) return;
               Navigator.pop(context);
             },
