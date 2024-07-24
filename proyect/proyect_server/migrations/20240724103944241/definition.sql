@@ -48,11 +48,13 @@ CREATE TABLE "users_registry" (
     "id" bigserial PRIMARY KEY,
     "userName" text NOT NULL,
     "userPassword" text NOT NULL,
-    "options" bigint NOT NULL
+    "options" bigint NOT NULL,
+    "userInfoId" bigint NOT NULL
 );
 
 -- Indexes
 CREATE UNIQUE INDEX "user_name_idx" ON "users_registry" USING btree ("userName");
+CREATE UNIQUE INDEX "user_info_id_unique_idx" ON "users_registry" USING btree ("userInfoId");
 
 --
 -- Class CloudStorageEntry as table serverpod_cloud_storage
@@ -260,7 +262,118 @@ CREATE INDEX "serverpod_session_log_serverid_idx" ON "serverpod_session_log" USI
 CREATE INDEX "serverpod_session_log_touched_idx" ON "serverpod_session_log" USING btree ("touched");
 CREATE INDEX "serverpod_session_log_isopen_idx" ON "serverpod_session_log" USING btree ("isOpen");
 
-/*
+--
+-- Class AuthKey as table serverpod_auth_key
+--
+CREATE TABLE "serverpod_auth_key" (
+    "id" bigserial PRIMARY KEY,
+    "userId" bigint NOT NULL,
+    "hash" text NOT NULL,
+    "scopeNames" json NOT NULL,
+    "method" text NOT NULL
+);
+
+-- Indexes
+CREATE INDEX "serverpod_auth_key_userId_idx" ON "serverpod_auth_key" USING btree ("userId");
+
+--
+-- Class EmailAuth as table serverpod_email_auth
+--
+CREATE TABLE "serverpod_email_auth" (
+    "id" bigserial PRIMARY KEY,
+    "userId" bigint NOT NULL,
+    "email" text NOT NULL,
+    "hash" text NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "serverpod_email_auth_email" ON "serverpod_email_auth" USING btree ("email");
+
+--
+-- Class EmailCreateAccountRequest as table serverpod_email_create_request
+--
+CREATE TABLE "serverpod_email_create_request" (
+    "id" bigserial PRIMARY KEY,
+    "userName" text NOT NULL,
+    "email" text NOT NULL,
+    "hash" text NOT NULL,
+    "verificationCode" text NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "serverpod_email_auth_create_account_request_idx" ON "serverpod_email_create_request" USING btree ("email");
+
+--
+-- Class EmailFailedSignIn as table serverpod_email_failed_sign_in
+--
+CREATE TABLE "serverpod_email_failed_sign_in" (
+    "id" bigserial PRIMARY KEY,
+    "email" text NOT NULL,
+    "time" timestamp without time zone NOT NULL,
+    "ipAddress" text NOT NULL
+);
+
+-- Indexes
+CREATE INDEX "serverpod_email_failed_sign_in_email_idx" ON "serverpod_email_failed_sign_in" USING btree ("email");
+CREATE INDEX "serverpod_email_failed_sign_in_time_idx" ON "serverpod_email_failed_sign_in" USING btree ("time");
+
+--
+-- Class EmailReset as table serverpod_email_reset
+--
+CREATE TABLE "serverpod_email_reset" (
+    "id" bigserial PRIMARY KEY,
+    "userId" bigint NOT NULL,
+    "verificationCode" text NOT NULL,
+    "expiration" timestamp without time zone NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "serverpod_email_reset_verification_idx" ON "serverpod_email_reset" USING btree ("verificationCode");
+
+--
+-- Class GoogleRefreshToken as table serverpod_google_refresh_token
+--
+CREATE TABLE "serverpod_google_refresh_token" (
+    "id" bigserial PRIMARY KEY,
+    "userId" bigint NOT NULL,
+    "refreshToken" text NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "serverpod_google_refresh_token_userId_idx" ON "serverpod_google_refresh_token" USING btree ("userId");
+
+--
+-- Class UserImage as table serverpod_user_image
+--
+CREATE TABLE "serverpod_user_image" (
+    "id" bigserial PRIMARY KEY,
+    "userId" bigint NOT NULL,
+    "version" bigint NOT NULL,
+    "url" text NOT NULL
+);
+
+-- Indexes
+CREATE INDEX "serverpod_user_image_user_id" ON "serverpod_user_image" USING btree ("userId", "version");
+
+--
+-- Class UserInfo as table serverpod_user_info
+--
+CREATE TABLE "serverpod_user_info" (
+    "id" bigserial PRIMARY KEY,
+    "userIdentifier" text NOT NULL,
+    "userName" text,
+    "fullName" text,
+    "email" text,
+    "created" timestamp without time zone NOT NULL,
+    "imageUrl" text,
+    "scopeNames" json NOT NULL,
+    "blocked" boolean NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "serverpod_user_info_user_identifier" ON "serverpod_user_info" USING btree ("userIdentifier");
+CREATE INDEX "serverpod_user_info_email" ON "serverpod_user_info" USING btree ("email");
+
 --
 -- Foreign relations for "contacts" table
 --
@@ -290,83 +403,10 @@ ALTER TABLE ONLY "users_registry"
     REFERENCES "password_options"("id")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
-
---
--- Foreign relations for "serverpod_log" table
---
-ALTER TABLE ONLY "serverpod_log"
-    ADD CONSTRAINT "serverpod_log_fk_0"
-    FOREIGN KEY("sessionLogId")
-    REFERENCES "serverpod_session_log"("id")
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION;
-
---
--- Foreign relations for "serverpod_message_log" table
---
-ALTER TABLE ONLY "serverpod_message_log"
-    ADD CONSTRAINT "serverpod_message_log_fk_0"
-    FOREIGN KEY("sessionLogId")
-    REFERENCES "serverpod_session_log"("id")
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION;
-
---
--- Foreign relations for "serverpod_query_log" table
---
-ALTER TABLE ONLY "serverpod_query_log"
-    ADD CONSTRAINT "serverpod_query_log_fk_0"
-    FOREIGN KEY("sessionLogId")
-    REFERENCES "serverpod_session_log"("id")
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION;
-
-
---
--- MIGRATION VERSION FOR proyect
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('proyect', '20240718081201511', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240718081201511', "timestamp" = now();
-
---
--- MIGRATION VERSION FOR serverpod
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('serverpod', '20240516151843329', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240516151843329', "timestamp" = now();
-
-*/
-
---
--- Foreign relations for "contacts" table
---
-ALTER TABLE ONLY "contacts"
-    ADD CONSTRAINT "contacts_fk_0"
-    FOREIGN KEY ("userID")
-    REFERENCES "users_registry"("id")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION;
-
---
--- Foreign relations for "tasks" table
---
-ALTER TABLE ONLY "tasks"
-    ADD CONSTRAINT "tasks_fk_0"
-    FOREIGN KEY ("userID")
-    REFERENCES "users_registry"("id")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION;
-
---
--- Foreign relations for "users_registry" table
---
 ALTER TABLE ONLY "users_registry"
-    ADD CONSTRAINT "users_registry_fk_0"
-    FOREIGN KEY ("options")
-    REFERENCES "password_options"("id")
+    ADD CONSTRAINT "users_registry_fk_1"
+    FOREIGN KEY("userInfoId")
+    REFERENCES "serverpod_user_info"("id")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
 
@@ -375,7 +415,7 @@ ALTER TABLE ONLY "users_registry"
 --
 ALTER TABLE ONLY "serverpod_log"
     ADD CONSTRAINT "serverpod_log_fk_0"
-    FOREIGN KEY ("sessionLogId")
+    FOREIGN KEY("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
@@ -385,7 +425,7 @@ ALTER TABLE ONLY "serverpod_log"
 --
 ALTER TABLE ONLY "serverpod_message_log"
     ADD CONSTRAINT "serverpod_message_log_fk_0"
-    FOREIGN KEY ("sessionLogId")
+    FOREIGN KEY("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
@@ -395,25 +435,51 @@ ALTER TABLE ONLY "serverpod_message_log"
 --
 ALTER TABLE ONLY "serverpod_query_log"
     ADD CONSTRAINT "serverpod_query_log_fk_0"
-    FOREIGN KEY ("sessionLogId")
+    FOREIGN KEY("sessionLogId")
     REFERENCES "serverpod_session_log"("id")
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
 
---
--- MIGRATION VERSION FOR project
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('project', '20240718081201511', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240718081201511', "timestamp" = now();
 
---
+BEGIN;
+
+-- MIGRATION VERSION FOR proyect
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'proyect') THEN
+        UPDATE "serverpod_migrations"
+        SET "version" = '20240724103944241', "timestamp" = now()
+        WHERE "module" = 'proyect';
+    ELSE
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('proyect', '20240724103944241', now());
+    END IF;
+END $$;
+
 -- MIGRATION VERSION FOR serverpod
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('serverpod', '20240516151843329', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240516151843329', "timestamp" = now();
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'serverpod') THEN
+        UPDATE "serverpod_migrations"
+        SET "version" = '20240516151843329', "timestamp" = now()
+        WHERE "module" = 'serverpod';
+    ELSE
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('serverpod', '20240516151843329', now());
+    END IF;
+END $$;
+
+-- MIGRATION VERSION FOR serverpod_auth
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'serverpod_auth') THEN
+        UPDATE "serverpod_migrations"
+        SET "version" = '20240520102713718', "timestamp" = now()
+        WHERE "module" = 'serverpod_auth';
+    ELSE
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('serverpod_auth', '20240520102713718', now());
+    END IF;
+END $$;
 
 COMMIT;
