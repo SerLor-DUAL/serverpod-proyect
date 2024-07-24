@@ -48,8 +48,8 @@ abstract class TaskDetailsController extends State<TaskDetails> {
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () {
-               updateTask();
+            onPressed: () async {
+               await updateTask();
                Navigator.of(context).pop();
             },
             child: const Text('Edit Task'),

@@ -1,7 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
-import 'package:proyect_flutter/main.dart';
-import 'pop_up_edit_contact.dart';
+import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
+import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 part '../domain/contact_details_controller.dart';
 
 class ContactDetails extends StatefulWidget {
@@ -117,11 +117,7 @@ class _ContactDetails extends ContactDetailsController {
           // EDIT TASK BUTTON
           FloatingActionButton(
             onPressed: () async {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) => EditContactPopUp(
-                    client: widget.client, contact: widget.contact),
-              );
+              await _askForUpdateToDoInput();
               // UPDATES STATE AFTER EditTaskPopUp
               setState(() {});
             },

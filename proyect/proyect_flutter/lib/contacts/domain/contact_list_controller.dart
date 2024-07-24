@@ -13,14 +13,6 @@ abstract class ContactListController extends State<ContactList> {
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _phoneCon = TextEditingController();
 
-  // TAKES CONTROLLER'S DATA AND CREATE A TASK
-  Contact createContactWithData() {
-    return Contact(
-        name: _nameCon.text,
-        phoneNumber: _phoneCon.text,
-        userID: widget.user.id!);
-  }
-
   // CHECKS IF ERROR EXISTS
   Future<Map<String, String>?> checkIfError() async {
     String errorTitle = '';
@@ -69,6 +61,14 @@ abstract class ContactListController extends State<ContactList> {
     await widget.client.contact.addContact(newContact);
   }
 
+  // TAKES CONTROLLER'S DATA AND CREATE A TASK
+  Contact createContactWithData() {
+    return Contact(
+        name: _nameCon.text,
+        phoneNumber: _phoneCon.text,
+        userID: widget.user.id!);
+  }
+
   // LOAD EVERYTASK FROM USERID IN WIDGET.
   void _loadContacts() async {
     final List<Contact> contactList =
@@ -78,12 +78,31 @@ abstract class ContactListController extends State<ContactList> {
     });
   }
 
-    void _askForContactInput() async {
+  Future<void> _askForContactInput() async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) => CreateContactPopUp(
+      builder: (BuildContext context) => CustomInputDialog(
         client: widget.client,
-        userID: widget.user.id!,
+        user: widget.user,
+        title: 'Add Contact',
+        content: null, // NO QUIERO CONTENIDO AQUÍ
+        textControllers: [_nameCon, _phoneCon],
+        labels: const ['Name', 'Phone'],
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await createContact();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Create Contact'),
+          ),
+        ],
       ),
     );
     _loadContacts();
