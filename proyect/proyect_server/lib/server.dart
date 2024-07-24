@@ -4,6 +4,8 @@ import 'package:proyect_server/src/web/routes/root.dart';
 
 import 'src/generated/protocol.dart';
 import 'src/generated/endpoints.dart';
+// Auth package added as auth
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 
 // This is the starting point of your Serverpod server. In most cases, you will
 // only need to make additions to this file if you add future calls,  are
@@ -15,7 +17,13 @@ void run(List<String> args) async {
     args,
     Protocol(),
     Endpoints(),
+    authenticationHandler: auth.authenticationHandler,
   );
+
+  // AUTH CONFIGURATION
+  auth.AuthConfig.set(auth.AuthConfig(  
+    minPasswordLength: 12,
+  ));  
 
   // If you are using any future calls, they need to be registered here.
   // pod.registerFutureCall(ExampleFutureCall(), 'exampleFutureCall');

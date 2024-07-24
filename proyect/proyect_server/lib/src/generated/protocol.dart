@@ -11,13 +11,14 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'contacts/contacts.dart' as _i3;
-import 'todolist/tasks.dart' as _i4;
-import 'users/password_options.dart' as _i5;
-import 'users/users_registry.dart' as _i6;
-import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i7;
-import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i8;
-import 'package:proyect_server/src/generated/users/users_registry.dart' as _i9;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
+import 'contacts/contacts.dart' as _i4;
+import 'todolist/tasks.dart' as _i5;
+import 'users/password_options.dart' as _i6;
+import 'users/users_registry.dart' as _i7;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i8;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i9;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i10;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -301,6 +302,12 @@ class Protocol extends _i1.SerializationManagerServer {
           isNullable: false,
           dartType: 'int',
         ),
+        _i2.ColumnDefinition(
+          name: 'userInfoId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
       ],
       foreignKeys: [
         _i2.ForeignKeyDefinition(
@@ -312,7 +319,17 @@ class Protocol extends _i1.SerializationManagerServer {
           onUpdate: _i2.ForeignKeyAction.noAction,
           onDelete: _i2.ForeignKeyAction.noAction,
           matchType: null,
-        )
+        ),
+        _i2.ForeignKeyDefinition(
+          constraintName: 'users_registry_fk_1',
+          columns: ['userInfoId'],
+          referenceTable: 'serverpod_user_info',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
       ],
       indexes: [
         _i2.IndexDefinition(
@@ -341,9 +358,23 @@ class Protocol extends _i1.SerializationManagerServer {
           isUnique: true,
           isPrimary: false,
         ),
+        _i2.IndexDefinition(
+          indexName: 'user_info_id_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userInfoId',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
       ],
       managed: true,
     ),
+    ..._i3.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
   ];
 
@@ -353,43 +384,46 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Contact) {
-      return _i3.Contact.fromJson(data) as T;
+    if (t == _i4.Contact) {
+      return _i4.Contact.fromJson(data) as T;
     }
-    if (t == _i4.Task) {
-      return _i4.Task.fromJson(data) as T;
+    if (t == _i5.Task) {
+      return _i5.Task.fromJson(data) as T;
     }
-    if (t == _i5.PasswordOptions) {
-      return _i5.PasswordOptions.fromJson(data) as T;
+    if (t == _i6.PasswordOptions) {
+      return _i6.PasswordOptions.fromJson(data) as T;
     }
-    if (t == _i6.UsersRegistry) {
-      return _i6.UsersRegistry.fromJson(data) as T;
+    if (t == _i7.UsersRegistry) {
+      return _i7.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i3.Contact?>()) {
-      return (data != null ? _i3.Contact.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Contact?>()) {
+      return (data != null ? _i4.Contact.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Task?>()) {
-      return (data != null ? _i4.Task.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.Task?>()) {
+      return (data != null ? _i5.Task.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.PasswordOptions?>()) {
-      return (data != null ? _i5.PasswordOptions.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.PasswordOptions?>()) {
+      return (data != null ? _i6.PasswordOptions.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.UsersRegistry?>()) {
-      return (data != null ? _i6.UsersRegistry.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.UsersRegistry?>()) {
+      return (data != null ? _i7.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == List<_i7.Contact>) {
-      return (data as List).map((e) => deserialize<_i7.Contact>(e)).toList()
+    if (t == List<_i8.Contact>) {
+      return (data as List).map((e) => deserialize<_i8.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i8.Task>) {
-      return (data as List).map((e) => deserialize<_i8.Task>(e)).toList()
+    if (t == List<_i9.Task>) {
+      return (data as List).map((e) => deserialize<_i9.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.UsersRegistry>) {
+    if (t == List<_i10.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i9.UsersRegistry>(e))
+          .map((e) => deserialize<_i10.UsersRegistry>(e))
           .toList() as dynamic;
     }
+    try {
+      return _i3.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
       return _i2.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
@@ -398,16 +432,21 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Contact) {
+    String? className;
+    className = _i3.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
+    }
+    if (data is _i4.Contact) {
       return 'Contact';
     }
-    if (data is _i4.Task) {
+    if (data is _i5.Task) {
       return 'Task';
     }
-    if (data is _i5.PasswordOptions) {
+    if (data is _i6.PasswordOptions) {
       return 'PasswordOptions';
     }
-    if (data is _i6.UsersRegistry) {
+    if (data is _i7.UsersRegistry) {
       return 'UsersRegistry';
     }
     return super.getClassNameForObject(data);
@@ -415,17 +454,21 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'].startsWith('serverpod_auth.')) {
+      data['className'] = data['className'].substring(15);
+      return _i3.Protocol().deserializeByClassName(data);
+    }
     if (data['className'] == 'Contact') {
-      return deserialize<_i3.Contact>(data['data']);
+      return deserialize<_i4.Contact>(data['data']);
     }
     if (data['className'] == 'Task') {
-      return deserialize<_i4.Task>(data['data']);
+      return deserialize<_i5.Task>(data['data']);
     }
     if (data['className'] == 'PasswordOptions') {
-      return deserialize<_i5.PasswordOptions>(data['data']);
+      return deserialize<_i6.PasswordOptions>(data['data']);
     }
     if (data['className'] == 'UsersRegistry') {
-      return deserialize<_i6.UsersRegistry>(data['data']);
+      return deserialize<_i7.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -433,20 +476,26 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
+      var table = _i3.Protocol().getTableForType(t);
+      if (table != null) {
+        return table;
+      }
+    }
+    {
       var table = _i2.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     switch (t) {
-      case _i3.Contact:
-        return _i3.Contact.t;
-      case _i4.Task:
-        return _i4.Task.t;
-      case _i5.PasswordOptions:
-        return _i5.PasswordOptions.t;
-      case _i6.UsersRegistry:
-        return _i6.UsersRegistry.t;
+      case _i4.Contact:
+        return _i4.Contact.t;
+      case _i5.Task:
+        return _i5.Task.t;
+      case _i6.PasswordOptions:
+        return _i6.PasswordOptions.t;
+      case _i7.UsersRegistry:
+        return _i7.UsersRegistry.t;
     }
     return null;
   }

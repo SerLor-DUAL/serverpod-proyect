@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i2;
 
 abstract class UsersRegistry implements _i1.SerializableModel {
   UsersRegistry._({
@@ -16,6 +17,8 @@ abstract class UsersRegistry implements _i1.SerializableModel {
     required this.userName,
     required this.userPassword,
     required this.options,
+    required this.userInfoId,
+    this.userInfo,
   });
 
   factory UsersRegistry({
@@ -23,6 +26,8 @@ abstract class UsersRegistry implements _i1.SerializableModel {
     required String userName,
     required String userPassword,
     required int options,
+    required int userInfoId,
+    _i2.UserInfo? userInfo,
   }) = _UsersRegistryImpl;
 
   factory UsersRegistry.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -31,6 +36,11 @@ abstract class UsersRegistry implements _i1.SerializableModel {
       userName: jsonSerialization['userName'] as String,
       userPassword: jsonSerialization['userPassword'] as String,
       options: jsonSerialization['options'] as int,
+      userInfoId: jsonSerialization['userInfoId'] as int,
+      userInfo: jsonSerialization['userInfo'] == null
+          ? null
+          : _i2.UserInfo.fromJson(
+              (jsonSerialization['userInfo'] as Map<String, dynamic>)),
     );
   }
 
@@ -45,11 +55,17 @@ abstract class UsersRegistry implements _i1.SerializableModel {
 
   int options;
 
+  int userInfoId;
+
+  _i2.UserInfo? userInfo;
+
   UsersRegistry copyWith({
     int? id,
     String? userName,
     String? userPassword,
     int? options,
+    int? userInfoId,
+    _i2.UserInfo? userInfo,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -58,6 +74,8 @@ abstract class UsersRegistry implements _i1.SerializableModel {
       'userName': userName,
       'userPassword': userPassword,
       'options': options,
+      'userInfoId': userInfoId,
+      if (userInfo != null) 'userInfo': userInfo?.toJson(),
     };
   }
 
@@ -75,11 +93,15 @@ class _UsersRegistryImpl extends UsersRegistry {
     required String userName,
     required String userPassword,
     required int options,
+    required int userInfoId,
+    _i2.UserInfo? userInfo,
   }) : super._(
           id: id,
           userName: userName,
           userPassword: userPassword,
           options: options,
+          userInfoId: userInfoId,
+          userInfo: userInfo,
         );
 
   @override
@@ -88,12 +110,17 @@ class _UsersRegistryImpl extends UsersRegistry {
     String? userName,
     String? userPassword,
     int? options,
+    int? userInfoId,
+    Object? userInfo = _Undefined,
   }) {
     return UsersRegistry(
       id: id is int? ? id : this.id,
       userName: userName ?? this.userName,
       userPassword: userPassword ?? this.userPassword,
       options: options ?? this.options,
+      userInfoId: userInfoId ?? this.userInfoId,
+      userInfo:
+          userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
     );
   }
 }

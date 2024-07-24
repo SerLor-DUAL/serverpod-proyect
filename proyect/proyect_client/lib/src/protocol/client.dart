@@ -14,7 +14,8 @@ import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i3;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i5;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
+import 'protocol.dart' as _i8;
 
 /// {@category Endpoint}
 class EndpointContact extends _i1.EndpointRef {
@@ -156,6 +157,20 @@ class EndpointTasks extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointAuthenticated extends _i1.EndpointRef {
+  EndpointAuthenticated(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authenticated';
+
+  _i2.Future<void> logout() => caller.callServerEndpoint<void>(
+        'authenticated',
+        'logout',
+        {},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointPasswordGenerator extends _i1.EndpointRef {
   EndpointPasswordGenerator(_i1.EndpointCaller caller) : super(caller);
 
@@ -290,6 +305,32 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'user': user},
       );
 
+  _i2.Future<_i7.AuthenticationResponse> login(
+    String username,
+    String password,
+  ) =>
+      caller.callServerEndpoint<_i7.AuthenticationResponse>(
+        'usersRegistry',
+        'login',
+        {
+          'username': username,
+          'password': password,
+        },
+      );
+
+  _i2.Future<bool> authenticateUser(
+    _i6.UsersRegistry? user,
+    String password,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'usersRegistry',
+        'authenticateUser',
+        {
+          'user': user,
+          'password': password,
+        },
+      );
+
   _i2.Future<bool> validatePassword(
     String password,
     String hashedPass,
@@ -302,6 +343,21 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
           'hashedPass': hashedPass,
         },
       );
+
+  _i2.Future<_i7.UserInfo> createUserInfo(String username) =>
+      caller.callServerEndpoint<_i7.UserInfo>(
+        'usersRegistry',
+        'createUserInfo',
+        {'username': username},
+      );
+}
+
+class _Modules {
+  _Modules(Client client) {
+    auth = _i7.Caller(client);
+  }
+
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -319,7 +375,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -329,14 +385,18 @@ class Client extends _i1.ServerpodClient {
         ) {
     contact = EndpointContact(this);
     tasks = EndpointTasks(this);
+    authenticated = EndpointAuthenticated(this);
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
+    modules = _Modules(this);
   }
 
   late final EndpointContact contact;
 
   late final EndpointTasks tasks;
+
+  late final EndpointAuthenticated authenticated;
 
   late final EndpointPasswordGenerator passwordGenerator;
 
@@ -344,15 +404,19 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
+  late final _Modules modules;
+
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'contact': contact,
         'tasks': tasks,
+        'authenticated': authenticated,
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
       };
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
+      {'auth': modules.auth};
 }

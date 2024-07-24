@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i2;
 
 abstract class UsersRegistry extends _i1.TableRow
     implements _i1.ProtocolSerialization {
@@ -17,6 +18,8 @@ abstract class UsersRegistry extends _i1.TableRow
     required this.userName,
     required this.userPassword,
     required this.options,
+    required this.userInfoId,
+    this.userInfo,
   }) : super(id);
 
   factory UsersRegistry({
@@ -24,6 +27,8 @@ abstract class UsersRegistry extends _i1.TableRow
     required String userName,
     required String userPassword,
     required int options,
+    required int userInfoId,
+    _i2.UserInfo? userInfo,
   }) = _UsersRegistryImpl;
 
   factory UsersRegistry.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -32,6 +37,11 @@ abstract class UsersRegistry extends _i1.TableRow
       userName: jsonSerialization['userName'] as String,
       userPassword: jsonSerialization['userPassword'] as String,
       options: jsonSerialization['options'] as int,
+      userInfoId: jsonSerialization['userInfoId'] as int,
+      userInfo: jsonSerialization['userInfo'] == null
+          ? null
+          : _i2.UserInfo.fromJson(
+              (jsonSerialization['userInfo'] as Map<String, dynamic>)),
     );
   }
 
@@ -45,6 +55,10 @@ abstract class UsersRegistry extends _i1.TableRow
 
   int options;
 
+  int userInfoId;
+
+  _i2.UserInfo? userInfo;
+
   @override
   _i1.Table get table => t;
 
@@ -53,6 +67,8 @@ abstract class UsersRegistry extends _i1.TableRow
     String? userName,
     String? userPassword,
     int? options,
+    int? userInfoId,
+    _i2.UserInfo? userInfo,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -61,6 +77,8 @@ abstract class UsersRegistry extends _i1.TableRow
       'userName': userName,
       'userPassword': userPassword,
       'options': options,
+      'userInfoId': userInfoId,
+      if (userInfo != null) 'userInfo': userInfo?.toJson(),
     };
   }
 
@@ -71,11 +89,13 @@ abstract class UsersRegistry extends _i1.TableRow
       'userName': userName,
       'userPassword': userPassword,
       'options': options,
+      'userInfoId': userInfoId,
+      if (userInfo != null) 'userInfo': userInfo?.toJsonForProtocol(),
     };
   }
 
-  static UsersRegistryInclude include() {
-    return UsersRegistryInclude._();
+  static UsersRegistryInclude include({_i2.UserInfoInclude? userInfo}) {
+    return UsersRegistryInclude._(userInfo: userInfo);
   }
 
   static UsersRegistryIncludeList includeList({
@@ -112,11 +132,15 @@ class _UsersRegistryImpl extends UsersRegistry {
     required String userName,
     required String userPassword,
     required int options,
+    required int userInfoId,
+    _i2.UserInfo? userInfo,
   }) : super._(
           id: id,
           userName: userName,
           userPassword: userPassword,
           options: options,
+          userInfoId: userInfoId,
+          userInfo: userInfo,
         );
 
   @override
@@ -125,12 +149,17 @@ class _UsersRegistryImpl extends UsersRegistry {
     String? userName,
     String? userPassword,
     int? options,
+    int? userInfoId,
+    Object? userInfo = _Undefined,
   }) {
     return UsersRegistry(
       id: id is int? ? id : this.id,
       userName: userName ?? this.userName,
       userPassword: userPassword ?? this.userPassword,
       options: options ?? this.options,
+      userInfoId: userInfoId ?? this.userInfoId,
+      userInfo:
+          userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
     );
   }
 }
@@ -150,6 +179,10 @@ class UsersRegistryTable extends _i1.Table {
       'options',
       this,
     );
+    userInfoId = _i1.ColumnInt(
+      'userInfoId',
+      this,
+    );
   }
 
   late final _i1.ColumnString userName;
@@ -158,20 +191,50 @@ class UsersRegistryTable extends _i1.Table {
 
   late final _i1.ColumnInt options;
 
+  late final _i1.ColumnInt userInfoId;
+
+  _i2.UserInfoTable? _userInfo;
+
+  _i2.UserInfoTable get userInfo {
+    if (_userInfo != null) return _userInfo!;
+    _userInfo = _i1.createRelationTable(
+      relationFieldName: 'userInfo',
+      field: UsersRegistry.t.userInfoId,
+      foreignField: _i2.UserInfo.t.id,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.UserInfoTable(tableRelation: foreignTableRelation),
+    );
+    return _userInfo!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
         userName,
         userPassword,
         options,
+        userInfoId,
       ];
+
+  @override
+  _i1.Table? getRelationTable(String relationField) {
+    if (relationField == 'userInfo') {
+      return userInfo;
+    }
+    return null;
+  }
 }
 
 class UsersRegistryInclude extends _i1.IncludeObject {
-  UsersRegistryInclude._();
+  UsersRegistryInclude._({_i2.UserInfoInclude? userInfo}) {
+    _userInfo = userInfo;
+  }
+
+  _i2.UserInfoInclude? _userInfo;
 
   @override
-  Map<String, _i1.Include?> get includes => {};
+  Map<String, _i1.Include?> get includes => {'userInfo': _userInfo};
 
   @override
   _i1.Table get table => UsersRegistry.t;
@@ -200,6 +263,8 @@ class UsersRegistryIncludeList extends _i1.IncludeList {
 class UsersRegistryRepository {
   const UsersRegistryRepository._();
 
+  final attachRow = const UsersRegistryAttachRowRepository._();
+
   Future<List<UsersRegistry>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<UsersRegistryTable>? where,
@@ -209,6 +274,7 @@ class UsersRegistryRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<UsersRegistryTable>? orderByList,
     _i1.Transaction? transaction,
+    UsersRegistryInclude? include,
   }) async {
     return session.db.find<UsersRegistry>(
       where: where?.call(UsersRegistry.t),
@@ -218,6 +284,7 @@ class UsersRegistryRepository {
       limit: limit,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -229,6 +296,7 @@ class UsersRegistryRepository {
     bool orderDescending = false,
     _i1.OrderByListBuilder<UsersRegistryTable>? orderByList,
     _i1.Transaction? transaction,
+    UsersRegistryInclude? include,
   }) async {
     return session.db.findFirstRow<UsersRegistry>(
       where: where?.call(UsersRegistry.t),
@@ -237,6 +305,7 @@ class UsersRegistryRepository {
       orderDescending: orderDescending,
       offset: offset,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -244,10 +313,12 @@ class UsersRegistryRepository {
     _i1.Session session,
     int id, {
     _i1.Transaction? transaction,
+    UsersRegistryInclude? include,
   }) async {
     return session.db.findById<UsersRegistry>(
       id,
       transaction: transaction,
+      include: include,
     );
   }
 
@@ -342,6 +413,29 @@ class UsersRegistryRepository {
       where: where?.call(UsersRegistry.t),
       limit: limit,
       transaction: transaction,
+    );
+  }
+}
+
+class UsersRegistryAttachRowRepository {
+  const UsersRegistryAttachRowRepository._();
+
+  Future<void> userInfo(
+    _i1.Session session,
+    UsersRegistry usersRegistry,
+    _i2.UserInfo userInfo,
+  ) async {
+    if (usersRegistry.id == null) {
+      throw ArgumentError.notNull('usersRegistry.id');
+    }
+    if (userInfo.id == null) {
+      throw ArgumentError.notNull('userInfo.id');
+    }
+
+    var $usersRegistry = usersRegistry.copyWith(userInfoId: userInfo.id);
+    await session.db.updateRow<UsersRegistry>(
+      $usersRegistry,
+      columns: [UsersRegistry.t.userInfoId],
     );
   }
 }

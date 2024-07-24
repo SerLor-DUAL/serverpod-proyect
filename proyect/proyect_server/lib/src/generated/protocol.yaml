@@ -18,6 +18,8 @@ tasks:
   - toogleComplete:
   - deleteTask:
   - deleteMultipleTasks:
+authenticated:
+  - logout:
 passwordGenerator:
   - createPassword:
 passwordOptions:
@@ -35,4 +37,7 @@ usersRegistry:
   - updateUser:
   - createUser:
   - deleteUser:
+  - login:
+  - authenticateUser:
   - validatePassword:
+  - createUserInfo:
