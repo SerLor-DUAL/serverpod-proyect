@@ -11,47 +11,14 @@ TextEditingController confirmController = TextEditingController();
 // USER REGISTRY FUNCTION
 Future<void> registryUser() async 
 {
-
-  // CHECK ALL FIELDS ARE BEING USED
-  if (userController.text.isEmpty || passwordController.text.isEmpty || confirmController.text.isEmpty) 
-  {
-    if (mounted) 
-    {
-      showDialog( context: context,
-                  builder: (context) => const AlertDialog( title: Text("Error"),
-                                                           content: Text("Please fill in all fields."),
-        ),
-      );
-    }
+  // CALLS FOR A FUNCTION THAT VALIDATES INPUTS.
+  if (!validateInputs()){
     return;
   }
 
-  // CHECK IF PASSWORD FIELDS MATCH
-  if (passwordController.text != confirmController.text) 
-  {
-    if (mounted) 
-    {
-      showDialog( context: context,
-                  builder: (context) => const AlertDialog( title: Text("Error"),
-                                                           content: Text("Passwords do not match."),
-        ),
-      );
-    }
-    return;
-  }
-
-  // CHECK IF THE USER ALREADY EXISTS IN THE DB
-  bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);
-  if (userExists) 
-  {
-    if (mounted) 
-    {
-      showDialog( context: context,
-                  builder: (context) => const AlertDialog( title: Text("Error"),
-                                                           content: Text("User already exists."),
-        ),
-      );
-    }
+  // CALLS FOR A FUNCTION THAT VALIDATES USER EXISTANCE
+  bool userExists = await checkUserExistance();
+  if (userExists) {
     return;
   }
 
@@ -67,19 +34,11 @@ Future<void> registryUser() async
   // TRY - CATCH BLOCK FOR HANDLE ERRORS
   try 
   {
-    // CREATE PASSWORD OPTIONS IN THE DB
-    await widget.client.passwordOptions.createOptions(selectedOptions);
+    // CREATES NEW USER
+    await createUser(selectedOptions);
 
-    // GET THE LATEST PASSWORD OPTIONS GENERATED TO RETRIEVE ITS ID
-    var lastOptionsGenerated = await widget.client.passwordOptions.getLastID();
-
-    // CREATE THE USER IN THE DB
-    var generatedUser = await widget.client.usersRegistry.createUser( userController.text,
-                                                                      lastOptionsGenerated!,
-                                                                      selectedUserPassword: passwordController.text, );
-
-    // SEE CREATED USER
-    await welcomeUser(generatedUser.id!);
+    // GET AUTHENTICATION
+    await getAuth();
   } 
   catch (e) 
   {
@@ -100,13 +59,13 @@ Future<void> registryUser() async
 }
 
 // RETURNS THE USER FROM SELECTED ID
-Future<void> welcomeUser(int userId) async 
+Future<void> welcomeUser(String userName) async 
 {
   // TRY - CATCH BLOCK FOR HANDLE ERRORS
   try
   {
     // FETCH USER BY ID
-    var user = await widget.client.usersRegistry.getUserById(userId); 
+    var user = await widget.client.usersRegistry.getUserByName(userName); 
 
     // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
     if (!mounted) return;
@@ -131,7 +90,7 @@ Future<void> welcomeUser(int userId) async
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),
-                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, AppRoutes.todoList, arguments: args),
+                                                     actions: [ TextButton( onPressed: () => Navigator.pushNamed(context, AppRoutes.home, arguments: args),
                                                                             child: const Text('OK'), 
             ),
           ],
@@ -155,6 +114,108 @@ Future<void> welcomeUser(int userId) async
     }
   }
 }
+
+// CHECK IF INPUTS ARE CORRECT.
+bool validateInputs(){
+  bool areValid = true;
+   // CHECK ALL FIELDS ARE BEING USED
+  if (userController.text.isEmpty || passwordController.text.isEmpty || confirmController.text.isEmpty) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Error"),
+                                                           content: Text("Please fill in all fields."),
+        ),
+      );
+    }
+    areValid = false;
+    return areValid;
+  }
+
+  // CHECK IF PASSWORD FIELDS MATCH
+  if (passwordController.text != confirmController.text) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Error"),
+                                                           content: Text("Passwords do not match."),
+        ),
+      );
+    }
+    areValid = false;
+    return areValid;
+  }
+  return areValid;
+}
+// CHECK IF USER ALREADY EXISTS. IF IT DOES IT RETURNS A DIALOG.
+Future<bool> checkUserExistance() async{
+
+  // CHECK IF THE USER ALREADY EXISTS IN THE DB
+  bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(userController.text);
+  if (userExists) 
+  {
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Error"),
+                                                          content: Text("User already exists."),
+        ),
+      );
+    }
+  }
+  return userExists;
+}
+
+// Ask for validation to usersRegistry endpoint. If it is correct. It stores the token generated into
+  // sessionManager instance
+  Future<void> getAuth() async {
+
+    var response = await widget.client.usersRegistry
+        .login(userController.text, passwordController.text);
+
+    // CHECK IF THE PASSWORD IS CORRECT
+    //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
+    if (response.success) {
+      // Store the user info in the session manager.
+      SessionManager sessionManager = await SessionManager.instance;
+      await sessionManager.registerSignedInUser(
+        response.userInfo!,
+        response.keyId!,
+        response.key!,
+      );
+      // Gives the welcome to the user.
+      await welcomeUser(userController.text);
+    } else {
+      if (mounted) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: ("An error ocurred"),
+                customContent: ("Something happen try to log in."),
+              );
+            });
+      }
+    }
+  }
+  // Create a new UserRegistry
+  Future<UsersRegistry> createUser(PasswordOptions options) async{
+    // CREATE PASSWORD OPTIONS IN THE DB
+    await widget.client.passwordOptions.createOptions(options);
+
+    // GET THE LATEST PASSWORD OPTIONS GENERATED TO RETRIEVE ITS ID
+    var lastOptionsGenerated = await widget.client.passwordOptions.getLastID();
+
+    // CREATE THE USER IN THE DB
+    var generatedUser = await widget.client.usersRegistry.createUser( userController.text,
+                                                                      lastOptionsGenerated!,
+                                                                      selectedUserPassword: passwordController.text, );
+    return generatedUser;
+
+  }
+
 
 
 }

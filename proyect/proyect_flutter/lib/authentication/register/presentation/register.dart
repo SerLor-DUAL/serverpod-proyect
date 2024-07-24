@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import '../../../common/services/route_generator.dart';
 import '../../../common/services/app_routes.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import '../../../common/ui/custom_alert_dialog.dart';
 part '../domain/register_controller.dart';
 
 class Register extends StatefulWidget 

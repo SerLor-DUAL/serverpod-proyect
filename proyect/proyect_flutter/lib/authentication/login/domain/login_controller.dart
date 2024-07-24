@@ -1,7 +1,6 @@
 part of '../presentation/login.dart';
 
 abstract class LoginController extends State<Login> {
-
 // SET USER TEXT CONTROLLERS
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -24,31 +23,7 @@ abstract class LoginController extends State<Login> {
     }
 
     try {
-      var response = await widget.client.usersRegistry.login(userController.text, passwordController.text);
-
-      // CHECK IF THE PASSWORD IS CORRECT
-      //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
-      if (response.success) {
-        // Store the user info in the session manager.
-        SessionManager sessionManager = await SessionManager.instance;
-        await sessionManager.registerSignedInUser(
-            response.userInfo!,
-            response.keyId!,
-            response.key!,
-        );
-        await welcomeUser(userController.text);
-      } else {
-        if (mounted) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const CustomAlertDialog(
-                  customTitle: ("Incorrect Password"),
-                  customContent: ("Password is incorrect. Please try again."),
-                );
-              });
-        }
-      }
+      await getAuth();
     } catch (e) {
       if (mounted) {
         showDialog(
@@ -83,14 +58,14 @@ abstract class LoginController extends State<Login> {
       // USER NOT FOUND
       if (user == null) {
         showDialog(
-         context: context,
-              builder: (BuildContext context) {
-                return const CustomAlertDialog(
-                  customTitle: ("User Not Found"),
-                  customContent:
-                      ("User doesn't exist. Try registering a new user."),
-                );
-              });
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: ("User Not Found"),
+                customContent:
+                    ("User doesn't exist. Try registering a new user."),
+              );
+            });
       }
 
       // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
@@ -128,6 +103,38 @@ abstract class LoginController extends State<Login> {
             ],
           ),
         );
+      }
+    }
+  }
+
+  // Ask for validation to usersRegistry endpoint. If it is correct. It stores the token generated into
+  // sessionManager instance
+  Future<void> getAuth() async {
+    var response = await widget.client.usersRegistry
+        .login(userController.text, passwordController.text);
+
+    // CHECK IF THE PASSWORD IS CORRECT
+    //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
+    if (response.success) {
+      // Store the user info in the session manager.
+      SessionManager sessionManager = await SessionManager.instance;
+      await sessionManager.registerSignedInUser(
+        response.userInfo!,
+        response.keyId!,
+        response.key!,
+      );
+      // Gives the welcome to the user.
+      await welcomeUser(userController.text);
+    } else {
+      if (mounted) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: ("Incorrect Password"),
+                customContent: ("Password is incorrect. Please try again."),
+              );
+            });
       }
     }
   }
