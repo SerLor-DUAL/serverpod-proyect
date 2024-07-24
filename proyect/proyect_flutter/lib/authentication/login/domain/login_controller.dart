@@ -39,8 +39,7 @@ abstract class LoginController extends State<Login> {
       }
 
       // CHECK IF THE PASSWORD IS CORRECT
-      bool isValid = await widget.client.usersRegistry
-          .validatePassword(passwordController.text, userToLog.userPassword);
+      bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
       if (isValid) {
         await welcomeUser(userToLog.id!);
       } else {

@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
-
 class UsersRegistryEndpoint extends Endpoint {
   // CRUD METHODS:
   // READ
@@ -51,14 +50,21 @@ class UsersRegistryEndpoint extends Endpoint {
   Future<UsersRegistry> createUser(
       Session session, String name, PasswordOptions selectedUserOptions,
       {String? selectedUserPassword}) async {
+    
+    // CREATE PASSWORD
     String? passwordGenerated = createPassword(selectedUserOptions,
         passwordInput: selectedUserPassword);
     String hashedPass = bcryptPassword(passwordGenerated);
-
+    // CREATE USERINFO
+    UserInfo userInfo = await createUserInfo(session, name);
+    // CREATE USERS
     UsersRegistry createdUser = UsersRegistry(
         userName: name,
         userPassword: hashedPass,
-        options: selectedUserOptions.id!);
+        options: selectedUserOptions.id!,
+        userInfoId: userInfo.id!,
+        );
+
     return await UsersRegistry.db.insertRow(session, createdUser);
   }
 
@@ -84,17 +90,15 @@ class UsersRegistryEndpoint extends Endpoint {
     }
     // WE DON'T HAVE SCOPES BY NOW.
     var authToken = await UserAuthentication.signInUser(
-        session, 
-        user!.id!, 
-        'myAuthMethod',
-        scopes: {});
-    
-    // TODO: CREATE USER INFO AS RELATIONAL BASE.
+        session, user!.id!, 'myAuthMethod',
+        scopes: {},);
+
+    // GET AUTHENTICATIONRESPONSE TRUE.
     return AuthenticationResponse(
-      success: true,
-      keyId: authToken.id,
-      key: authToken.key,
-      userInfo: null);    
+        success: true, 
+        keyId: authToken.id, 
+        key: authToken.key, 
+        userInfo: user.userInfo);
   }
 
   Future<bool> authenticateUser(
@@ -248,5 +252,15 @@ class UsersRegistryEndpoint extends Endpoint {
     // DEPENDIENDO DE LA LONGITUD DESEADA DE LA CONTRASEÑA
     passwordChars.shuffle(randChoice);
     return passwordChars.take(options.passwordLengthOption!).join('');
+  }
+
+  Future<UserInfo> createUserInfo(Session session, String username) async {
+    UserInfo userInfo = UserInfo(
+        userIdentifier: username,
+        created: DateTime.now(),
+        scopeNames: [],
+        blocked: false);
+    await UserInfo.db.insertRow(session, userInfo);
+    return userInfo;
   }
 }

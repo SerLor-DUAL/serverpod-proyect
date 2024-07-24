@@ -157,6 +157,20 @@ class EndpointTasks extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointAuthenticated extends _i1.EndpointRef {
+  EndpointAuthenticated(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'authenticated';
+
+  _i2.Future<void> logout() => caller.callServerEndpoint<void>(
+        'authenticated',
+        'logout',
+        {},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointPasswordGenerator extends _i1.EndpointRef {
   EndpointPasswordGenerator(_i1.EndpointCaller caller) : super(caller);
 
@@ -291,6 +305,32 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'user': user},
       );
 
+  _i2.Future<_i7.AuthenticationResponse> login(
+    String username,
+    String password,
+  ) =>
+      caller.callServerEndpoint<_i7.AuthenticationResponse>(
+        'usersRegistry',
+        'login',
+        {
+          'username': username,
+          'password': password,
+        },
+      );
+
+  _i2.Future<bool> authenticateUser(
+    _i6.UsersRegistry? user,
+    String password,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'usersRegistry',
+        'authenticateUser',
+        {
+          'user': user,
+          'password': password,
+        },
+      );
+
   _i2.Future<bool> validatePassword(
     String password,
     String hashedPass,
@@ -302,6 +342,13 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
           'password': password,
           'hashedPass': hashedPass,
         },
+      );
+
+  _i2.Future<_i7.UserInfo> createUserInfo(String username) =>
+      caller.callServerEndpoint<_i7.UserInfo>(
+        'usersRegistry',
+        'createUserInfo',
+        {'username': username},
       );
 }
 
@@ -338,6 +385,7 @@ class Client extends _i1.ServerpodClient {
         ) {
     contact = EndpointContact(this);
     tasks = EndpointTasks(this);
+    authenticated = EndpointAuthenticated(this);
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
@@ -347,6 +395,8 @@ class Client extends _i1.ServerpodClient {
   late final EndpointContact contact;
 
   late final EndpointTasks tasks;
+
+  late final EndpointAuthenticated authenticated;
 
   late final EndpointPasswordGenerator passwordGenerator;
 
@@ -360,6 +410,7 @@ class Client extends _i1.ServerpodClient {
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'contact': contact,
         'tasks': tasks,
+        'authenticated': authenticated,
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
