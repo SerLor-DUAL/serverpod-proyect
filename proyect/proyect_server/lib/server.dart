@@ -20,6 +20,11 @@ void run(List<String> args) async {
     authenticationHandler: auth.authenticationHandler,
   );
 
+  // AUTH CONFIGURATION
+  auth.AuthConfig.set(auth.AuthConfig(  
+    minPasswordLength: 12,
+  ));  
+
   // If you are using any future calls, they need to be registered here.
   // pod.registerFutureCall(ExampleFutureCall(), 'exampleFutureCall');
 
