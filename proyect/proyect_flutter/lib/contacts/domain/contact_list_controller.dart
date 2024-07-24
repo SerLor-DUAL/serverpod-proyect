@@ -70,7 +70,7 @@ abstract class ContactListController extends State<ContactList> {
   }
 
   // LOAD EVERYTASK FROM USERID IN WIDGET.
-  void _loadContacts() async {
+  Future<void> _loadContacts() async {
     final List<Contact> contactList =
         await widget.client.contact.getEveryContactByUser(widget.user.id!);
     setState(() {
@@ -105,6 +105,6 @@ abstract class ContactListController extends State<ContactList> {
         ],
       ),
     );
-    _loadContacts();
+    await _loadContacts();
   }
 }

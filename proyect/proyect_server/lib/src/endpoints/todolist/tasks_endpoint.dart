@@ -3,6 +3,10 @@ import '../../generated/todolist/tasks.dart';
 
 class TasksEndpoint extends Endpoint {
 
+
+  @override
+  bool get requireLogin => true;
+
   // DB ENDPOINT METHODS
   // CREATE
 

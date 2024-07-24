@@ -77,7 +77,7 @@ class _ContactList extends ContactListController {
                               AppRoutes.contactDetail,
                               arguments: args,
                             );
-                            _loadContacts();
+                            await _loadContacts();
                           },
                           icon: const Icon(
                             Icons.arrow_forward_ios,

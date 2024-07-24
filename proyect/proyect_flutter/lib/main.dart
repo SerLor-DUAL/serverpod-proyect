@@ -5,6 +5,7 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'common/services/app_routes.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import 'package:proyect_flutter/home/presentation/home.dart';
 
 late SessionManager sessionManager;
 late Client client;
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sample App',
+      // Test
       home: Login(
         client: client,
       ),

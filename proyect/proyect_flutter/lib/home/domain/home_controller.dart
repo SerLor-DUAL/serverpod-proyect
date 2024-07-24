@@ -46,6 +46,7 @@ abstract class HomeController extends State<Home> {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
+              widget.client.authenticated.logout();
               Navigator.pushNamed(context, AppRoutes.login, arguments: widget.client);
             },
             child: const Text('Yes'),
