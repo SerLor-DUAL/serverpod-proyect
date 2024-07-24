@@ -161,11 +161,9 @@ class UsersRegistryEndpoint extends Endpoint {
     ];
 
     final List<String> specialsList = [
-      '!','@','#','\$','%',
-      '^','ç','&','*','(',
-      ')','-','_','=','+',
-      ';',':','.','<','>',
-      '?'
+      '!','@','#','\$','%','^','ç',
+      '&','*','(',')','-','_','=',
+      '+',';',':','.','<','>','?'
     ];
 
     final List<String> numbersList = [
