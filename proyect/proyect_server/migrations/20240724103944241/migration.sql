@@ -1,7 +1,7 @@
 BEGIN;
 
 --
--- Class Contact as table contacts
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "contacts" (
     "id" bigserial PRIMARY KEY,
@@ -14,7 +14,7 @@ CREATE TABLE "contacts" (
 CREATE UNIQUE INDEX "primary" ON "contacts" USING btree ("userID", "phoneNumber");
 
 --
--- Class PasswordOptions as table password_options
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "password_options" (
     "id" bigserial PRIMARY KEY,
@@ -26,7 +26,7 @@ CREATE TABLE "password_options" (
 );
 
 --
--- Class Task as table tasks
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "tasks" (
     "id" bigserial PRIMARY KEY,
@@ -42,7 +42,7 @@ CREATE INDEX "user_id_idx" ON "tasks" USING btree ("userID");
 CREATE INDEX "title_idx" ON "tasks" USING btree ("title");
 
 --
--- Class UsersRegistry as table users_registry
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "users_registry" (
     "id" bigserial PRIMARY KEY,
@@ -57,7 +57,7 @@ CREATE UNIQUE INDEX "user_name_idx" ON "users_registry" USING btree ("userName")
 CREATE UNIQUE INDEX "user_info_id_unique_idx" ON "users_registry" USING btree ("userInfoId");
 
 --
--- Class CloudStorageEntry as table serverpod_cloud_storage
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_cloud_storage" (
     "id" bigserial PRIMARY KEY,
@@ -74,7 +74,7 @@ CREATE UNIQUE INDEX "serverpod_cloud_storage_path_idx" ON "serverpod_cloud_stora
 CREATE INDEX "serverpod_cloud_storage_expiration" ON "serverpod_cloud_storage" USING btree ("expiration");
 
 --
--- Class CloudStorageDirectUploadEntry as table serverpod_cloud_storage_direct_upload
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_cloud_storage_direct_upload" (
     "id" bigserial PRIMARY KEY,
@@ -88,7 +88,7 @@ CREATE TABLE "serverpod_cloud_storage_direct_upload" (
 CREATE UNIQUE INDEX "serverpod_cloud_storage_direct_upload_storage_path" ON "serverpod_cloud_storage_direct_upload" USING btree ("storageId", "path");
 
 --
--- Class FutureCallEntry as table serverpod_future_call
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_future_call" (
     "id" bigserial PRIMARY KEY,
@@ -105,7 +105,7 @@ CREATE INDEX "serverpod_future_call_serverId_idx" ON "serverpod_future_call" USI
 CREATE INDEX "serverpod_future_call_identifier_idx" ON "serverpod_future_call" USING btree ("identifier");
 
 --
--- Class ServerHealthConnectionInfo as table serverpod_health_connection_info
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_health_connection_info" (
     "id" bigserial PRIMARY KEY,
@@ -121,7 +121,7 @@ CREATE TABLE "serverpod_health_connection_info" (
 CREATE UNIQUE INDEX "serverpod_health_connection_info_timestamp_idx" ON "serverpod_health_connection_info" USING btree ("timestamp", "serverId", "granularity");
 
 --
--- Class ServerHealthMetric as table serverpod_health_metric
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_health_metric" (
     "id" bigserial PRIMARY KEY,
@@ -137,7 +137,7 @@ CREATE TABLE "serverpod_health_metric" (
 CREATE UNIQUE INDEX "serverpod_health_metric_timestamp_idx" ON "serverpod_health_metric" USING btree ("timestamp", "serverId", "name", "granularity");
 
 --
--- Class LogEntry as table serverpod_log
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_log" (
     "id" bigserial PRIMARY KEY,
@@ -157,7 +157,7 @@ CREATE TABLE "serverpod_log" (
 CREATE INDEX "serverpod_log_sessionLogId_idx" ON "serverpod_log" USING btree ("sessionLogId");
 
 --
--- Class MessageLogEntry as table serverpod_message_log
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_message_log" (
     "id" bigserial PRIMARY KEY,
@@ -174,7 +174,7 @@ CREATE TABLE "serverpod_message_log" (
 );
 
 --
--- Class MethodInfo as table serverpod_method
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_method" (
     "id" bigserial PRIMARY KEY,
@@ -186,7 +186,7 @@ CREATE TABLE "serverpod_method" (
 CREATE UNIQUE INDEX "serverpod_method_endpoint_method_idx" ON "serverpod_method" USING btree ("endpoint", "method");
 
 --
--- Class DatabaseMigrationVersion as table serverpod_migrations
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_migrations" (
     "id" bigserial PRIMARY KEY,
@@ -199,7 +199,7 @@ CREATE TABLE "serverpod_migrations" (
 CREATE UNIQUE INDEX "serverpod_migrations_ids" ON "serverpod_migrations" USING btree ("module");
 
 --
--- Class QueryLogEntry as table serverpod_query_log
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_query_log" (
     "id" bigserial PRIMARY KEY,
@@ -219,7 +219,7 @@ CREATE TABLE "serverpod_query_log" (
 CREATE INDEX "serverpod_query_log_sessionLogId_idx" ON "serverpod_query_log" USING btree ("sessionLogId");
 
 --
--- Class ReadWriteTestEntry as table serverpod_readwrite_test
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_readwrite_test" (
     "id" bigserial PRIMARY KEY,
@@ -227,7 +227,7 @@ CREATE TABLE "serverpod_readwrite_test" (
 );
 
 --
--- Class RuntimeSettings as table serverpod_runtime_settings
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_runtime_settings" (
     "id" bigserial PRIMARY KEY,
@@ -238,7 +238,7 @@ CREATE TABLE "serverpod_runtime_settings" (
 );
 
 --
--- Class SessionLogEntry as table serverpod_session_log
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_session_log" (
     "id" bigserial PRIMARY KEY,
@@ -263,7 +263,7 @@ CREATE INDEX "serverpod_session_log_touched_idx" ON "serverpod_session_log" USIN
 CREATE INDEX "serverpod_session_log_isopen_idx" ON "serverpod_session_log" USING btree ("isOpen");
 
 --
--- Class AuthKey as table serverpod_auth_key
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_auth_key" (
     "id" bigserial PRIMARY KEY,
@@ -277,7 +277,7 @@ CREATE TABLE "serverpod_auth_key" (
 CREATE INDEX "serverpod_auth_key_userId_idx" ON "serverpod_auth_key" USING btree ("userId");
 
 --
--- Class EmailAuth as table serverpod_email_auth
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_email_auth" (
     "id" bigserial PRIMARY KEY,
@@ -290,7 +290,7 @@ CREATE TABLE "serverpod_email_auth" (
 CREATE UNIQUE INDEX "serverpod_email_auth_email" ON "serverpod_email_auth" USING btree ("email");
 
 --
--- Class EmailCreateAccountRequest as table serverpod_email_create_request
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_email_create_request" (
     "id" bigserial PRIMARY KEY,
@@ -304,7 +304,7 @@ CREATE TABLE "serverpod_email_create_request" (
 CREATE UNIQUE INDEX "serverpod_email_auth_create_account_request_idx" ON "serverpod_email_create_request" USING btree ("email");
 
 --
--- Class EmailFailedSignIn as table serverpod_email_failed_sign_in
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_email_failed_sign_in" (
     "id" bigserial PRIMARY KEY,
@@ -318,7 +318,7 @@ CREATE INDEX "serverpod_email_failed_sign_in_email_idx" ON "serverpod_email_fail
 CREATE INDEX "serverpod_email_failed_sign_in_time_idx" ON "serverpod_email_failed_sign_in" USING btree ("time");
 
 --
--- Class EmailReset as table serverpod_email_reset
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_email_reset" (
     "id" bigserial PRIMARY KEY,
@@ -331,7 +331,7 @@ CREATE TABLE "serverpod_email_reset" (
 CREATE UNIQUE INDEX "serverpod_email_reset_verification_idx" ON "serverpod_email_reset" USING btree ("verificationCode");
 
 --
--- Class GoogleRefreshToken as table serverpod_google_refresh_token
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_google_refresh_token" (
     "id" bigserial PRIMARY KEY,
@@ -343,7 +343,7 @@ CREATE TABLE "serverpod_google_refresh_token" (
 CREATE UNIQUE INDEX "serverpod_google_refresh_token_userId_idx" ON "serverpod_google_refresh_token" USING btree ("userId");
 
 --
--- Class UserImage as table serverpod_user_image
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_user_image" (
     "id" bigserial PRIMARY KEY,
@@ -356,7 +356,7 @@ CREATE TABLE "serverpod_user_image" (
 CREATE INDEX "serverpod_user_image_user_id" ON "serverpod_user_image" USING btree ("userId", "version");
 
 --
--- Class UserInfo as table serverpod_user_info
+-- ACTION CREATE TABLE
 --
 CREATE TABLE "serverpod_user_info" (
     "id" bigserial PRIMARY KEY,
@@ -375,7 +375,7 @@ CREATE UNIQUE INDEX "serverpod_user_info_user_identifier" ON "serverpod_user_inf
 CREATE INDEX "serverpod_user_info_email" ON "serverpod_user_info" USING btree ("email");
 
 --
--- Foreign relations for "contacts" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "contacts"
     ADD CONSTRAINT "contacts_fk_0"
@@ -385,7 +385,7 @@ ALTER TABLE ONLY "contacts"
     ON UPDATE NO ACTION;
 
 --
--- Foreign relations for "tasks" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "tasks"
     ADD CONSTRAINT "tasks_fk_0"
@@ -395,7 +395,7 @@ ALTER TABLE ONLY "tasks"
     ON UPDATE NO ACTION;
 
 --
--- Foreign relations for "users_registry" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "users_registry"
     ADD CONSTRAINT "users_registry_fk_0"
@@ -403,7 +403,6 @@ ALTER TABLE ONLY "users_registry"
     REFERENCES "password_options"("id")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
-
 ALTER TABLE ONLY "users_registry"
     ADD CONSTRAINT "users_registry_fk_1"
     FOREIGN KEY("userInfoId")
@@ -412,7 +411,7 @@ ALTER TABLE ONLY "users_registry"
     ON UPDATE NO ACTION;
 
 --
--- Foreign relations for "serverpod_log" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "serverpod_log"
     ADD CONSTRAINT "serverpod_log_fk_0"
@@ -422,7 +421,7 @@ ALTER TABLE ONLY "serverpod_log"
     ON UPDATE NO ACTION;
 
 --
--- Foreign relations for "serverpod_message_log" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "serverpod_message_log"
     ADD CONSTRAINT "serverpod_message_log_fk_0"
@@ -432,7 +431,7 @@ ALTER TABLE ONLY "serverpod_message_log"
     ON UPDATE NO ACTION;
 
 --
--- Foreign relations for "serverpod_query_log" table
+-- ACTION CREATE FOREIGN KEY
 --
 ALTER TABLE ONLY "serverpod_query_log"
     ADD CONSTRAINT "serverpod_query_log_fk_0"
@@ -441,25 +440,23 @@ ALTER TABLE ONLY "serverpod_query_log"
     ON DELETE CASCADE
     ON UPDATE NO ACTION;
 
---
+
+BEGIN;
+
 -- MIGRATION VERSION FOR proyect
---
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'proyect') THEN
         UPDATE "serverpod_migrations"
-        SET "version" = '20240724085909657', "timestamp" = now()
+        SET "version" = '20240724103944241', "timestamp" = now()
         WHERE "module" = 'proyect';
     ELSE
         INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-        VALUES ('proyect', '20240724085909657', now());
+        VALUES ('proyect', '20240724103944241', now());
     END IF;
-END
-$$;
+END $$;
 
---
 -- MIGRATION VERSION FOR serverpod
---
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'serverpod') THEN
@@ -470,12 +467,9 @@ BEGIN
         INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
         VALUES ('serverpod', '20240516151843329', now());
     END IF;
-END
-$$;
+END $$;
 
---
 -- MIGRATION VERSION FOR serverpod_auth
---
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM "serverpod_migrations" WHERE "module" = 'serverpod_auth') THEN
@@ -486,6 +480,6 @@ BEGIN
         INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
         VALUES ('serverpod_auth', '20240520102713718', now());
     END IF;
-END
-$$;
+END $$;
+
 COMMIT;

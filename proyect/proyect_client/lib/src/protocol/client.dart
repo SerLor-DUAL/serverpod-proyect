@@ -344,8 +344,8 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i7.UserInfo> createUserInfo(String username) =>
-      caller.callServerEndpoint<_i7.UserInfo>(
+  _i2.Future<_i7.UserInfo?> createUserInfo(String username) =>
+      caller.callServerEndpoint<_i7.UserInfo?>(
         'usersRegistry',
         'createUserInfo',
         {'username': username},

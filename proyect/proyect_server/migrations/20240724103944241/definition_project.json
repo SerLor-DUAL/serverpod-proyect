@@ -270,6 +270,12 @@
           "columnType": 6,
           "isNullable": false,
           "dartType": "int"
+        },
+        {
+          "name": "userInfoId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
         }
       ],
       "foreignKeys": [
@@ -279,6 +285,19 @@
             "options"
           ],
           "referenceTable": "password_options",
+          "referenceTableSchema": "public",
+          "referenceColumns": [
+            "id"
+          ],
+          "onUpdate": 3,
+          "onDelete": 3
+        },
+        {
+          "constraintName": "users_registry_fk_1",
+          "columns": [
+            "userInfoId"
+          ],
+          "referenceTable": "serverpod_user_info",
           "referenceTableSchema": "public",
           "referenceColumns": [
             "id"
@@ -311,6 +330,18 @@
           "type": "btree",
           "isUnique": true,
           "isPrimary": false
+        },
+        {
+          "indexName": "user_info_id_unique_idx",
+          "elements": [
+            {
+              "type": 0,
+              "definition": "userInfoId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
         }
       ],
       "managed": true
@@ -322,8 +353,8 @@
       "version": "20240516151843329"
     },
     {
-      "module": "proyect",
-      "version": "20240717063602105"
+      "module": "serverpod_auth",
+      "version": "20240520102713718"
     }
   ],
   "migrationApiVersion": 1
