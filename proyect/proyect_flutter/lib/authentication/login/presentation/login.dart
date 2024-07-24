@@ -2,20 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/common/services/route_generator.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 part '../domain/login_controller.dart';
 
 class Login extends StatefulWidget {
   final Client client;
-  const Login({super.key, required this.client});
+  final SessionManager sessionManager;
+  const Login({super.key, required this.client, required this.sessionManager});
 
   @override
   createState() => _Login();
+
+  
 }
 
 class _Login extends LoginController {
   // ------------------------------------- UI ------------------------------------------- //
+    @override
+  void initState() {
+    super.initState();
 
+    // Rebuild the page if signed in status changes.
+    widget.sessionManager.addListener(() {
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // GETS SCREEN SIZING

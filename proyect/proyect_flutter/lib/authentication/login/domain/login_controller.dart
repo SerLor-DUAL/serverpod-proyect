@@ -1,6 +1,7 @@
 part of '../presentation/login.dart';
 
 abstract class LoginController extends State<Login> {
+
 // SET USER TEXT CONTROLLERS
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -38,9 +39,11 @@ abstract class LoginController extends State<Login> {
         return;
       }
 
+      var response = await widget.client.usersRegistry.login(userController.text, passwordController.text);
+
       // CHECK IF THE PASSWORD IS CORRECT
-      bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
-      if (isValid) {
+      //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
+      if (response.success) {
         await welcomeUser(userToLog.id!);
       } else {
         if (mounted) {
