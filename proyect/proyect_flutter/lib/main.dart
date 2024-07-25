@@ -6,11 +6,27 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
+// ------------------------ Global variables ------------------------- \\
 
 late SessionManager sessionManager;
 late Client client;
 
+// ------------------------ MAIN ------------------------- \\
+
 void main() async {
+  await initClientAndManager();
+
+  // GETS USER IF IT WAS ALREADY AUTHENTICATED.
+  UsersRegistry? authUser = await getUserIfAuth();
+
+  runApp(MyApp(user: authUser,));
+
+  
+}
+
+// ------------------------ METHODS ------------------------- \\
+
+Future<void> initClientAndManager() async{
   // Need to call this as we are using Flutter bindings before runApp is called.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -37,19 +53,19 @@ void main() async {
     caller: client.modules.auth,
   );
   await sessionManager.initialize();
-
-
-  bool isAuth = sessionManager.isSignedIn;
-  UsersRegistry? authUser;
-  if (isAuth){
-    // We get the user if it was authenticated before.
-    authUser = await client.authenticated.getUserIfAuth();
-  }
-  
-  runApp(MyApp(user: authUser,));
-
-
 }
+
+Future<UsersRegistry?> getUserIfAuth() async {
+    bool isAuth = sessionManager.isSignedIn;
+    UsersRegistry? authUser;
+    if (isAuth){
+      // We get the user if it was authenticated before.
+      authUser = await client.authenticated.getUserIfAuth();
+    }
+    return authUser;
+  }
+
+// ------------------------ FLUTTER ------------------------- \\
 
 class MyApp extends StatelessWidget {
   final UsersRegistry? user;
@@ -68,7 +84,6 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
-
 }
 
 
