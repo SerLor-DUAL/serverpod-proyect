@@ -8,9 +8,10 @@ class ContactDetails extends StatefulWidget {
   // NEEDS A CONTACT TO EDIT AND CLIENT TO WORK WITH DB
   final Contact contact;
   final Client client;
+  final UsersRegistry user;
 
   const ContactDetails(
-      {super.key, required this.contact, required this.client});
+      {super.key, required this.contact, required this.client, required this.user});
 
   @override
   createState() => _ContactDetails();
