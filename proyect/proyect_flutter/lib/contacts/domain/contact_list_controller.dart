@@ -14,6 +14,10 @@ abstract class ContactListController extends State<ContactList> {
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _phoneCon = TextEditingController();
 
+  void emptyControllers() {
+    _nameCon.text = '';
+    _phoneCon.text = '';
+  }
   // CHECKS IF ERROR EXISTS
   Future<Map<String, String>?> checkIfError() async {
     String errorTitle = '';
@@ -41,6 +45,8 @@ abstract class ContactListController extends State<ContactList> {
       "errorMessage": errorMessage
     };
   }
+
+
 
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB,
   // ELSE POPUP ErrorAlertDialog
@@ -107,5 +113,6 @@ abstract class ContactListController extends State<ContactList> {
       ),
     );
     await _loadContacts();
+    emptyControllers();
   }
 }
