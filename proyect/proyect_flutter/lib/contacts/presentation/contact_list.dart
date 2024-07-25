@@ -8,8 +8,13 @@ part '../domain/contact_list_controller.dart';
 class ContactList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-  final void Function(int) updateHomeIndex;  // Función de callback para actualizar el índice
-  final void Function(Contact) selectContact; // Función de callback para seleccionar contacto
+
+  // FUNCIÓN DE CALLBACK PARA ACTUALIZAR EL ÍNDICE
+  final void Function(int) updateHomeIndex;
+  
+  // FUNCIÓN DE CALLBACK PARA SELECCIONAR CONTACTO  
+  final void Function(Contact) selectContact; 
+
   const ContactList({super.key, required this.client, required this.user, required this.selectContact, required this.updateHomeIndex});
 
   @override

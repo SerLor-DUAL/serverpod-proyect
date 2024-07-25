@@ -24,6 +24,7 @@ class RouteGenerator {
         var client = settings.arguments as Client;
         return buildRoute(Register(client: client), settings: settings);
 
+      // IT HAS A CALLBACK TO TASK DETAILS AND HOME
       // TO DO LIST
       case AppRoutes.todoList:
         var args = settings.arguments as BasicArguments;
@@ -34,6 +35,7 @@ class RouteGenerator {
         final args = settings.arguments as TaskDetailsArgs;
         return buildRoute(TaskDetails(client: args.client, task: args.task), settings: settings);
 
+      // IT HAS A CALLBACK TO CONTACT DETAILS AND HOME
       // CONTACTS LIST
       case AppRoutes.contacts:
         var args = settings.arguments as BasicArguments;
@@ -42,7 +44,7 @@ class RouteGenerator {
       // DETAILS FROM SELECTED CONTACT OF THE CONTACT LIST
       case AppRoutes.contactDetail:
         final args = settings.arguments as ContactDetailsArgs;
-        return buildRoute(ContactDetails(client: args.client, contact: args.contact), settings: settings);
+        return buildRoute(ContactDetails(client: args.client, contact: args.contact, updateHomeIndex: (_) {},), settings: settings);
 
       default:
         return _errorRoute();

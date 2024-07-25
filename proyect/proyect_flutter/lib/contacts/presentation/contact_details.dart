@@ -1,186 +1,270 @@
-import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
+import 'package:proyect_client/proyect_client.dart';
 part '../domain/contact_details_controller.dart';
 
 class ContactDetails extends StatefulWidget {
-  // NEEDS A CONTACT TO EDIT AND CLIENT TO WORK WITH DB
   final Contact contact;
   final Client client;
 
+  // FUNCIÓN DE CALLBACK PARA ACTUALIZAR EL ÍNDICE
+  final void Function(int) updateHomeIndex;
+
   const ContactDetails(
-      {super.key, required this.contact, required this.client});
+      {super.key,
+      required this.contact,
+      required this.client,
+      required this.updateHomeIndex});
 
   @override
   createState() => _ContactDetails();
 }
 
-class _ContactDetails extends ContactDetailsController {
+class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
+    
+  late TabController _tabController;
 
-// ----------------------- BUILDER ------------------------------ //
-   @override
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabChange);
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_handleTabChange);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _handleTabChange() {
+    if (_tabController.indexIsChanging && _tabController.index == 1) {
+      widget.updateHomeIndex(1);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Contact contact = widget.contact;
 
-  Contact contact = widget.contact;
-
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(3, 0),
-            spreadRadius: 5,
-            blurRadius: 7,
-          ),
-        ],
-      ),
-      child: Scaffold(
-        // APPBAR
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          height: 20,
+          color: Colors.white,
+        ),
+        automaticallyImplyLeading: false,
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(
             "Contact Details",
             style: TextStyle(color: Colors.white),
           ),
-          centerTitle: true,
-          backgroundColor: const Color(0xFF369DD8),
-          toolbarHeight: 78,
         ),
-        // BODY : CENTERED COLUMN
-        body: Column(
-          children: [
-            Container(
-              height: 20.0,
+        centerTitle: true,
+        backgroundColor: const Color(0xFF369DD8),
+        toolbarHeight: 98,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(76),
+          child: Container(
+            decoration: const BoxDecoration(
               color: Colors.white,
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.transparent,
+                  width: 2.0,
+                ),
+              ),
             ),
-            Expanded(
-              child: Center(
+            child: TabBar(
+              controller: _tabController,
+              labelColor: const Color(0xFF369DD8),
+              indicatorColor: const Color(0xFF369DD8),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorWeight: 2,
+              tabs: const [
+                Tab(
+                  icon: Icon(
+                    Icons.message,
+                    color: Color(0xFF369DD8),
+                  ),
+                  text: "Messaging",
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Color(0xFF369DD8),
+                  ),
+                  text: "Return",
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildDetailsTab(contact),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailsTab(Contact contact) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              // PROFILE IMAGE
+              const CircleAvatar(
+                // backgroundImage: NetworkImage(contact.photoUrl),
+                radius: 40,
+              ),
+              const SizedBox(width: 20.0),
+              
+              // CONTACT INFORMATION AND BUTTONS
+              Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: 'Name: ',
-                        style: const TextStyle(
-                          fontSize: 30.00,
-                          color: Color.fromARGB(255, 124, 214, 255),
-                          fontWeight: FontWeight.w800,
+                    Text(
+                      contact.name,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      contact.phoneNumber,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    // BUTTONS FOR EDITING AND DELETING
+                    Row(
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            await _askForUpdateToDoInput();
+                            setState(() {});
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightBlue[900],
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 5,
+                          ),
+                          icon: const Icon(Icons.edit),
+                          label: const Text('Edit'),
                         ),
-                        children: [
-                          TextSpan(
-                            text: contact.name,
-                            style: const TextStyle(
-                              fontSize: 30.00,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w100,
+                        const SizedBox(width: 20),
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            await deleteContact(contact);
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            elevation: 5,
                           ),
-                        ],
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Phone: ',
-                        style: const TextStyle(
-                          fontSize: 30.00,
-                          color: Color.fromARGB(255, 124, 214, 255),
-                          fontWeight: FontWeight.w800,
+                          icon: const Icon(Icons.delete_outline),
+                          label: const Text('Delete'),
                         ),
-                        children: [
-                          TextSpan(
-                            text: contact.phoneNumber,
-                            style: const TextStyle(
-                              fontSize: 30.00,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w100,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        double maxWidth = constraints.maxWidth * 0.3;
-                        return SizedBox(
-                          width: maxWidth,
-                          child: TextFormField(
-                            minLines: 2,
-                            maxLines: 12,
-                            decoration: InputDecoration(
-                              icon: const Icon(Icons.message,
-                                  color: Color.fromARGB(255, 124, 214, 255)),
-                              hintText: "Send a message!",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              filled: true,
-                              fillColor: const Color.fromARGB(255, 255, 250, 250),
-                            ),
-                            validator: (String? value) {
-                              return (value == '') ? 'Please, fill the text area' : null;
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.send_sharp,
-                        color: Color.fromRGBO(236, 229, 221, 1.000),
-                      ),
-                      label: const Text("Send Whatsapp"),
-                      style: TextButton.styleFrom(
-                        foregroundColor: const Color.fromRGBO(236, 229, 221, 1.000),
-                        backgroundColor: const Color.fromRGBO(37, 211, 102, 1.000),
-                      ),
+                      ],
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-        // FLOATING ACTION BUTTON ROW WITH TWO BUTTONS
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // EDIT TASK BUTTON
-            FloatingActionButton(
-              onPressed: () async {
-                await _askForUpdateToDoInput();
-                // UPDATES STATE AFTER EditTaskPopUp
-                setState(() {});
-              },
-              backgroundColor: Colors.lightBlue[900],
-              child: const Icon(
-                Icons.edit,
-                color: Colors.white,
-                size: 20,
+            ],
+          ),
+          const SizedBox(height: 20.0),
+          // Message section
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 250, 250),
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8.0,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      minLines: 2,
+                      maxLines: 10,
+                      decoration: const InputDecoration(
+                        hintText: "Send a message!",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(16.0),
+                      ),
+                      validator: (String? value) {
+                        return (value == '')
+                            ? 'Please, fill the text area'
+                            : null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 20.0),
+                      padding: const EdgeInsets.all(15.0),
+                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                      foregroundColor: const Color(0xFF369DD8),
+                      shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                      elevation: 5,
+                      shape: ContinuousRectangleBorder(
+                        side: const BorderSide(
+                          color: Color.fromARGB(255, 54, 157, 216),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    icon: const Icon(
+                      Icons.send_sharp,
+                      color: Color(0xFF369DD8),
+                    ),
+                    label: const Text(
+                      "Send Whatsapp",
+                      style: TextStyle(
+                        color: Color(0xFF369DD8),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(width: 30),
-            // DELETE TASK BUTTON
-            FloatingActionButton(
-              onPressed: () async {
-                await deleteContact(contact);
-
-                if (!context.mounted) return;
-                Navigator.pop(context);
-              },
-              backgroundColor: Colors.lightBlue[900],
-              child: const Icon(
-                Icons.delete_outlined,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

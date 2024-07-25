@@ -8,8 +8,10 @@ abstract class HomeController extends State<Home> {
   bool _isHoveringChat = false;
   bool _isHoveringToDo = false;
 
+  // ACTUAL PAGE
   int currentIndex = 0;
 
+  // CALLBACK VARIABLES
   Contact? selectedContact;
   Task? selectedTask;
 
@@ -40,20 +42,18 @@ abstract class HomeController extends State<Home> {
       case 4:
         if (selectedContact != null) {
           return ContactDetails(
-              client: widget.client, contact: selectedContact!);
+              client: widget.client, contact: selectedContact!, updateHomeIndex: updateIndex,);
         } else {
           return const Center(
               child:
                   Text('No Contact Selected', style: TextStyle(fontSize: 24)));
         }
-        case 5:
+      case 5:
         if (selectedTask != null) {
-          return TaskDetails(
-              client: widget.client, task: selectedTask!);
+          return TaskDetails(client: widget.client, task: selectedTask!);
         } else {
           return const Center(
-              child:
-                  Text('No Task Selected', style: TextStyle(fontSize: 24)));
+              child: Text('No Task Selected', style: TextStyle(fontSize: 24)));
         }
       default:
         return const Center(
@@ -61,24 +61,28 @@ abstract class HomeController extends State<Home> {
     }
   }
 
+  // UPDATES THE INDEX OF HOME
   void updateIndex(int newIndex) {
     setState(() {
       currentIndex = newIndex;
     });
   }
 
+  // SAVES THE SELECTED CONTACT FROM THE CONTACT LIST WIDGET INTO HOME DATA TO DO A CALLBACK
   void selectContact(Contact contact) {
     setState(() {
       selectedContact = contact;
     });
   }
 
-    void selectTask(Task task) {
+  // SAVES THE SELECTED TASK FROM THE TASKS LIST WIDGET INTO HOME DATA TO DO A CALLBACK
+  void selectTask(Task task) {
     setState(() {
-      selectedTask= task;
+      selectedTask = task;
     });
   }
 
+  // BUTTON CREATOR FOR LOG OUT
   void _askForExitConfirmation() async {
     await showDialog(
       context: context,
@@ -96,7 +100,8 @@ abstract class HomeController extends State<Home> {
             onPressed: () {
               Navigator.pop(context);
               widget.client.authenticated.logout();
-              Navigator.pushNamed(context, AppRoutes.login, arguments: widget.client);
+              Navigator.pushNamed(context, AppRoutes.login,
+                  arguments: widget.client);
             },
             child: const Text('Yes'),
           ),
