@@ -1,6 +1,7 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/authentication/login/presentation/login.dart';
+import 'package:proyect_flutter/home/presentation/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
@@ -37,12 +38,24 @@ void main() async {
   );
   await sessionManager.initialize();
 
-  runApp(const MyApp());
+
+  bool isAuth = sessionManager.isSignedIn;
+  UsersRegistry? authUser;
+  if (isAuth){
+    // We get the user if it was authenticated before.
+    authUser = await client.authenticated.getUserIfAuth();
+  }
+  
+  runApp(MyApp(user: authUser,));
+
+
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final UsersRegistry? user;
+  
+  const MyApp({super.key, required this.user});
+  
   // THIS WIDGET IS THE ROOT OF YOUR APPLICATION.
   @override
   Widget build(BuildContext context) {
@@ -50,11 +63,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sample App',
       // Test
-      home: Login(
-        client: client,
-      ),
+      home: (user != null)? Home(client: client, user: user!) :
+                            Login(client: client,),
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 
 }
+
+

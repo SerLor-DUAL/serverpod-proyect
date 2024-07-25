@@ -123,6 +123,7 @@ abstract class LoginController extends State<Login> {
         response.keyId!,
         response.key!,
       );
+      
       // Gives the welcome to the user.
       await welcomeUser(userController.text);
     } else {
