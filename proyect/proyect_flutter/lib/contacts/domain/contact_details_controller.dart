@@ -21,10 +21,12 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     Map<String, String>? error;
 
     if (isContactOnList) {
-      error = {
-        'errorTitle': 'Contact in list',
-        'errorMessage': 'That contact is already in the list'
-      };
+      if (widget.contact.phoneNumber != _phoneCon.text){
+        error = {
+          'errorTitle': 'Contact in list',
+          'errorMessage': 'That contact is already in the list'
+        };
+      }
     }
     return error;
   }
