@@ -12,8 +12,8 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i3;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
-import 'package:proyect_client/src/protocol/users/password_options.dart' as _i5;
-import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i6;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i5;
+import 'package:proyect_client/src/protocol/users/password_options.dart' as _i6;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
 import 'protocol.dart' as _i8;
 
@@ -174,6 +174,13 @@ class EndpointAuthenticated extends _i1.EndpointRef {
         'logout',
         {},
       );
+
+  _i2.Future<_i5.UsersRegistry?> getUserIfAuth() =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
+        'authenticated',
+        'getUserIfAuth',
+        {},
+      );
 }
 
 /// {@category Endpoint}
@@ -184,7 +191,7 @@ class EndpointPasswordGenerator extends _i1.EndpointRef {
   String get name => 'passwordGenerator';
 
   _i2.Future<String> createPassword(
-    _i5.PasswordOptions options, {
+    _i6.PasswordOptions options, {
     String? passwordInput,
   }) =>
       caller.callServerEndpoint<String>(
@@ -204,35 +211,35 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
   @override
   String get name => 'passwordOptions';
 
-  _i2.Future<_i5.PasswordOptions?> getOptions(int optionsID) =>
-      caller.callServerEndpoint<_i5.PasswordOptions?>(
+  _i2.Future<_i6.PasswordOptions?> getOptions(int optionsID) =>
+      caller.callServerEndpoint<_i6.PasswordOptions?>(
         'passwordOptions',
         'getOptions',
         {'optionsID': optionsID},
       );
 
-  _i2.Future<_i5.PasswordOptions?> getLastID() =>
-      caller.callServerEndpoint<_i5.PasswordOptions?>(
+  _i2.Future<_i6.PasswordOptions?> getLastID() =>
+      caller.callServerEndpoint<_i6.PasswordOptions?>(
         'passwordOptions',
         'getLastID',
         {},
       );
 
-  _i2.Future<void> updateOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> updateOptions(_i6.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'updateOptions',
         {'options': options},
       );
 
-  _i2.Future<void> createOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> createOptions(_i6.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'createOptions',
         {'options': options},
       );
 
-  _i2.Future<void> deleteOptions(_i5.PasswordOptions options) =>
+  _i2.Future<void> deleteOptions(_i6.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'deleteOptions',
@@ -247,22 +254,22 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
   @override
   String get name => 'usersRegistry';
 
-  _i2.Future<List<_i6.UsersRegistry>> getAllUsers() =>
-      caller.callServerEndpoint<List<_i6.UsersRegistry>>(
+  _i2.Future<List<_i5.UsersRegistry>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i5.UsersRegistry>>(
         'usersRegistry',
         'getAllUsers',
         {},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getUserById(int userId) =>
-      caller.callServerEndpoint<_i6.UsersRegistry?>(
+  _i2.Future<_i5.UsersRegistry?> getUserById(int userId) =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
         {'userId': userId},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getUserByName(String name) =>
-      caller.callServerEndpoint<_i6.UsersRegistry?>(
+  _i2.Future<_i5.UsersRegistry?> getUserByName(String name) =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
         'getUserByName',
         {'name': name},
@@ -275,26 +282,26 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'name': name},
       );
 
-  _i2.Future<_i6.UsersRegistry?> getLastUserID() =>
-      caller.callServerEndpoint<_i6.UsersRegistry?>(
+  _i2.Future<_i5.UsersRegistry?> getLastUserID() =>
+      caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
         'getLastUserID',
         {},
       );
 
-  _i2.Future<void> updateUser(_i6.UsersRegistry user) =>
+  _i2.Future<void> updateUser(_i5.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'updateUser',
         {'user': user},
       );
 
-  _i2.Future<_i6.UsersRegistry> createUser(
+  _i2.Future<_i5.UsersRegistry> createUser(
     String name,
-    _i5.PasswordOptions selectedUserOptions, {
+    _i6.PasswordOptions selectedUserOptions, {
     String? selectedUserPassword,
   }) =>
-      caller.callServerEndpoint<_i6.UsersRegistry>(
+      caller.callServerEndpoint<_i5.UsersRegistry>(
         'usersRegistry',
         'createUser',
         {
@@ -304,7 +311,7 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> deleteUser(_i6.UsersRegistry user) =>
+  _i2.Future<void> deleteUser(_i5.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'deleteUser',
@@ -325,7 +332,7 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 
   _i2.Future<bool> authenticateUser(
-    _i6.UsersRegistry? user,
+    _i5.UsersRegistry? user,
     String password,
   ) =>
       caller.callServerEndpoint<bool>(

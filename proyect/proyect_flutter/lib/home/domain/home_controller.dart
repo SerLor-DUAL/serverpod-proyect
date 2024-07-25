@@ -15,6 +15,7 @@ abstract class HomeController extends State<Home> {
   Contact? selectedContact;
   Task? selectedTask;
 
+
   // PAGING INDEX
   Widget _getCurrentPage() {
     switch (currentIndex) {
@@ -42,7 +43,10 @@ abstract class HomeController extends State<Home> {
       case 4:
         if (selectedContact != null) {
           return ContactDetails(
-              client: widget.client, contact: selectedContact!, updateHomeIndex: updateIndex,);
+              client: widget.client, 
+              contact: selectedContact!, 
+              updateHomeIndex: updateIndex,
+              user: widget.user);
         } else {
           return const Center(
               child:

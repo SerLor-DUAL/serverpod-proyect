@@ -7,6 +7,7 @@ part '../domain/contact_details_controller.dart';
 class ContactDetails extends StatefulWidget {
   final Contact contact;
   final Client client;
+  final UsersRegistry user;
 
   // FUNCIÓN DE CALLBACK PARA ACTUALIZAR EL ÍNDICE
   final void Function(int) updateHomeIndex;
@@ -15,7 +16,9 @@ class ContactDetails extends StatefulWidget {
       {super.key,
       required this.contact,
       required this.client,
+      required this.user,
       required this.updateHomeIndex});
+
 
   @override
   createState() => _ContactDetails();

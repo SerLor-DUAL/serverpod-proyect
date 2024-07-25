@@ -1,15 +1,32 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/authentication/login/presentation/login.dart';
+import 'package:proyect_flutter/home/presentation/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
+// ------------------------ Global variables ------------------------- \\
 
 late SessionManager sessionManager;
 late Client client;
 
+// ------------------------ MAIN ------------------------- \\
+
 void main() async {
+  await initClientAndManager();
+
+  // GETS USER IF IT WAS ALREADY AUTHENTICATED.
+  UsersRegistry? authUser = await getUserIfAuth();
+
+  runApp(MyApp(user: authUser,));
+
+  
+}
+
+// ------------------------ METHODS ------------------------- \\
+
+Future<void> initClientAndManager() async{
   // Need to call this as we are using Flutter bindings before runApp is called.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -36,13 +53,25 @@ void main() async {
     caller: client.modules.auth,
   );
   await sessionManager.initialize();
-
-  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+Future<UsersRegistry?> getUserIfAuth() async {
+    bool isAuth = sessionManager.isSignedIn;
+    UsersRegistry? authUser;
+    if (isAuth){
+      // We get the user if it was authenticated before.
+      authUser = await client.authenticated.getUserIfAuth();
+    }
+    return authUser;
+  }
 
+// ------------------------ FLUTTER ------------------------- \\
+
+class MyApp extends StatelessWidget {
+  final UsersRegistry? user;
+  
+  const MyApp({super.key, required this.user});
+  
   // THIS WIDGET IS THE ROOT OF YOUR APPLICATION.
   @override
   Widget build(BuildContext context) {
@@ -50,11 +79,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sample App',
       // Test
-      home: Login(
-        client: client,
-      ),
+      home: (user != null)? Home(client: client, user: user!) :
+                            Login(client: client,),
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
-
 }
+
+

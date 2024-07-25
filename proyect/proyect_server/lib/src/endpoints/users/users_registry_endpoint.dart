@@ -23,7 +23,6 @@ class UsersRegistryEndpoint extends Endpoint {
     return await UsersRegistry.db.findFirstRow(session,
         where: (userRegistry) => userRegistry.userName.equals(name));
   }
-
   Future<bool> checkUserExistanceByName(Session session, String name) async {
     var existingUsers = await UsersRegistry.db.find(session,
         where: (userRegistry) => userRegistry.userName.equals(name));
@@ -35,6 +34,7 @@ class UsersRegistryEndpoint extends Endpoint {
     return await UsersRegistry.db.findFirstRow(session,
         orderBy: (userRegistry) => userRegistry.id, orderDescending: true);
   }
+
 
   // UPDATE
   Future<void> updateUser(Session session, UsersRegistry user) async {
@@ -75,7 +75,7 @@ class UsersRegistryEndpoint extends Endpoint {
       throw Exception('User with selected ID not found.');
     }
   }
-
+  
   Future<AuthenticationResponse> login(
       Session session, String username, String password) async {
     // Get a user that has the same username.

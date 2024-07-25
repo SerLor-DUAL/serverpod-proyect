@@ -15,11 +15,9 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
-  // TODO: CHECK TOMORROW. THIS IsContactOnList need to check the user too.
-  Future<Map<String, String>?> checkIfContactIsOnList(
-      String phoneNumber) async {
+  Future<Map<String, String>?> checkIfContactIsOnList(String phoneNumber) async {
     bool isContactOnList =
-        await widget.client.contact.isContactOnList(phoneNumber, 1);
+        await widget.client.contact.isContactOnList(phoneNumber, widget.user.id!);
     Map<String, String>? error;
 
     if (isContactOnList) {
@@ -31,7 +29,7 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return error;
   }
 
-  // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
+  // IF THERE'S NO ERROR IN THE CONTACT. UPDATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
     Contact updatedContact = updateContactWithData();
 

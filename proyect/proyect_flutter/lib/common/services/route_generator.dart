@@ -44,7 +44,7 @@ class RouteGenerator {
       // DETAILS FROM SELECTED CONTACT OF THE CONTACT LIST
       case AppRoutes.contactDetail:
         final args = settings.arguments as ContactDetailsArgs;
-        return buildRoute(ContactDetails(client: args.client, contact: args.contact, updateHomeIndex: (_) {},), settings: settings);
+        return buildRoute(ContactDetails(client: args.client, contact: args.contact, user: args.user, updateHomeIndex: (_) {},), settings: settings);
 
       default:
         return _errorRoute();
