@@ -2,6 +2,7 @@ import 'package:serverpod/serverpod.dart';
 import '../../generated/contacts/contacts.dart';
 
 class ContactEndpoint extends Endpoint {
+
   // WHAT Session is? When a call is generated to the sv, a
   // Session is created, it has all the current data.
 
@@ -54,4 +55,5 @@ class ContactEndpoint extends Endpoint {
   Future<void> deleteMultipleContacts(Session session, List<Contact> tasks) async {
     await Contact.db.delete(session, tasks);
   }
+
 }

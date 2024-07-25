@@ -18,11 +18,33 @@ abstract class TaskDetailsController extends State<TaskDetails> {
 
     return task;
   }
+  // CHECKS IF ERROR EXISTS
+  Map<String, String>? checkIfError() {
+    Map<String, String>? error;
+    if (_dateCon.text != '' && !isTaskDateMatch(_dateCon.text)){
+      error = {
+        'errorTitle' : 'Error with Date',
+        'errorMessage': 'Date is not valid.',
+      };
+    }
+    return error;
+  }
 
   // UPDATE THE TASK IN THE DB.
   Future<void> updateTask() async {
-    Task newTask = editTaskWithData();
-    await widget.client.tasks.updateTask(newTask);
+    Map<String, String>? error = checkIfError();
+    if (error == null) {
+      Task newTask = editTaskWithData();
+      await widget.client.tasks.updateTask(newTask);
+    }
+    else {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CustomAlertDialog(
+            customTitle: "${error['errorTitle']}",
+            customContent: "${error['errorMessage']}"),
+      );
+    }
   }
 
 // DELETE TASK
@@ -63,4 +85,10 @@ abstract class TaskDetailsController extends State<TaskDetails> {
   String getFormatedDate(Task task) {
     return task.deadLine.toString().substring(0,10);
   }
+  // RETURNS TRUE IF THE DATE IS A MATCH
+  static bool isTaskDateMatch(String taskDate) {
+    RegExp exp = RegExp(r'^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$');
+    return exp.hasMatch(taskDate);
+  }
+  
 }

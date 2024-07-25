@@ -31,10 +31,17 @@ abstract class ContactListController extends State<ContactList> {
       errorTitle += 'phone ';
       errorMessage += 'phone is empty \n';
     }
-    bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
-    if (isContactOnList) {
-      errorTitle = 'Contact already in your list';
-      errorMessage = 'That contact is already in your list';
+    if (!isPhoneMatch(_phoneCon.text)){
+      errorTitle = "Phone doesn't match";
+      errorMessage += 'Phone must have 9 nums';
+    }
+    else {
+      // IF PHONE IS NOT A MATCH WHY CHECK IF IT IS ON THE LIST? NONSENSE.
+      bool isContactOnList = await client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
+      if (isContactOnList) {
+        errorTitle = 'Contact already in your list';
+        errorMessage = 'That contact is already in your list';
+      }
     }
 
     if (errorTitle == '' && errorMessage == '') {
@@ -116,5 +123,11 @@ abstract class ContactListController extends State<ContactList> {
     );
     await _loadContacts();
     emptyControllers();
+  }
+  // ------------------------ Format Methods ------------------------- \\
+  // RETURNS TRUE IF THE PHONE IS A MATCH
+  bool isPhoneMatch(String phoneNumber) {
+    RegExp exp = RegExp(r'^[0-9]{9}$');
+    return exp.hasMatch(phoneNumber);
   }
 }

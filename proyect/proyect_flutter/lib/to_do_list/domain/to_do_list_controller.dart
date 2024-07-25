@@ -35,20 +35,29 @@ abstract class ToDoListController extends State<ToDoList> {
   }
 
   // CHECKS IF ERROR EXISTS
-  String checkIfError() {
-    String error = '';
-
+  Map<String, String>? checkIfError() {
+    Map<String, String>? error;
     if (_titleCon.text.isEmpty) {
-      error += 'Title';
+      
+      error = {
+        'errorTitle' : 'Error with Title',
+        'errorMessage': 'Title cannot be empty.',
+      } ;
+    }
+    if (_dateCon.text != '' && !isTaskDateMatch(_dateCon.text)){
+      error = {
+        'errorTitle' : 'Error with Date',
+        'errorMessage': 'Date is not valid.',
+      };
     }
     return error;
   }
 
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> createTask() async {
-    String error = checkIfError();
+    Map<String, String>? error = checkIfError();
 
-    if (error == '') {
+    if (error == null) {
       Task newTask = createTaskWithData();
       await widget.client.tasks.addTask(newTask);
       if (mounted) {
@@ -58,8 +67,8 @@ abstract class ToDoListController extends State<ToDoList> {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CustomAlertDialog(
-            customTitle: 'Error in $error',
-            customContent: '$error cannot be empty.'),
+            customTitle: "${error['errorTitle']}",
+            customContent: "${error['errorMessage']}"),
       );
     }
   }
@@ -113,7 +122,11 @@ abstract class ToDoListController extends State<ToDoList> {
     );
     _loadTask();
   }
-  
+  // RETURNS TRUE IF THE DATE IS A MATCH
+  static bool isTaskDateMatch(String taskDate) {
+    RegExp exp = RegExp(r'^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$');
+    return exp.hasMatch(taskDate);
+  }
 
   
 }
