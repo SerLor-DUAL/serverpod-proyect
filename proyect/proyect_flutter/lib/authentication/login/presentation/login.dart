@@ -126,6 +126,7 @@ class _Login extends LoginController {
                           // PASSWORD TEXTFIELD
                           TextField(
                             controller: passwordController,
+                            obscureText: true,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -145,6 +146,7 @@ class _Login extends LoginController {
                                   color: Color.fromARGB(255, 54, 157, 216),
                                   width: 2,
                                 ),
+                              
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),

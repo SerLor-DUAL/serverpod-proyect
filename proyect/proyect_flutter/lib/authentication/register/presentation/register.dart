@@ -123,6 +123,7 @@ class _Register extends RegisterController
                                 // PASSWORD TEXTFIELD
                                 TextField(
                                   controller: passwordController,
+                                  obscureText: true,
                                   decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
@@ -149,6 +150,7 @@ class _Register extends RegisterController
                                 // CONFIRM PASSWORD TEXTFIELD
                                 TextField(
                                   controller: confirmController,
+                                  obscureText: true,
                                   decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
