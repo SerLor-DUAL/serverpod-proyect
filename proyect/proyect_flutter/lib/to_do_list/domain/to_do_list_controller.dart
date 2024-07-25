@@ -73,6 +73,12 @@ abstract class ToDoListController extends State<ToDoList> {
     }
   }
 
+  // DELETE TASK
+  Future<void> deleteTask(Task task) async {
+    await widget.client.tasks.deleteTask(task);
+        _loadTask();
+  }
+
 // LOAD EVERYTASK FROM USERID IN WIDGET.
   void _loadTask() async {
     final List<Task> taskList =
@@ -114,7 +120,6 @@ abstract class ToDoListController extends State<ToDoList> {
           ElevatedButton(
             onPressed: () async {
                await createTask();
-               Navigator.of(context).pop();
             },
             child: const Text('Add Task'),
           ),
@@ -128,4 +133,6 @@ abstract class ToDoListController extends State<ToDoList> {
     RegExp exp = RegExp(r'^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$');
     return exp.hasMatch(taskDate);
   }
+
+  
 }

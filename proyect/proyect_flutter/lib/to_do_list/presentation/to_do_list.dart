@@ -122,7 +122,7 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
           controller: _tabController,
           children: [
             Container(
-              padding: const EdgeInsets.all(50),
+              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
               child: ListView.builder(
                 itemCount: _taskList.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -132,19 +132,26 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            widget.selectTask(task);
-                            widget.updateHomeIndex(5);
-                            _loadTask();
-                          },
-                          child: HoverableTaskTitle(
-                            task: task,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  widget.selectTask(task);
+                                  widget.updateHomeIndex(5);
+                                  _loadTask();
+                                },
+                                child: HoverableTaskTitle(
+                                  task: task,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 20),
                         IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             toogleCompleted(task);
                           },
                           icon: Icon(
@@ -154,6 +161,15 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
                             color: const Color.fromARGB(255, 124, 214, 255),
                           ),
                           tooltip: 'Complete/Uncomplete',
+                        ),
+                        const SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () async {
+                            await deleteTask(task);
+                          },
+                          icon: const Icon(Icons.delete_forever),
+                          tooltip: 'Delete',
+
                         ),
                       ],
                     ),

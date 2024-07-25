@@ -60,27 +60,29 @@ class _ContactList extends ContactListController {
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(50),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 150.0, vertical: 50),
                 itemCount: _contactList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Contact contact = _contactList[index];
-  
-                    return ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              widget.selectContact(contact);
-                              widget.updateHomeIndex(4);
-                              _loadContacts();
-                            },
-                            child: HoverableContactName(contact: contact,),
-                          ),
-                        ],
-                      ),
-                    );
 
+                  return ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            widget.selectContact(contact);
+                            widget.updateHomeIndex(4);
+                            _loadContacts();
+                          },
+                          child: HoverableContactName(
+                            contact: contact,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ),
