@@ -15,9 +15,9 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
-  Future<Map<String, String>?> checkIfContactIsOnList(String phoneNumber) async {
+  Future<Map<String, String>?> checkIfContactIsOnList() async {
     bool isContactOnList =
-        await widget.client.contact.isContactOnList(phoneNumber, widget.user.id!);
+        await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
     Map<String, String>? error;
 
     if (isContactOnList) {
@@ -31,25 +31,26 @@ abstract class ContactDetailsController extends State<ContactDetails> {
 
   // IF THERE'S NO ERROR IN THE CONTACT. UPDATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
-    Contact updatedContact = updateContactWithData();
 
     Map<String, String>? error =
-        await checkIfContactIsOnList(updatedContact.phoneNumber);
-    (error == null)
-        ? await widget.client.contact.updateContact(updatedContact)
-        : {
-            if (mounted)
-              {
-                await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CustomAlertDialog(
-                        customTitle: error["errorTitle"]!,
-                        customContent: error["errorMessage"]!,
-                      );
-                    })
-              }
-          };
+        await checkIfContactIsOnList();
+    if (error == null){
+      Contact updatedContact = updateContactWithData();
+      await widget.client.contact.updateContact(updatedContact);
+      } 
+      else {
+        if (mounted)
+          {
+            await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CustomAlertDialog(
+                    customTitle: error["errorTitle"]!,
+                    customContent: error["errorMessage"]!,
+                  );
+                });
+          }
+          }
   }
 
   Future<void> deleteContact(Contact contact) async {
