@@ -23,8 +23,7 @@ class ContactDetails extends StatefulWidget {
   createState() => _ContactDetails();
 }
 
-class _ContactDetails extends ContactDetailsController
-    with TickerProviderStateMixin {
+class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override

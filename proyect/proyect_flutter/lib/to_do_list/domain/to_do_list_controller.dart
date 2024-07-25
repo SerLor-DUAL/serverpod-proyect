@@ -103,8 +103,9 @@ abstract class ToDoListController extends State<ToDoList> {
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () {
-               createTask();
+            onPressed: () async {
+               await createTask();
+               Navigator.of(context).pop();
             },
             child: const Text('Add Task'),
           ),
@@ -113,7 +114,5 @@ abstract class ToDoListController extends State<ToDoList> {
     );
     _loadTask();
   }
-  
-
   
 }

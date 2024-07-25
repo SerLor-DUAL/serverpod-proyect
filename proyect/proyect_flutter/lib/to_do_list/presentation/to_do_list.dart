@@ -25,7 +25,25 @@ class ToDoList extends StatefulWidget {
   createState() => _ToDoList();
 }
 
-class _ToDoList extends ToDoListController {
+class _ToDoList extends ToDoListController with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 1, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _addTask() async {
+    await _askForToDoInput();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,26 +58,72 @@ class _ToDoList extends ToDoListController {
         ],
       ),
       child: Scaffold(
-        body: Column(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            height: 20,
+            color: Colors.white,
+          ),
+          automaticallyImplyLeading: false,
+          title: const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Text(
+              "To Do List",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: const Color(0xFF369DD8),
+          toolbarHeight: 96,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(76),
+            child: Stack(
+              children: [
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {});
+                  },
+                  onExit: (_) {
+                    setState(() {});
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: const Color(0xFF369DD8),
+                      indicatorColor: const Color(0xFF369DD8),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorWeight: 2,
+                      tabs: const [
+                        Tab(
+                          icon: Icon(
+                            Icons.message,
+                            color: Color(0xFF369DD8),
+                          ),
+                          text: "Add Task",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: _addTask,
+                    behavior: HitTestBehavior
+                        .translucent, // Asegura que se capture cualquier clic
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
           children: [
             Container(
-              height: 20.0,
-              color: Colors.white,
-            ),
-            // AppBar
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text(
-                "To Do List",
-                style: TextStyle(color: Colors.white),
-              ),
-              centerTitle: true,
-              backgroundColor: const Color(0xFF369DD8),
-              toolbarHeight: 78,
-            ),
-            Expanded(
+              padding: const EdgeInsets.all(50),
               child: ListView.builder(
-                padding: const EdgeInsets.all(8),
                 itemCount: _taskList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Task task = _taskList[index];
@@ -74,7 +138,9 @@ class _ToDoList extends ToDoListController {
                             widget.updateHomeIndex(5);
                             _loadTask();
                           },
-                          child: HoverableTaskTitle(task: task,)
+                          child: HoverableTaskTitle(
+                            task: task,
+                          ),
                         ),
                         const SizedBox(width: 20),
                         IconButton(
@@ -89,7 +155,6 @@ class _ToDoList extends ToDoListController {
                           ),
                           tooltip: 'Complete/Uncomplete',
                         ),
-                        
                       ],
                     ),
                   );
@@ -97,17 +162,6 @@ class _ToDoList extends ToDoListController {
               ),
             ),
           ],
-        ),
-        // FLOATING ACTION BUTTON
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await _askForToDoInput();
-          },
-          backgroundColor: Colors.lightBlue[900],
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
         ),
       ),
     );

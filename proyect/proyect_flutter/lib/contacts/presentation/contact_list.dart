@@ -60,7 +60,7 @@ class _ContactList extends ContactListController {
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(50),
                 itemCount: _contactList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Contact contact = _contactList[index];
@@ -112,7 +112,7 @@ class HoverableContactName extends StatefulWidget {
   });
 
   @override
-  createState() => _HoverableContactNameState();
+  _HoverableContactNameState createState() => _HoverableContactNameState();
 }
 
 class _HoverableContactNameState extends State<HoverableContactName> {
