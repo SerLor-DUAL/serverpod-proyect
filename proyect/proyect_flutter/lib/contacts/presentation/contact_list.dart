@@ -5,17 +5,23 @@ import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/main.dart';
 part '../domain/contact_list_controller.dart';
 
+// ------------------------ Contact List ------------------------- \\
 class ContactList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
 
   // FUNCIÓN DE CALLBACK PARA ACTUALIZAR EL ÍNDICE
   final void Function(int) updateHomeIndex;
-  
-  // FUNCIÓN DE CALLBACK PARA SELECCIONAR CONTACTO  
-  final void Function(Contact) selectContact; 
 
-  const ContactList({super.key, required this.client, required this.user, required this.selectContact, required this.updateHomeIndex});
+  // FUNCIÓN DE CALLBACK PARA SELECCIONAR CONTACTO
+  final void Function(Contact) selectContact;
+
+  const ContactList(
+      {super.key,
+      required this.client,
+      required this.user,
+      required this.selectContact,
+      required this.updateHomeIndex});
 
   @override
   createState() => _ContactList();
@@ -58,33 +64,23 @@ class _ContactList extends ContactListController {
                 itemCount: _contactList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Contact contact = _contactList[index];
-                  return ListTile(
-                    title: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            contact.name,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+  
+                    return ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              widget.selectContact(contact);
+                              widget.updateHomeIndex(4);
+                              _loadContacts();
+                            },
+                            child: HoverableContactName(contact: contact,),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            widget.selectContact(contact);
-                            widget.updateHomeIndex(4);
-                            _loadContacts();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromARGB(255, 1, 3, 3),
-                          ),
-                          tooltip: 'See details',
-                        ),
-                      ],
-                    ),
-                  );
+                        ],
+                      ),
+                    );
+
                 },
               ),
             ),
@@ -99,6 +95,47 @@ class _ContactList extends ContactListController {
             Icons.add,
             color: Colors.white,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ------------------------ HoverableContactName ------------------------- \\
+
+class HoverableContactName extends StatefulWidget {
+  final Contact contact;
+
+  const HoverableContactName({
+    super.key,
+    required this.contact,
+  });
+
+  @override
+  _HoverableContactNameState createState() => _HoverableContactNameState();
+}
+
+class _HoverableContactNameState extends State<HoverableContactName> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() {
+          isHovered = true;
+        });
+      },
+      onExit: (_) {
+        setState(() {
+          isHovered = false;
+        });
+      },
+      child: Text(
+        widget.contact.name,
+        style: TextStyle(
+          fontSize: 23.0,
+          fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );
