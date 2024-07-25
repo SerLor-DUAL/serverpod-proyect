@@ -83,6 +83,9 @@ abstract class ToDoListController extends State<ToDoList> {
 
   // CUSTOM INPUT DIALOG FOR CREATION OF TASKS
   Future<void> _askForToDoInput() async {
+    _dateCon.text = '';
+    _descriptionCon.text = '';
+    _titleCon.text = '';
     await showDialog(
       context: context,
       builder: (BuildContext context) => CustomInputDialog(

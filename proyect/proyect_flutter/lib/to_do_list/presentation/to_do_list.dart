@@ -9,16 +9,17 @@ class ToDoList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
 
-  final void Function(int) updateHomeIndex;  // Función de callback para actualizar el índice
-  final void Function(Task) selectTask; // Función de callback para seleccionar task
+  final void Function(int)
+      updateHomeIndex; // Función de callback para actualizar el índice
+  final void Function(Task)
+      selectTask; // Función de callback para seleccionar task
 
-  const ToDoList({
-    super.key,
-    required this.client,
-    required this.user,
-    required this.selectTask, 
-    required this.updateHomeIndex
-  });
+  const ToDoList(
+      {super.key,
+      required this.client,
+      required this.user,
+      required this.selectTask,
+      required this.updateHomeIndex});
 
   @override
   createState() => _ToDoList();
@@ -62,21 +63,20 @@ class _ToDoList extends ToDoListController {
                 itemCount: _taskList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Task task = _taskList[index];
+
                   return ListTile(
                     title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Text(
-                            task.title,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              decoration: (task.complete)
-                                  ? TextDecoration.lineThrough
-                                  : null,
-                            ),
-                          ),
+                        GestureDetector(
+                          onTap: () async {
+                            widget.selectTask(task);
+                            widget.updateHomeIndex(5);
+                            _loadTask();
+                          },
+                          child: HoverableTaskTitle(task: task,)
                         ),
+                        const SizedBox(width: 20),
                         IconButton(
                           onPressed: () {
                             toogleCompleted(task);
@@ -89,18 +89,7 @@ class _ToDoList extends ToDoListController {
                           ),
                           tooltip: 'Complete/Uncomplete',
                         ),
-                        IconButton(
-                          onPressed: () async {
-                            widget.selectTask(task);
-                            widget.updateHomeIndex(5);
-                            _loadTask();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromARGB(255, 1, 3, 3),
-                          ),
-                          tooltip: 'See details',
-                        ),
+                        
                       ],
                     ),
                   );
@@ -119,6 +108,47 @@ class _ToDoList extends ToDoListController {
             Icons.add,
             color: Colors.white,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ------------------------ HoverableTaskTitle ------------------------- \\
+
+class HoverableTaskTitle extends StatefulWidget {
+  final Task task;
+
+  const HoverableTaskTitle({
+    super.key,
+    required this.task,
+  });
+
+  @override
+  createState() => _HoverableTaskTitle();
+}
+
+class _HoverableTaskTitle extends State<HoverableTaskTitle> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() {
+          isHovered = true;
+        });
+      },
+      onExit: (_) {
+        setState(() {
+          isHovered = false;
+        });
+      },
+      child: Text(
+        widget.task.title,
+        style: TextStyle(
+          fontSize: 23.0,
+          fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );

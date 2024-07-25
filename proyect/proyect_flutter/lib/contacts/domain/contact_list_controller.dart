@@ -86,6 +86,8 @@ abstract class ContactListController extends State<ContactList> {
   }
 
   Future<void> _askForContactInput() async {
+    _nameCon.text = '';
+    _phoneCon.text = '';
     await showDialog(
       context: context,
       builder: (BuildContext context) => CustomInputDialog(
