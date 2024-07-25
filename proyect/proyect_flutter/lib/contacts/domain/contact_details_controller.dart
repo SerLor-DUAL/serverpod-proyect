@@ -16,16 +16,28 @@ abstract class ContactDetailsController extends State<ContactDetails> {
   }
 
   Future<Map<String, String>?> checkIfContactIsOnList() async {
-    bool isContactOnList =
-        await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
     Map<String, String>? error;
+    
+    if (isPhoneMatch(_phoneCon.text)){
+      bool isContactOnList =
+          await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
 
-    if (isContactOnList) {
+      if (isContactOnList) {
+        if (widget.contact.phoneNumber != _phoneCon.text){
+          error = {
+            'errorTitle': 'Contact in list',
+            'errorMessage': 'That contact is already in the list'
+          };
+        }
+      }
+    } else {
       error = {
-        'errorTitle': 'Contact in list',
-        'errorMessage': 'That contact is already in the list'
+            'errorTitle': "Phone doesn't match",
+            'errorMessage': 'Phone must have 9 nums'
       };
     }
+
+
     return error;
   }
 
@@ -115,5 +127,11 @@ abstract class ContactDetailsController extends State<ContactDetails> {
         ],
       ),
     );
+  }
+    // ------------------------ Format Methods ------------------------- \\
+  // RETURNS TRUE IF THE PHONE IS A MATCH
+  bool isPhoneMatch(String phoneNumber) {
+    RegExp exp = RegExp(r'^[0-9]{9}$');
+    return exp.hasMatch(phoneNumber);
   }
 }
