@@ -6,10 +6,10 @@ class TasksEndpoint extends Endpoint {
 
   @override
   bool get requireLogin => true;
+  // ------------------------ DB ENDPOINT METHODS ------------------------- \\
 
-  // DB ENDPOINT METHODS
-  // CREATE
 
+  // ------------------------ CREATE ------------------------- \\
   Future<void> addTask(Session session, Task task) async {
     await Task.db.insertRow(session, task);
   }
@@ -18,12 +18,13 @@ class TasksEndpoint extends Endpoint {
     await Task.db.insert(session, tasks);
   }
 
-  // READ
+  // ------------------------ READ ------------------------- \\
   Future<Task?> findById(Session session, int taskID) async {
     return await Task.db.findById(
       session, 
       taskID);
   }
+  // ------------------------ DELETE ------------------------- \\
   Future<List<Task>> getEveryTaskByUser(Session session, int userID) async {
     return await Task.db.find(
         session,
@@ -43,7 +44,7 @@ class TasksEndpoint extends Endpoint {
       orderDescending: true,
       orderBy: (task) => task.deadLine);
   }
-  // UPDATE
+  // ------------------------ UPDATE ------------------------- \\
   Future<void> updateTask(Session session, Task task) async {
     await Task.db.updateRow(session, task);
   }
@@ -55,11 +56,12 @@ class TasksEndpoint extends Endpoint {
     await Task.db.updateRow(session, task);
   }
 
-  // DELETE
+  // ------------------------ DELETE ------------------------- \\
   Future<void> deleteTask(Session session, Task task) async {
     await Task.db.deleteRow(session, task);
   }
   Future<void> deleteMultipleTasks(Session session, List<Task> tasks) async {
     await Task.db.delete(session, tasks);
   }
+
 }

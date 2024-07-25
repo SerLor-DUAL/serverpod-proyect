@@ -58,4 +58,9 @@ abstract class TaskDetailsController extends State<TaskDetails> {
       ),
     );
   }
+
+  // ------------------------ FORMAT METHODS ------------------------- \\
+  String getFormatedDate(Task task) {
+    return task.deadLine.toString().substring(0,10);
+  }
 }

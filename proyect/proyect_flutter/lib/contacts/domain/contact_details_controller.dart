@@ -48,7 +48,8 @@ abstract class ContactDetailsController extends State<ContactDetails> {
                     customTitle: error["errorTitle"]!,
                     customContent: error["errorMessage"]!,
                   );
-                });
+                }
+              );
           }
           }
   }

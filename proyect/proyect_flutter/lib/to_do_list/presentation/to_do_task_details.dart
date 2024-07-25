@@ -59,7 +59,7 @@ class _TaskDetails extends TaskDetailsController {
 
             // IF TASK DOES HAVE A DEADLINE ADD IT. ELSE DONT.
             (task.deadLine != null)
-                ? Text("DeadLine: ${task.deadLine!.toIso8601String()}",
+                ? Text("DeadLine: ${getFormatedDate(task)}",
                     style: const TextStyle(
                       fontSize: 40.00,
                     ))
