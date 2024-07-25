@@ -56,8 +56,10 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     await widget.client.contact.deleteContact(contact);
   }
 
-  // CUSTOM INPUT DIALOG FOR UPDATE OF TASKS
+  // CUSTOM INPUT DIALOG FOR UPDATE OF CONTACTS
   Future<void> _askForUpdateToDoInput() async {
+    _nameCon.text = widget.contact.name;
+    _phoneCon.text = widget.contact.phoneNumber;
     await showDialog(
       context: context,
       builder: (BuildContext context) => CustomInputDialog(

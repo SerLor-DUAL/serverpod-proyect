@@ -112,7 +112,7 @@ class HoverableContactName extends StatefulWidget {
   });
 
   @override
-  _HoverableContactNameState createState() => _HoverableContactNameState();
+  createState() => _HoverableContactNameState();
 }
 
 class _HoverableContactNameState extends State<HoverableContactName> {
