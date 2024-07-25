@@ -84,4 +84,32 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       ),
     );
   }
+
+  // BUTTON CREATOR FOR LOG OUT
+  void _askForDeleteConfirmation(Contact contact) async {
+    await showDialog(
+      context: context,
+      builder: (context) => CustomAlertDialog(
+        customTitle: "Delete Contact?",
+        customContent: "Are you sure you want to delete this contact?",
+        customActions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await deleteContact(contact);
+              if (!context.mounted) return;
+              widget.updateHomeIndex(1);
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
 }

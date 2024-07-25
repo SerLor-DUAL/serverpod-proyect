@@ -19,13 +19,12 @@ class ContactDetails extends StatefulWidget {
       required this.user,
       required this.updateHomeIndex});
 
-
   @override
   createState() => _ContactDetails();
 }
 
-class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
-    
+class _ContactDetails extends ContactDetailsController
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -118,22 +117,21 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
 
   Widget _buildDetailsTab(Contact contact) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 50),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               // PROFILE IMAGE
               const CircleAvatar(
                 // backgroundImage: NetworkImage(contact.photoUrl),
                 radius: 40,
               ),
               const SizedBox(width: 20.0),
-              
-              // CONTACT INFORMATION AND BUTTONS
+
+              // COLUMN FOR CONTACT INFORMATION
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,91 +151,22 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                         color: Colors.grey,
                       ),
                     ),
-                    const SizedBox(height: 10.0),
-                    // BUTTONS FOR EDITING AND DELETING
-                    Row(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            await _askForUpdateToDoInput();
-                            setState(() {});
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.lightBlue[900],
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 5,
-                          ),
-                          icon: const Icon(Icons.edit),
-                          label: const Text('Edit'),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            await deleteContact(contact);
-                            if (!context.mounted) return;
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 5,
-                          ),
-                          icon: const Icon(Icons.delete_outline),
-                          label: const Text('Delete'),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 20.0),
-          // Message section
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 250, 250),
-                borderRadius: BorderRadius.circular(12.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8.0,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
+              const SizedBox(width: 20.0),
+
+              // COLUMN FOR ACTION BUTTONS
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: TextFormField(
-                      minLines: 2,
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                        hintText: "Send a message!",
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16.0),
-                      ),
-                      validator: (String? value) {
-                        return (value == '')
-                            ? 'Please, fill the text area'
-                            : null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  ElevatedButton.icon(
-                    onPressed: () {},
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _askForUpdateToDoInput();
+                      setState(() {});
+                    },
                     style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(130, 40),
                       textStyle: const TextStyle(fontSize: 20.0),
                       padding: const EdgeInsets.all(15.0),
                       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -252,20 +181,142 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    icon: const Icon(
-                      Icons.send_sharp,
-                      color: Color(0xFF369DD8),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.edit, color: Color(0xFF369DD8)),
+                        SizedBox(width: 8.0),
+                        Text('Edit'),
+                      ],
                     ),
-                    label: const Text(
-                      "Send Whatsapp",
-                      style: TextStyle(
-                        color: Color(0xFF369DD8),
+                  ),
+                  const SizedBox(height: 10.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      _askForDeleteConfirmation(contact);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(130, 40),
+                      textStyle: const TextStyle(fontSize: 20.0),
+                      padding: const EdgeInsets.all(15.0),
+                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                      foregroundColor: const Color(0xFF369DD8),
+                      shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                      elevation: 5,
+                      shape: ContinuousRectangleBorder(
+                        side: const BorderSide(
+                          color: Color.fromARGB(255, 54, 157, 216),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.delete_outline, color: Color(0xFF369DD8)),
+                        SizedBox(width: 8.0),
+                        Text('Delete'),
+                      ],
                     ),
                   ),
                 ],
               ),
+            ],
+          ),
+
+          const SizedBox(height: 50.0),
+
+          // MESSAGE SECTION
+          Container(
+            height: 420,
+            padding: const EdgeInsets.all(16.0),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 255, 250, 250),
+              border: Border(
+                top: BorderSide(
+                  color: Colors.blue,
+                  width: 2.0,
+                ),
+                left: BorderSide(
+                  color: Colors.blue,
+                  width: 2.0,
+                ),
+                right: BorderSide(
+                  color: Colors.blue,
+                  width: 2.0,
+                ),
+                bottom: BorderSide.none,
+              ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0),
+                bottomLeft: Radius.zero,
+                bottomRight: Radius.zero,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8.0,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    style: const TextStyle(color: Color(0xFF369DD8)),
+                    minLines: 2,
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                      hintText: "Write a message!",
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(16.0),
+                    ),
+                    validator: (String? value) {
+                      return (value == '')
+                          ? 'Please, fill the text area'
+                          : null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20.0),
+                    padding: const EdgeInsets.all(30.0),
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                    foregroundColor: const Color(0xFF369DD8),
+                    shadowColor: const Color.fromARGB(255, 54, 157, 216),
+                    elevation: 5,
+                    shape: ContinuousRectangleBorder(
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 54, 157, 216),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.send_sharp,
+                    color: Color(0xFF369DD8),
+                  ),
+                  label: const Text(
+                    "Send Whatsapp",
+                    style: TextStyle(
+                      color: Color(0xFF369DD8),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
