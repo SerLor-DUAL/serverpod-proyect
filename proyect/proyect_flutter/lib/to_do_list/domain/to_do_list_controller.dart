@@ -56,7 +56,7 @@ abstract class ToDoListController extends State<ToDoList> {
   }
   // UPDATE TASK POP UP CONTRUCTOR
   Future<void> _askForUpdateToDoInput(Task selectedTask) async {
-    _dateCon.text = selectedTask.deadLine.toString();
+    _dateCon.text = getFormatedDate(selectedTask);
     _descriptionCon.text = selectedTask.description.toString();
     _titleCon.text = selectedTask.title;
     await showDialog(
