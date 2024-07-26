@@ -222,9 +222,12 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListTile(
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(widget.task.description!),
+                  const SizedBox(
+                    width: 30,
+                  ),
                   Text(widget.getFormatedDate(widget.task))
                 ],
               ),
