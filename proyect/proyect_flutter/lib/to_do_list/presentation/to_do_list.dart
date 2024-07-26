@@ -180,7 +180,7 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
         ListTile(
           title: GestureDetector(
             onTap: _toggleExpand,
-            child: HoverableTaskTitle(task: widget.task),
+            child: ExpandedTaskDetails(task: widget.task),
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -226,21 +226,21 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
   }
 }
 
-// ------------------------ HoverableTaskTitle ------------------------- \\
+// ------------------------ ExpandedTaskDetails ------------------------- \\
 
-class HoverableTaskTitle extends StatefulWidget {
+class ExpandedTaskDetails extends StatefulWidget {
   final Task task;
 
-  const HoverableTaskTitle({
+  const ExpandedTaskDetails({
     super.key,
     required this.task,
   });
 
   @override
-  createState() => _HoverableTaskTitle();
+  createState() => _ExpandedTaskDetails();
 }
 
-class _HoverableTaskTitle extends State<HoverableTaskTitle> {
+class _ExpandedTaskDetails extends State<ExpandedTaskDetails> {
   bool isHovered = false;
 
   @override
@@ -256,13 +256,18 @@ class _HoverableTaskTitle extends State<HoverableTaskTitle> {
           isHovered = false;
         });
       },
-      child: Text(
-        widget.task.title,
-        style: TextStyle(
-          fontSize: 23.0,
-          fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
-        ),
+      child: Row(
+        children: [
+          Text(
+            widget.task.title,
+            style: TextStyle(
+              fontSize: 23.0,
+              fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
       ),
+
     );
   }
 }
