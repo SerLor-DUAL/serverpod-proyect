@@ -30,7 +30,7 @@ abstract class ToDoListController extends State<ToDoList> {
   Task editTaskWithData(Task selectedTask) {
     selectedTask.title = (_titleCon.text != '') ? _titleCon.text : selectedTask.title;
     selectedTask.description = _descriptionCon.text;
-    selectedTask.deadLine = DateTime.parse(_dateCon.text);
+    selectedTask.deadLine = (_dateCon.text != '') ? DateTime.parse(_dateCon.text) : null;
     return selectedTask;
   }
 
