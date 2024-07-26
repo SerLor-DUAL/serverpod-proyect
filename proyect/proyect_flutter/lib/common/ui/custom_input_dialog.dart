@@ -5,6 +5,8 @@ class CustomInputDialog extends StatelessWidget {
   // POSSIBLE USER AND CLIENT
   final Client? client;
   final UsersRegistry? user;
+  // IF I
+  final List<int>? buttonInTextFields;
 
   final String title;
   final String? content; // POSSIBLE CONTENT
@@ -22,6 +24,7 @@ class CustomInputDialog extends StatelessWidget {
     super.key,
     this.client,
     this.user,
+    this.buttonInTextFields,
     required this.title,
     this.content,
     required this.textControllers,
@@ -131,6 +134,19 @@ class CustomInputDialog extends StatelessWidget {
                             width: 1.5,
                           ),
                         ),
+                        suffixIcon: (buttonInTextFields != null)
+                            ? (buttonInTextFields!.contains(index)
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.add, // Choose the icon you want
+                                      color: Color.fromARGB(255, 54, 157, 216),
+                                    ),
+                                    onPressed: () async{
+                                      await _selectDate(context, textControllers[index]);
+                                    }
+                                  )
+                                : null)
+                            : null,
                       ),
                     ),
                   );
@@ -185,4 +201,17 @@ class CustomInputDialog extends StatelessWidget {
       child: button.child,
     );
   }
+  Future<void> _selectDate(BuildContext context, TextEditingController controller) async{
+    final today = DateTime.now();
+    final aYearFromToday = today.add(const Duration(days: 365));
+
+    DateTime? _picked = await showDatePicker(
+                              context: context, 
+                              firstDate: today, 
+                              lastDate: aYearFromToday);
+    if (_picked != null) {
+      controller.text = _picked.toString().split(" ")[0];
+    }
+  }
 }
+

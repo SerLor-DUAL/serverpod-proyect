@@ -134,8 +134,9 @@ abstract class ToDoListController extends State<ToDoList> {
       builder: (BuildContext context) => CustomInputDialog(
         client: widget.client,
         user: widget.user,
-        title: 'Create Task',
-        content: null,
+        buttonInTextFields: const [2],
+        title: 'Create Task', 
+        content: null, // NO QUIERO CONTENIDO AQUÍ
         textControllers: [_titleCon, _descriptionCon, _dateCon],
         labels: const ['Title', 'Description', 'Deadline (YYYY-MM-DD)'],
         actions: [
