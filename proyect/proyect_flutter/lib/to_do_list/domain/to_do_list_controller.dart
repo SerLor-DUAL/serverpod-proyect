@@ -56,7 +56,7 @@ abstract class ToDoListController extends State<ToDoList> {
   }
   // UPDATE TASK POP UP CONTRUCTOR
   Future<void> _askForUpdateToDoInput(Task selectedTask) async {
-    _dateCon.text = getFormatedDate(selectedTask);
+    _dateCon.text = _getFormatedDate(selectedTask);
     _descriptionCon.text = selectedTask.description.toString();
     _titleCon.text = selectedTask.title;
     await showDialog(
@@ -197,7 +197,7 @@ abstract class ToDoListController extends State<ToDoList> {
   }
 
   // FORMATED DATA
-  String getFormatedDate(Task task) {
+  String _getFormatedDate(Task task) {
     if (task.deadLine != null){
       return task.deadLine.toString().substring(0,10);
     }

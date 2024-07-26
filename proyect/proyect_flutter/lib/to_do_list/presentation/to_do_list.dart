@@ -131,6 +131,7 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
                     toogleCompleted: _toogleCompleted,
                     deleteTask: _deleteTask,
                     updateTask: _askForUpdateToDoInput,
+                    getFormatedDate: _getFormatedDate,
                   );
                 },
               ),
@@ -150,6 +151,7 @@ class ExpandableTaskItem extends StatefulWidget {
   final void Function(Task) toogleCompleted;
   final Future<void> Function(Task) deleteTask;
   final Future<void> Function(Task) updateTask;
+  final String Function(Task) getFormatedDate;
 
   const ExpandableTaskItem({
     super.key,
@@ -158,6 +160,7 @@ class ExpandableTaskItem extends StatefulWidget {
     required this.toogleCompleted,
     required this.deleteTask,
     required this.updateTask,
+    required this.getFormatedDate,
   });
 
   @override
@@ -218,7 +221,13 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListTile(
-              title: Text(widget.task.description!),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(widget.task.description!),
+                  Text(widget.getFormatedDate(widget.task))
+                ],
+              ),
             ),
           ),
       ],
