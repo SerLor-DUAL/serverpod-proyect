@@ -25,5 +25,11 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Ignore specific files, but ensure migrations are not ignored
 proyect/proyect_server/lib/src/models/environment/env.g.dart
 proyect/proyect_server/lib/src/models/environment/env.dart
+
+# Ensure migrations are included
+!migrations/
+migrations/*
