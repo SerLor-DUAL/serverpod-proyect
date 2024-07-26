@@ -195,7 +195,10 @@ abstract class ToDoListController extends State<ToDoList> {
 
   // FORMATED DATA
   String getFormatedDate(Task task) {
-    return task.deadLine.toString().substring(0,10);
+    if (task.deadLine != null){
+      return task.deadLine.toString().substring(0,10);
+    }
+    return '';
   }
 
   // REGEX FOR MANUAL DATE INPUT
