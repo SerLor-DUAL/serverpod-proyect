@@ -109,6 +109,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
         controller: _tabController,
         children: [
           _buildDetailsTab(contact),
+          Container(),
         ],
       ),
     );

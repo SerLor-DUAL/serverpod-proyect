@@ -27,117 +27,198 @@ class ContactList extends StatefulWidget {
   createState() => _ContactList();
 }
 
-class _ContactList extends ContactListController {
+class _ContactList extends ContactListController with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 1, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _addContact() async {
+    await _askForContactInput();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(3, 0),
-            spreadRadius: 5,
-            blurRadius: 7,
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          height: 20,
+          color: Colors.white,
+        ),
+        automaticallyImplyLeading: false,
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(
+            "Contact List",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF369DD8),
+        toolbarHeight: 96,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(76),
+          child: Stack(
+            children: [
+              MouseRegion(
+                onEnter: (_) {
+                  setState(() {});
+                },
+                onExit: (_) {
+                  setState(() {});
+                },
+                child: Container(
+                  color: Colors.white,
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: const Color(0xFF369DD8),
+                    indicatorColor: const Color(0xFF369DD8),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 2,
+                    tabs: const [
+                      Tab(
+                        icon: Icon(
+                          Icons.add,
+                          color: Color(0xFF369DD8),
+                        ),
+                        text: "Add Contact",
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: _addContact,
+                  // ASEGURA QUE SE CAPTURE CUALQUIER CLIC
+                  behavior: HitTestBehavior.translucent,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
+            child: ListView.builder(
+              itemCount: _contactList.length,
+              itemBuilder: (BuildContext context, int index) {
+                Contact contact = _contactList[index];
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: ExpandableContactItem(
+                    contact: contact,
+                    selectContact: widget.selectContact,
+                    updateHomeIndex: widget.updateHomeIndex,
+                  ),
+                );
+              },
+            ),
           ),
         ],
-      ),
-      child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              height: 20.0,
-              color: Colors.white,
-            ),
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text(
-                "Contact List",
-                style: TextStyle(color: Colors.white),
-              ),
-              centerTitle: true,
-              backgroundColor: const Color(0xFF369DD8),
-              toolbarHeight: 78,
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 150.0, vertical: 50),
-                itemCount: _contactList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Contact contact = _contactList[index];
-
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            widget.selectContact(contact);
-                            widget.updateHomeIndex(4);
-                            _loadContacts();
-                          },
-                          child: HoverableContactName(
-                            contact: contact,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await _askForContactInput();
-          },
-          backgroundColor: Colors.lightBlue[900],
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
       ),
     );
   }
 }
 
-// ------------------------ HoverableContactName ------------------------- \\
-
-class HoverableContactName extends StatefulWidget {
+class ExpandableContactItem extends StatefulWidget {
   final Contact contact;
+  final void Function(Contact) selectContact;
+  final void Function(int) updateHomeIndex;
 
-  const HoverableContactName({
+  const ExpandableContactItem({
     super.key,
     required this.contact,
+    required this.selectContact,
+    required this.updateHomeIndex,
   });
 
   @override
-  _HoverableContactNameState createState() => _HoverableContactNameState();
+  createState() => _ExpandableContactItemState();
 }
 
-class _HoverableContactNameState extends State<HoverableContactName> {
+class _ExpandableContactItemState extends State<ExpandableContactItem> {
   bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          isHovered = true;
-        });
+    return GestureDetector(
+      onTap: () {
+        widget.selectContact(widget.contact);
+        widget.updateHomeIndex(4);
       },
-      onExit: (_) {
-        setState(() {
-          isHovered = false;
-        });
-      },
-      child: Text(
-        widget.contact.name,
-        style: TextStyle(
-          fontSize: 23.0,
-          fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) {
+          setState(() {
+            isHovered = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            isHovered = false;
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          padding: EdgeInsets.symmetric(vertical: isHovered ? 30.0 : 15.0),
+          margin: const EdgeInsets.symmetric(vertical: 5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFF369DD8)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(120, 54, 157, 216),
+                blurRadius: 3.0,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                mouseCursor: SystemMouseCursors.click,
+                leading: const CircleAvatar(
+                  // backgroundImage: NetworkImage(widget.contact.imageUrl),
+                  radius: 24,
+                ),
+                title: Text(
+                  widget.contact.name,
+                  style: TextStyle(
+                    fontSize: 23.0,
+                    color: const Color(0xFF369DD8),
+                    fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                subtitle: isHovered
+                    ? Text(
+                        'Phone Number: ${widget.contact.phoneNumber}',
+                      )
+                    : null,
+                trailing: const Icon(
+                  Icons.textsms,
+                  color:Color(0xFF369DD8),
+                  size: 40,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
