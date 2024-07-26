@@ -3,7 +3,7 @@ table: contacts
 fields:
   name: String
   phoneNumber: String
-  profileIMG: String
+  profileIMG: String?
   userID: int, relation(parent=users_registry) # Foreign key field
 
 indexes:

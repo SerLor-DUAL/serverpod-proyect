@@ -9,8 +9,6 @@ abstract class ContactListController extends State<ContactList> {
   }
 
   List<Contact> _contactList = [];
-  // IMG
-  String imgRoute = 'assets/img/profiles/profile3.jpg';
 
   // CONTROLLERS
   final TextEditingController _nameCon = TextEditingController();
@@ -82,7 +80,7 @@ abstract class ContactListController extends State<ContactList> {
     return Contact(
         name: _nameCon.text,
         phoneNumber: _phoneCon.text,
-        profileIMG: imgRoute,
+        profileIMG: null,
         userID: widget.user.id!);
   }
 

@@ -16,7 +16,7 @@ abstract class Contact extends _i1.TableRow
     int? id,
     required this.name,
     required this.phoneNumber,
-    required this.profileIMG,
+    this.profileIMG,
     required this.userID,
   }) : super(id);
 
@@ -24,7 +24,7 @@ abstract class Contact extends _i1.TableRow
     int? id,
     required String name,
     required String phoneNumber,
-    required String profileIMG,
+    String? profileIMG,
     required int userID,
   }) = _ContactImpl;
 
@@ -33,7 +33,7 @@ abstract class Contact extends _i1.TableRow
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
       phoneNumber: jsonSerialization['phoneNumber'] as String,
-      profileIMG: jsonSerialization['profileIMG'] as String,
+      profileIMG: jsonSerialization['profileIMG'] as String?,
       userID: jsonSerialization['userID'] as int,
     );
   }
@@ -46,7 +46,7 @@ abstract class Contact extends _i1.TableRow
 
   String phoneNumber;
 
-  String profileIMG;
+  String? profileIMG;
 
   int userID;
 
@@ -66,7 +66,7 @@ abstract class Contact extends _i1.TableRow
       if (id != null) 'id': id,
       'name': name,
       'phoneNumber': phoneNumber,
-      'profileIMG': profileIMG,
+      if (profileIMG != null) 'profileIMG': profileIMG,
       'userID': userID,
     };
   }
@@ -77,7 +77,7 @@ abstract class Contact extends _i1.TableRow
       if (id != null) 'id': id,
       'name': name,
       'phoneNumber': phoneNumber,
-      'profileIMG': profileIMG,
+      if (profileIMG != null) 'profileIMG': profileIMG,
       'userID': userID,
     };
   }
@@ -119,7 +119,7 @@ class _ContactImpl extends Contact {
     int? id,
     required String name,
     required String phoneNumber,
-    required String profileIMG,
+    String? profileIMG,
     required int userID,
   }) : super._(
           id: id,
@@ -134,14 +134,14 @@ class _ContactImpl extends Contact {
     Object? id = _Undefined,
     String? name,
     String? phoneNumber,
-    String? profileIMG,
+    Object? profileIMG = _Undefined,
     int? userID,
   }) {
     return Contact(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      profileIMG: profileIMG ?? this.profileIMG,
+      profileIMG: profileIMG is String? ? profileIMG : this.profileIMG,
       userID: userID ?? this.userID,
     );
   }

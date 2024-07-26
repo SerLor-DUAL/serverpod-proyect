@@ -1,6 +1,13 @@
 part of '../presentation/contact_details.dart';
 
 abstract class ContactDetailsController extends State<ContactDetails> {
+  // List of asset paths for profile pictures
+    final profilePictures = [
+      'assets/img/profiles/profile1.jpg',
+      'assets/img/profiles/profile2.jpg',
+      'assets/img/profiles/profile3.jpg'
+    ];
+
   // CONTROLLERS
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _phoneCon = TextEditingController();
@@ -14,6 +21,8 @@ abstract class ContactDetailsController extends State<ContactDetails> {
         (_phoneCon.text == '') ? updatedContact.phoneNumber : _phoneCon.text;
     return updatedContact;
   }
+
+  
 
   Future<Map<String, String>?> checkIfContactIsOnList() async {
     Map<String, String>? error;
@@ -41,6 +50,21 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return error;
   }
 
+  Future<void> updateContactPicture() async{
+    await showDialog(
+            context: context,
+            builder: (context) {
+              return ProfilePictureSelector(
+                title: 'Select a Profile Picture',
+                profilePictures: profilePictures,
+                contact: widget.contact,
+                client: widget.client,
+                onProfilePictureSelected: (selectedPicture) {
+                },
+              );
+            }
+          );
+  }
   // IF THERE'S NO ERROR IN THE CONTACT. UPDATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
 

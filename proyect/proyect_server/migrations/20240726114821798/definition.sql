@@ -448,12 +448,12 @@ BEGIN
     -- Attempt to insert the new record
     BEGIN
         INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-        VALUES ('proyect', '20240726102657647', now());
+        VALUES ('proyect', '20240726114821798', now());
     EXCEPTION
         WHEN unique_violation THEN
             -- If insert fails due to a conflict, update the existing record
             UPDATE "serverpod_migrations"
-            SET "version" = '20240726102657647', "timestamp" = now()
+            SET "version" = '20240726114821798', "timestamp" = now()
             WHERE "module" = 'proyect';
     END;
 END;
@@ -492,5 +492,4 @@ BEGIN
     END;
 END;
 $$;
-
 COMMIT;
