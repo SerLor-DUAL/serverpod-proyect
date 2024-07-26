@@ -442,29 +442,55 @@ ALTER TABLE ONLY "serverpod_query_log"
     ON UPDATE NO ACTION;
 
 
---
--- MIGRATION VERSION FOR proyect
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('proyect', '20240726102657647', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240726102657647', "timestamp" = now();
+-- Migration for proyect
+DO $$
+BEGIN
+    -- Attempt to insert the new record
+    BEGIN
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('proyect', '20240726102657647', now());
+    EXCEPTION
+        WHEN unique_violation THEN
+            -- If insert fails due to a conflict, update the existing record
+            UPDATE "serverpod_migrations"
+            SET "version" = '20240726102657647', "timestamp" = now()
+            WHERE "module" = 'proyect';
+    END;
+END;
+$$;
 
---
--- MIGRATION VERSION FOR serverpod
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('serverpod', '20240516151843329', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240516151843329', "timestamp" = now();
+-- Migration for serverpod
+DO $$
+BEGIN
+    -- Attempt to insert the new record
+    BEGIN
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('serverpod', '20240516151843329', now());
+    EXCEPTION
+        WHEN unique_violation THEN
+            -- If insert fails due to a conflict, update the existing record
+            UPDATE "serverpod_migrations"
+            SET "version" = '20240516151843329', "timestamp" = now()
+            WHERE "module" = 'serverpod';
+    END;
+END;
+$$;
 
---
--- MIGRATION VERSION FOR serverpod_auth
---
-INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('serverpod_auth', '20240520102713718', now())
-    ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240520102713718', "timestamp" = now();
-
+-- Migration for serverpod_auth
+DO $$
+BEGIN
+    -- Attempt to insert the new record
+    BEGIN
+        INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
+        VALUES ('serverpod_auth', '20240520102713718', now());
+    EXCEPTION
+        WHEN unique_violation THEN
+            -- If insert fails due to a conflict, update the existing record
+            UPDATE "serverpod_migrations"
+            SET "version" = '20240520102713718', "timestamp" = now()
+            WHERE "module" = 'serverpod_auth';
+    END;
+END;
+$$;
 
 COMMIT;
