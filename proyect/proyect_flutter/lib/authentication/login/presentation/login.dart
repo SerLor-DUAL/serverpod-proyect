@@ -9,6 +9,7 @@ part '../domain/login_controller.dart';
 
 class Login extends StatefulWidget {
   final Client client;
+  
   const Login({super.key, required this.client});
 
   @override
@@ -18,6 +19,7 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends LoginController {
+  bool passwordHide = true;
   // ------------------------------------- UI ------------------------------------------- //
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,12 @@ class _Login extends LoginController {
 
     // CALCULATE RESPONSIVE DIMENSION
     double columnWidth = screenSize.width * 0.35;
+
+    void tooglePasswordHide() {
+      setState(() {
+        passwordHide = !passwordHide;
+      });
+    }
 
     return Scaffold(
       // MAIN CONTAINER
@@ -126,7 +134,7 @@ class _Login extends LoginController {
                           // PASSWORD TEXTFIELD
                           TextField(
                             controller: passwordController,
-                            obscureText: true,
+                            obscureText: passwordHide,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -147,8 +155,17 @@ class _Login extends LoginController {
                                   width: 2,
                                 ),
                               
+                              
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              suffixIcon: IconButton(
+                                              onPressed: () {
+                                                tooglePasswordHide();
+                                              },
+                                              icon: (passwordHide)?
+                                                      const Icon(Icons.remove_red_eye_outlined) :
+                                                      const Icon(Icons.remove_red_eye),
+                                              color: const Color.fromARGB(255, 54, 157, 216),),
                             ),
                             style: const TextStyle(
                               color: Color.fromARGB(255, 54, 157, 216),
