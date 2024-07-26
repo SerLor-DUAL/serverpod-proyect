@@ -52,6 +52,11 @@ abstract class ToDoListController extends State<ToDoList> {
     }
     return error;
   }
+  // RETURNS TRUE IF THE DATE IS A MATCH
+  static bool isTaskDateMatch(String taskDate) {
+    RegExp exp = RegExp(r'^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$');
+    return exp.hasMatch(taskDate);
+  }
 
   // IF THERE'S NO ERROR IN THE TASK. CREATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> createTask() async {
@@ -105,7 +110,8 @@ abstract class ToDoListController extends State<ToDoList> {
       context: context,
       builder: (BuildContext context) => CustomInputDialog(
         client: widget.client,
-        user: widget.user, 
+        user: widget.user,
+        buttonInTextFields: const [2],
         title: 'Create Task', 
         content: null, // NO QUIERO CONTENIDO AQUÍ
         textControllers: [_titleCon, _descriptionCon, _dateCon],
@@ -128,11 +134,5 @@ abstract class ToDoListController extends State<ToDoList> {
     );
     _loadTask();
   }
-  // RETURNS TRUE IF THE DATE IS A MATCH
-  static bool isTaskDateMatch(String taskDate) {
-    RegExp exp = RegExp(r'^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$');
-    return exp.hasMatch(taskDate);
-  }
-
   
 }
