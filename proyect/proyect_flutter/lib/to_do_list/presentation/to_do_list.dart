@@ -222,14 +222,21 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
                         : TextDecoration.none,
                   ),
                 ),
-                subtitle: widget.getFormatedDate(widget.task).isNotEmpty
-                    ? Text(
-                        'Due Date: ${widget.getFormatedDate(widget.task)}',
-                        style: const TextStyle(
+                subtitle: widget.task.complete
+                    ? const Text(
+                        'Completed Task',
+                        style: TextStyle(
                           color: Color(0xFF369DD8),
                         ),
                       )
-                    : null,
+                    : widget.getFormatedDate(widget.task).isNotEmpty
+                        ? Text(
+                            'Due Date: ${widget.getFormatedDate(widget.task)}',
+                            style: const TextStyle(
+                              color: Color(0xFF369DD8),
+                            ),
+                          )
+                        : null,
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -242,6 +249,7 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
                             ? Icons.brightness_1
                             : Icons.brightness_1_outlined,
                         color: const Color.fromARGB(255, 124, 214, 255),
+                        size: 30,
                       ),
                       tooltip: 'Complete/Uncomplete',
                     ),
@@ -249,14 +257,20 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
                       onPressed: () async {
                         await widget.updateTask(widget.task);
                       },
-                      icon: const Icon(Icons.edit_rounded),
+                      icon: const Icon(
+                        Icons.edit_rounded,
+                        size: 30,
+                      ),
                       tooltip: 'Edit',
                     ),
                     IconButton(
                       onPressed: () async {
                         await widget.deleteTask(widget.task);
                       },
-                      icon: const Icon(Icons.delete_forever),
+                      icon: const Icon(
+                        Icons.delete_forever,
+                        size: 30,
+                      ),
                       tooltip: 'Delete',
                     ),
                   ],

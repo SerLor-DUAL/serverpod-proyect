@@ -48,87 +48,100 @@ class _ContactList extends ContactListController with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          height: 20,
-          color: Colors.white,
-        ),
-        automaticallyImplyLeading: false,
-        title: const Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            "Contact List",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF369DD8),
-        toolbarHeight: 96,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(76),
-          child: Stack(
-            children: [
-              MouseRegion(
-                onEnter: (_) {
-                  setState(() {});
-                },
-                onExit: (_) {
-                  setState(() {});
-                },
-                child: Container(
-                  color: Colors.white,
-                  child: TabBar(
-                    controller: _tabController,
-                    labelColor: const Color(0xFF369DD8),
-                    indicatorColor: const Color(0xFF369DD8),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorWeight: 2,
-                    tabs: const [
-                      Tab(
-                        icon: Icon(
-                          Icons.add,
-                          color: Color(0xFF369DD8),
-                        ),
-                        text: "Add Contact",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                child: GestureDetector(
-                  onTap: _addContact,
-                  // ASEGURA QUE SE CAPTURE CUALQUIER CLIC
-                  behavior: HitTestBehavior.translucent,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
-            child: ListView.builder(
-              itemCount: _contactList.length,
-              itemBuilder: (BuildContext context, int index) {
-                Contact contact = _contactList[index];
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: ExpandableContactItem(
-                    contact: contact,
-                    selectContact: widget.selectContact,
-                    updateHomeIndex: widget.updateHomeIndex,
-                  ),
-                );
-              },
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(3, 0),
+            spreadRadius: 5,
+            blurRadius: 7,
           ),
         ],
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            height: 20,
+            color: Colors.white,
+          ),
+          automaticallyImplyLeading: false,
+          title: const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Text(
+              "Contact List",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: const Color(0xFF369DD8),
+          toolbarHeight: 96,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(76),
+            child: Stack(
+              children: [
+                MouseRegion(
+                  onEnter: (_) {
+                    setState(() {});
+                  },
+                  onExit: (_) {
+                    setState(() {});
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: const Color(0xFF369DD8),
+                      indicatorColor: const Color(0xFF369DD8),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorWeight: 2,
+                      tabs: const [
+                        Tab(
+                          icon: Icon(
+                            Icons.add,
+                            color: Color(0xFF369DD8),
+                          ),
+                          text: "Add Contact",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: _addContact,
+                    // ASEGURA QUE SE CAPTURE CUALQUIER CLIC
+                    behavior: HitTestBehavior.translucent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
+              child: ListView.builder(
+                itemCount: _contactList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Contact contact = _contactList[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: ExpandableContactItem(
+                      contact: contact,
+                      selectContact: widget.selectContact,
+                      updateHomeIndex: widget.updateHomeIndex,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -194,9 +207,14 @@ class _ExpandableContactItemState extends State<ExpandableContactItem> {
             children: [
               ListTile(
                 mouseCursor: SystemMouseCursors.click,
-                leading: const CircleAvatar(
-                  // backgroundImage: NetworkImage(widget.contact.imageUrl),
-                  radius: 24,
+                leading: CircleAvatar(
+                  backgroundColor: const Color(0xFF369DD8),
+                  radius: 40,
+                  child: Text(widget.contact.name[0].toUpperCase(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold)),
                 ),
                 title: Text(
                   widget.contact.name,
@@ -213,8 +231,8 @@ class _ExpandableContactItemState extends State<ExpandableContactItem> {
                     : null,
                 trailing: const Icon(
                   Icons.textsms,
-                  color:Color(0xFF369DD8),
-                  size: 40,
+                  color: Color(0xFF369DD8),
+                  size: 30,
                 ),
               ),
             ],

@@ -23,10 +23,11 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends HomeController {
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    if (!sessionManager.isSignedIn){
+    if (!sessionManager.isSignedIn) {
       return const Text("401 - NOT AUTHORIZED");
     }
     return Scaffold(
@@ -74,6 +75,7 @@ class _Home extends HomeController {
                         // OPCIONES MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringOptions,
+                          isSelected: currentIndex == 0,
                           icon: Icons.settings_sharp,
                           text: 'Options',
                           onTap: () {
@@ -90,6 +92,7 @@ class _Home extends HomeController {
                         // TO DO LIST MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringToDo,
+                          isSelected: currentIndex == 2,
                           icon: Icons.toc,
                           text: 'To Do List',
                           onTap: () {
@@ -106,6 +109,7 @@ class _Home extends HomeController {
                         // LOG OUT MENU USUARIO
                         buildSideBarSubItem(
                           isHovering: _isHoveringLogOut,
+                          isSelected: currentIndex == 4,
                           icon: Icons.login_rounded,
                           text: 'Log Out',
                           onTap: () {
@@ -130,6 +134,7 @@ class _Home extends HomeController {
                         // LIST OF CONTACTS MENU CONTACTOS
                         buildSideBarSubItem(
                           isHovering: _isHoveringList,
+                          isSelected: currentIndex == 1,
                           icon: Icons.contact_page_rounded,
                           text: 'List',
                           onTap: () {
@@ -148,6 +153,7 @@ class _Home extends HomeController {
                         // CHAT MENU CONTACTOS
                         buildSideBarSubItem(
                           isHovering: _isHoveringChat,
+                          isSelected: currentIndex == 3, 
                           icon: Icons.chat_bubble_rounded,
                           text: 'Chat',
                           onTap: () {
