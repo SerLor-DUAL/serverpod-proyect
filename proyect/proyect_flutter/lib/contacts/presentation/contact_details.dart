@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
+import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
 import 'package:proyect_client/proyect_client.dart';
 part '../domain/contact_details_controller.dart';
 
@@ -109,7 +110,6 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
         controller: _tabController,
         children: [
           _buildDetailsTab(contact),
-          Container(),
         ],
       ),
     );
@@ -129,8 +129,20 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                 alignment: Alignment.topRight,
                 children: [
                   // CircleAvatar with background image or default avatar
-                  const CircleAvatar(
+                  CircleAvatar(
+                    backgroundImage: (contact.profileIMG != null)? AssetImage(contact.profileIMG!): null,
+                    backgroundColor: (contact.profileIMG != null)? Colors.transparent : const Color(0xFF369DD8),
                     radius: 40,
+                    child: (contact.profileIMG == null)?
+                                Text(  
+                                  widget.contact.name[0].toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white, 
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.00)
+                                ) :
+                                null,
+                    
                     //backgroundColor: Colors.blueAccent,
                   ),
                   // Positioned IconButton
@@ -142,9 +154,9 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                             backgroundColor: Colors.blue, // Background color of the small circle
                             child: IconButton(
                               icon: const Icon(Icons.edit, color: Colors.white, size: 16),
-                              onPressed: () {
-                                // Define your onPressed action here
-                                print('Edit icon pressed');
+                              onPressed: () async{
+                                await updateContactPicture();
+                                setState(() {});
                               },
                               padding: EdgeInsets.zero, // Remove default padding
                               constraints: BoxConstraints(), // Remove default constraints

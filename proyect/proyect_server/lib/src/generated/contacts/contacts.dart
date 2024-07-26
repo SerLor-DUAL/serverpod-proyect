@@ -16,6 +16,7 @@ abstract class Contact extends _i1.TableRow
     int? id,
     required this.name,
     required this.phoneNumber,
+    this.profileIMG,
     required this.userID,
   }) : super(id);
 
@@ -23,6 +24,7 @@ abstract class Contact extends _i1.TableRow
     int? id,
     required String name,
     required String phoneNumber,
+    String? profileIMG,
     required int userID,
   }) = _ContactImpl;
 
@@ -31,6 +33,7 @@ abstract class Contact extends _i1.TableRow
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
       phoneNumber: jsonSerialization['phoneNumber'] as String,
+      profileIMG: jsonSerialization['profileIMG'] as String?,
       userID: jsonSerialization['userID'] as int,
     );
   }
@@ -43,6 +46,8 @@ abstract class Contact extends _i1.TableRow
 
   String phoneNumber;
 
+  String? profileIMG;
+
   int userID;
 
   @override
@@ -52,6 +57,7 @@ abstract class Contact extends _i1.TableRow
     int? id,
     String? name,
     String? phoneNumber,
+    String? profileIMG,
     int? userID,
   });
   @override
@@ -60,6 +66,7 @@ abstract class Contact extends _i1.TableRow
       if (id != null) 'id': id,
       'name': name,
       'phoneNumber': phoneNumber,
+      if (profileIMG != null) 'profileIMG': profileIMG,
       'userID': userID,
     };
   }
@@ -70,6 +77,7 @@ abstract class Contact extends _i1.TableRow
       if (id != null) 'id': id,
       'name': name,
       'phoneNumber': phoneNumber,
+      if (profileIMG != null) 'profileIMG': profileIMG,
       'userID': userID,
     };
   }
@@ -111,11 +119,13 @@ class _ContactImpl extends Contact {
     int? id,
     required String name,
     required String phoneNumber,
+    String? profileIMG,
     required int userID,
   }) : super._(
           id: id,
           name: name,
           phoneNumber: phoneNumber,
+          profileIMG: profileIMG,
           userID: userID,
         );
 
@@ -124,12 +134,14 @@ class _ContactImpl extends Contact {
     Object? id = _Undefined,
     String? name,
     String? phoneNumber,
+    Object? profileIMG = _Undefined,
     int? userID,
   }) {
     return Contact(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileIMG: profileIMG is String? ? profileIMG : this.profileIMG,
       userID: userID ?? this.userID,
     );
   }
@@ -145,6 +157,10 @@ class ContactTable extends _i1.Table {
       'phoneNumber',
       this,
     );
+    profileIMG = _i1.ColumnString(
+      'profileIMG',
+      this,
+    );
     userID = _i1.ColumnInt(
       'userID',
       this,
@@ -155,6 +171,8 @@ class ContactTable extends _i1.Table {
 
   late final _i1.ColumnString phoneNumber;
 
+  late final _i1.ColumnString profileIMG;
+
   late final _i1.ColumnInt userID;
 
   @override
@@ -162,6 +180,7 @@ class ContactTable extends _i1.Table {
         id,
         name,
         phoneNumber,
+        profileIMG,
         userID,
       ];
 }

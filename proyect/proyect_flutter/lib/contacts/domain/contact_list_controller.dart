@@ -80,6 +80,7 @@ abstract class ContactListController extends State<ContactList> {
     return Contact(
         name: _nameCon.text,
         phoneNumber: _phoneCon.text,
+        profileIMG: null,
         userID: widget.user.id!);
   }
 

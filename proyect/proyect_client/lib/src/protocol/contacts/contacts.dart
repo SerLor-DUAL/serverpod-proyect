@@ -15,6 +15,7 @@ abstract class Contact implements _i1.SerializableModel {
     this.id,
     required this.name,
     required this.phoneNumber,
+    this.profileIMG,
     required this.userID,
   });
 
@@ -22,6 +23,7 @@ abstract class Contact implements _i1.SerializableModel {
     int? id,
     required String name,
     required String phoneNumber,
+    String? profileIMG,
     required int userID,
   }) = _ContactImpl;
 
@@ -30,6 +32,7 @@ abstract class Contact implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
       phoneNumber: jsonSerialization['phoneNumber'] as String,
+      profileIMG: jsonSerialization['profileIMG'] as String?,
       userID: jsonSerialization['userID'] as int,
     );
   }
@@ -43,12 +46,15 @@ abstract class Contact implements _i1.SerializableModel {
 
   String phoneNumber;
 
+  String? profileIMG;
+
   int userID;
 
   Contact copyWith({
     int? id,
     String? name,
     String? phoneNumber,
+    String? profileIMG,
     int? userID,
   });
   @override
@@ -57,6 +63,7 @@ abstract class Contact implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'name': name,
       'phoneNumber': phoneNumber,
+      if (profileIMG != null) 'profileIMG': profileIMG,
       'userID': userID,
     };
   }
@@ -74,11 +81,13 @@ class _ContactImpl extends Contact {
     int? id,
     required String name,
     required String phoneNumber,
+    String? profileIMG,
     required int userID,
   }) : super._(
           id: id,
           name: name,
           phoneNumber: phoneNumber,
+          profileIMG: profileIMG,
           userID: userID,
         );
 
@@ -87,12 +96,14 @@ class _ContactImpl extends Contact {
     Object? id = _Undefined,
     String? name,
     String? phoneNumber,
+    Object? profileIMG = _Undefined,
     int? userID,
   }) {
     return Contact(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileIMG: profileIMG is String? ? profileIMG : this.profileIMG,
       userID: userID ?? this.userID,
     );
   }

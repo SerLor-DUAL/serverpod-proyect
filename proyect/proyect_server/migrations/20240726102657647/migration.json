@@ -1,0 +1,108 @@
+{
+  "actions": [
+    {
+      "type": "deleteTable",
+      "deleteTable": "contacts"
+    },
+    {
+      "type": "createTable",
+      "createTable": {
+        "name": "contacts",
+        "dartName": "Contact",
+        "module": "proyect",
+        "schema": "public",
+        "columns": [
+          {
+            "name": "id",
+            "columnType": 6,
+            "isNullable": false,
+            "columnDefault": "nextval('contacts_id_seq'::regclass)",
+            "dartType": "int?"
+          },
+          {
+            "name": "name",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "phoneNumber",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "profileIMG",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "userID",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "constraintName": "contacts_fk_0",
+            "columns": [
+              "userID"
+            ],
+            "referenceTable": "users_registry",
+            "referenceTableSchema": "public",
+            "referenceColumns": [
+              "id"
+            ],
+            "onUpdate": 3,
+            "onDelete": 3
+          }
+        ],
+        "indexes": [
+          {
+            "indexName": "contacts_pkey",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "id"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": true
+          },
+          {
+            "indexName": "primary",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "userID"
+              },
+              {
+                "type": 0,
+                "definition": "phoneNumber"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": false
+          }
+        ],
+        "managed": true
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "tableDropped",
+      "message": "One or more columns are added to table \"contacts\" which cannot be added in a table migration. The complete table will be deleted and recreated.",
+      "table": "contacts",
+      "columns": [
+        "profileIMG"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}
