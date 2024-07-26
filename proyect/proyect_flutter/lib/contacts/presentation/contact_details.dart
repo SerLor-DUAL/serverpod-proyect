@@ -129,6 +129,8 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                 children: [
                   // CircleAvatar with background image or default avatar
                   const CircleAvatar(
+                    backgroundImage: AssetImage('assets/img/profiles/profile1.jpg'),
+                    backgroundColor: Colors.transparent,
                     radius: 40,
                     //backgroundColor: Colors.blueAccent,
                   ),
