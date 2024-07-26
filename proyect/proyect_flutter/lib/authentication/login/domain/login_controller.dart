@@ -128,6 +128,7 @@ abstract class LoginController extends State<Login> {
       await welcomeUser(userController.text);
     } else {
       if (mounted) {
+        // TODO: CHANGE AUTH MESSAGE. It should detect that password was incorrect or that user doesn't exists.
         showDialog(
             context: context,
             builder: (BuildContext context) {
