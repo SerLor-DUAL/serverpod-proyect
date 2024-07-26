@@ -34,7 +34,6 @@ abstract class HomeController extends State<Home> {
         return ToDoList(
           client: widget.client,
           user: widget.user,
-          updateHomeIndex: updateIndex,
           selectTask: selectTask,
         );
       case 3:
@@ -51,13 +50,6 @@ abstract class HomeController extends State<Home> {
           return const Center(
               child:
                   Text('No Contact Selected', style: TextStyle(fontSize: 24)));
-        }
-      case 5:
-        if (selectedTask != null) {
-          return TaskDetails(client: widget.client, task: selectedTask!);
-        } else {
-          return const Center(
-              child: Text('No Task Selected', style: TextStyle(fontSize: 24)));
         }
       default:
         return const Center(

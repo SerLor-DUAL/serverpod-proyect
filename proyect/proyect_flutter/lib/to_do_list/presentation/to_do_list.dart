@@ -2,24 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
-
 part '../domain/to_do_list_controller.dart';
 
 class ToDoList extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
 
-  final void Function(int)
-      updateHomeIndex; // Función de callback para actualizar el índice
-  final void Function(Task)
-      selectTask; // Función de callback para seleccionar task
+  // FUNCIÓN DE CALLBACK PARA SELECCIONAR TASK
+  final void Function(Task) selectTask;
 
   const ToDoList(
       {super.key,
       required this.client,
       required this.user,
-      required this.selectTask,
-      required this.updateHomeIndex});
+      required this.selectTask});
 
   @override
   createState() => _ToDoList();
@@ -110,8 +106,8 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: _addTask,
-                    behavior: HitTestBehavior
-                        .translucent, // Asegura que se capture cualquier clic
+                    // ASEGURA QUE SE CAPTURE CUALQUIER CLIC
+                    behavior: HitTestBehavior.translucent,
                   ),
                 ),
               ],
@@ -122,57 +118,19 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
           controller: _tabController,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
               child: ListView.builder(
                 itemCount: _taskList.length,
                 itemBuilder: (BuildContext context, int index) {
                   Task task = _taskList[index];
 
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  widget.selectTask(task);
-                                  widget.updateHomeIndex(5);
-                                  _loadTask();
-                                },
-                                child: HoverableTaskTitle(
-                                  task: task,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () async {
-                            toogleCompleted(task);
-                          },
-                          icon: Icon(
-                            task.complete
-                                ? Icons.brightness_1
-                                : Icons.brightness_1_outlined,
-                            color: const Color.fromARGB(255, 124, 214, 255),
-                          ),
-                          tooltip: 'Complete/Uncomplete',
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () async {
-                            await deleteTask(task);
-                          },
-                          icon: const Icon(Icons.delete_forever),
-                          tooltip: 'Delete',
-
-                        ),
-                      ],
-                    ),
+                  return ExpandableTaskItem(
+                    task: task,
+                    selectTask: widget.selectTask,
+                    toogleCompleted: _toogleCompleted,
+                    deleteTask: _deleteTask,
+                    updateTask: _askForUpdateToDoInput,
                   );
                 },
               ),
@@ -180,6 +138,90 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ------------------------ ExpandableTaskItem ------------------------- \\
+
+class ExpandableTaskItem extends StatefulWidget {
+  final Task task;
+  final void Function(Task) selectTask;
+  final void Function(Task) toogleCompleted;
+  final Future<void> Function(Task) deleteTask;
+  final Future<void> Function(Task) updateTask;
+
+  const ExpandableTaskItem({
+    super.key,
+    required this.task,
+    required this.selectTask,
+    required this.toogleCompleted,
+    required this.deleteTask,
+    required this.updateTask,
+  });
+
+  @override
+  createState() => _ExpandableTaskItemState();
+}
+
+class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
+  bool isExpanded = false;
+
+  void _toggleExpand() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          title: GestureDetector(
+            onTap: _toggleExpand,
+            child: HoverableTaskTitle(task: widget.task),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () async {
+                  widget.toogleCompleted(widget.task);
+                },
+                icon: Icon(
+                  widget.task.complete
+                      ? Icons.brightness_1
+                      : Icons.brightness_1_outlined,
+                  color: const Color.fromARGB(255, 124, 214, 255),
+                ),
+                tooltip: 'Complete/Uncomplete',
+              ),
+                IconButton(
+                onPressed: () async {
+                  await widget.updateTask(widget.task);
+                },
+                icon: const Icon(Icons.edit_rounded),
+                tooltip: 'Edit',
+              ),
+              IconButton(
+                onPressed: () async {
+                  await widget.deleteTask(widget.task);
+                },
+                icon: const Icon(Icons.delete_forever),
+                tooltip: 'Delete',
+              ),
+            ],
+          ),
+        ),
+        if (isExpanded)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListTile(
+              title: Text(widget.task.description!),
+            ),
+          ),
+      ],
     );
   }
 }

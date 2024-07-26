@@ -7,7 +7,6 @@ import 'package:proyect_flutter/authentication/register/presentation/register.da
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/home/presentation/home.dart';
-import 'package:proyect_flutter/to_do_list/presentation/to_do_task_details.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,12 +27,7 @@ class RouteGenerator {
       // TO DO LIST
       case AppRoutes.todoList:
         var args = settings.arguments as BasicArguments;
-        return buildRoute(ToDoList(client: args.client, user: args.user, updateHomeIndex: (_) {}, selectTask: (_) {}), settings: settings);
-
-      // TASKS FROM TO DO LIST
-      case AppRoutes.taskDetail:
-        final args = settings.arguments as TaskDetailsArgs;
-        return buildRoute(TaskDetails(client: args.client, task: args.task), settings: settings);
+        return buildRoute(ToDoList(client: args.client, user: args.user, selectTask: (_) {}), settings: settings);
 
       // IT HAS A CALLBACK TO CONTACT DETAILS AND HOME
       // CONTACTS LIST
@@ -45,7 +39,7 @@ class RouteGenerator {
       case AppRoutes.contactDetail:
         final args = settings.arguments as ContactDetailsArgs;
         return buildRoute(ContactDetails(client: args.client, contact: args.contact, user: args.user, updateHomeIndex: (_) {},), settings: settings);
-
+        
       default:
         return _errorRoute();
     }
