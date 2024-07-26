@@ -19,7 +19,13 @@ class Register extends StatefulWidget
 
 class _Register extends RegisterController 
 {
+  bool passwordHide = true;
 
+  void tooglePasswordHide() {
+  setState(() {
+    passwordHide = !passwordHide;
+  });
+}
   // ------------------------------------- UI ------------------------------------------- //
 
 @override
@@ -123,7 +129,7 @@ class _Register extends RegisterController
                                 // PASSWORD TEXTFIELD
                                 TextField(
                                   controller: passwordController,
-                                  obscureText: true,
+                                  obscureText: passwordHide,
                                   decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
@@ -150,7 +156,7 @@ class _Register extends RegisterController
                                 // CONFIRM PASSWORD TEXTFIELD
                                 TextField(
                                   controller: confirmController,
-                                  obscureText: true,
+                                  obscureText: passwordHide,
                                   decoration: const InputDecoration( enabledBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 54, 157, 216),
                                                                                                                                width: 2,
                                                                                                                     ),
@@ -171,8 +177,35 @@ class _Register extends RegisterController
                                                 ),
                                   cursorColor: const Color.fromARGB(255, 54, 157, 216),
                                 ),
-      
-                                const SizedBox(height: 50.0),
+                                const SizedBox(height: 10.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Checkbox(
+                                       value: !passwordHide,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          passwordHide = !(value ?? true);
+                                        });
+                                      },
+                                      checkColor:  Colors.white,
+                                      activeColor: const Color.fromARGB(255, 54, 157, 216),
+                                      side: const BorderSide(
+                                                color: Color.fromARGB(255, 54, 157, 216),
+                                                width: 2.0
+                                      ),),
+                                    const Text(
+                                        'Show Password',
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 54, 157, 216),
+                                          fontSize: 14, // You can adjust the font size as needed
+                                          fontWeight: FontWeight.bold, // Optional, for making the text bold
+                                        ),
+                                      ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 30.0),
                               ],
                             ),
                         ),

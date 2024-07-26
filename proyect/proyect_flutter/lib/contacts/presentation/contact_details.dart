@@ -125,9 +125,33 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // PROFILE IMAGE
-              const CircleAvatar(
-                // backgroundImage: NetworkImage(contact.photoUrl),
-                radius: 40,
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  // CircleAvatar with background image or default avatar
+                  const CircleAvatar(
+                    radius: 40,
+                    //backgroundColor: Colors.blueAccent,
+                  ),
+                  // Positioned IconButton
+                  Positioned(
+                          right: 2, // Adjust position to overlap on the edge of the base CircleAvatar
+                          bottom: 2, // Adjust position to overlap on the edge of the base CircleAvatar
+                          child: CircleAvatar(
+                            radius: 14, // Radius of the smaller blue circle
+                            backgroundColor: Colors.blue, // Background color of the small circle
+                            child: IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.white, size: 16),
+                              onPressed: () {
+                                // Define your onPressed action here
+                                print('Edit icon pressed');
+                              },
+                              padding: EdgeInsets.zero, // Remove default padding
+                              constraints: BoxConstraints(), // Remove default constraints
+                            ),
+                          ),
+                        ),
+                ],
               ),
               const SizedBox(width: 20.0),
 
