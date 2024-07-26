@@ -90,8 +90,37 @@ abstract class ToDoListController extends State<ToDoList> {
 
   // DELETE TASK
   Future<void> _deleteTask(Task task) async {
+
     await widget.client.tasks.deleteTask(task);
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
     _loadTask();
+  }
+
+    // BUTTON FOR DELETE CONFIRM
+  Future<void> _askForDeleteConfirmation(Task selectedTask) async {
+    await showDialog(
+      context: context,
+      builder: (context) => CustomAlertDialog(
+        customTitle: "Delete Task?",
+        customContent: "Are you sure you want to delete this task?",
+        customActions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await _deleteTask(selectedTask);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 
   // ----------------------------------- CREATE --------------------------------------//

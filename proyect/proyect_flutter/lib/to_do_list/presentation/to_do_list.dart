@@ -125,13 +125,16 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
                 itemBuilder: (BuildContext context, int index) {
                   Task task = _taskList[index];
 
-                  return ExpandableTaskItem(
-                    task: task,
-                    selectTask: widget.selectTask,
-                    toogleCompleted: _toogleCompleted,
-                    deleteTask: _deleteTask,
-                    updateTask: _askForUpdateToDoInput,
-                    getFormatedDate: _getFormatedDate,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: ExpandableTaskItem(
+                      task: task,
+                      selectTask: widget.selectTask,
+                      toogleCompleted: _toogleCompleted,
+                      deleteTask: _askForDeleteConfirmation,
+                      updateTask: _askForUpdateToDoInput,
+                      getFormatedDate: _getFormatedDate,
+                    ),
                   );
                 },
               ),
@@ -168,115 +171,107 @@ class ExpandableTaskItem extends StatefulWidget {
 }
 
 class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
-  bool isExpanded = false;
-
-  void _toggleExpand() {
-    setState(() {
-      isExpanded = !isExpanded;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: GestureDetector(
-            onTap: _toggleExpand,
-            child: ExpandedTaskDetails(task: widget.task),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: () async {
-                  widget.toogleCompleted(widget.task);
-                },
-                icon: Icon(
-                  widget.task.complete
-                      ? Icons.brightness_1
-                      : Icons.brightness_1_outlined,
-                  color: const Color.fromARGB(255, 124, 214, 255),
-                ),
-                tooltip: 'Complete/Uncomplete',
-              ),
-                IconButton(
-                onPressed: () async {
-                  await widget.updateTask(widget.task);
-                },
-                icon: const Icon(Icons.edit_rounded),
-                tooltip: 'Edit',
-              ),
-              IconButton(
-                onPressed: () async {
-                  await widget.deleteTask(widget.task);
-                },
-                icon: const Icon(Icons.delete_forever),
-                tooltip: 'Delete',
-              ),
-            ],
-          ),
-        ),
-        if (isExpanded)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(widget.task.description!),
-                  Text(widget.getFormatedDate(widget.task))
-                ],
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-// ------------------------ ExpandedTaskDetails ------------------------- \\
-
-class ExpandedTaskDetails extends StatefulWidget {
-  final Task task;
-
-  const ExpandedTaskDetails({
-    super.key,
-    required this.task,
-  });
-
-  @override
-  createState() => _ExpandedTaskDetails();
-}
-
-class _ExpandedTaskDetails extends State<ExpandedTaskDetails> {
+  // MANAGE THE HOVERING STATE
   bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          isHovered = true;
-        });
-      },
-      onExit: (_) {
-        setState(() {
-          isHovered = false;
-        });
-      },
-      child: Row(
-        children: [
-          Text(
-            widget.task.title,
-            style: TextStyle(
-              fontSize: 23.0,
-              fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ],
-      ),
+    final hasDescription = widget.task.description?.isNotEmpty ?? false;
 
+    return GestureDetector(
+      child: MouseRegion(
+        onEnter: (_) {
+          setState(() {
+            isHovered = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            isHovered = false;
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          padding: EdgeInsets.symmetric(vertical: isHovered ? 20.0 : 15.0),
+          margin: const EdgeInsets.symmetric(vertical: 5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFF369DD8)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(120, 54, 157, 216),
+                blurRadius: 3.0,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                title: Text(
+                  widget.task.title,
+                  style: TextStyle(
+                    fontSize: 23.0,
+                    color: const Color(0xFF369DD8),
+                    fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+                    decoration: widget.task.complete
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                  ),
+                ),
+                subtitle: widget.getFormatedDate(widget.task).isNotEmpty
+                    ? Text(
+                        'Due Date: ${widget.getFormatedDate(widget.task)}',
+                        style: const TextStyle(
+                          color: Color(0xFF369DD8),
+                        ),
+                      )
+                    : null,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        widget.toogleCompleted(widget.task);
+                      },
+                      icon: Icon(
+                        widget.task.complete
+                            ? Icons.brightness_1
+                            : Icons.brightness_1_outlined,
+                        color: const Color.fromARGB(255, 124, 214, 255),
+                      ),
+                      tooltip: 'Complete/Uncomplete',
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await widget.updateTask(widget.task);
+                      },
+                      icon: const Icon(Icons.edit_rounded),
+                      tooltip: 'Edit',
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await widget.deleteTask(widget.task);
+                      },
+                      icon: const Icon(Icons.delete_forever),
+                      tooltip: 'Delete',
+                    ),
+                  ],
+                ),
+              ),
+              if (isHovered && hasDescription)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text(widget.task.description ?? 'No Description'),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
