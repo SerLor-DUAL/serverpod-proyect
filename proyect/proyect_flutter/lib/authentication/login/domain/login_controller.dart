@@ -70,7 +70,9 @@ abstract class LoginController extends State<Login> {
 
       // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
       else {
-        BasicArguments args = BasicArguments(client: widget.client, user: user);
+        UserInfo? userInfo = await widget.client.usersRegistry.getUserInfoById(user.id!);
+        
+        HomeArgs args = HomeArgs(client: widget.client, user: user, userInfo: userInfo!);
         showDialog(
           context: context,
           builder: (context) => CustomAlertDialog(

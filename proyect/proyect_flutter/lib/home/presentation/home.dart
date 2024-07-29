@@ -16,7 +16,8 @@ part '../domain/home_controller.dart';
 class Home extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-  const Home({super.key, required this.client, required this.user});
+  final UserInfo? userInfo;
+  const Home({super.key, required this.client, required this.user, required this.userInfo});
 
   @override
   createState() => _Home();

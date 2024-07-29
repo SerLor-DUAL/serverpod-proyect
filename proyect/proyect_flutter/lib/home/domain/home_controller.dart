@@ -22,7 +22,8 @@ abstract class HomeController extends State<Home> {
       case 0:
         return UserProfileConfig(
           client: widget.client,
-          user: widget.user
+          user: widget.user,
+          userInfo: widget.userInfo!,
         );
       case 1:
         return ContactList(

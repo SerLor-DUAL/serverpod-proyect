@@ -84,9 +84,9 @@ Future<void> welcomeUser(String userName) async
 
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else {
-      // Navigator.pushNamed(context, '/todolist', arguments: user.id) will give arguments that the routing will call.
-      // Go to main to see were they are applied.
-      BasicArguments args = BasicArguments(client: widget.client, user: user);
+      UserInfo? userInfo = await widget.client.usersRegistry.getUserInfoById(user.id!);
+        
+      HomeArgs args = HomeArgs(client: widget.client, user: user, userInfo: userInfo!);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),

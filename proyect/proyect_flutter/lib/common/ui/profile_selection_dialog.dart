@@ -8,13 +8,13 @@ class ProfilePictureSelector extends StatefulWidget {
 
   final Client client;
   final Contact? contact;
-  final UsersRegistry? user;
+  final UserInfo? userInfo;
 
   const ProfilePictureSelector({
     super.key,
     required this.client,
     this.contact,
-    this.user
+    this.userInfo,
   });
 
   @override
@@ -22,9 +22,6 @@ class ProfilePictureSelector extends StatefulWidget {
 }
 
 class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
-  late TextEditingController _usernameController;
-  late TextEditingController _emailController;
-  UserInfo? _userInfo;
   String? _selectedProfilePicture;
   final List<String> profilePictures = [
       'assets/img/profiles/profile1.jpg',
@@ -32,21 +29,12 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
       'assets/img/profiles/profile3.jpg'
     ]; // List of asset paths
 
-  Future<void> _fetchUserInfo() async {
-    _userInfo = await widget.client.usersRegistry.getUserInfoById(widget.user!.userInfoId);
-    if (_userInfo != null) {
-      _emailController = TextEditingController(text: _userInfo!.email);
-      setState(() {});
-    } else {
-      _emailController = TextEditingController(text: '');
-    }
-  }
+
     Future<void> updatePictureUser(String selectedPicture) async{
-      await _fetchUserInfo();
-      if (_userInfo != null){
+      if (widget.userInfo != null){
         try{
-          _userInfo!.imageUrl = selectedPicture;
-          await widget.client.usersRegistry.updateUserInfo(_userInfo!);
+          widget.userInfo!.imageUrl = selectedPicture;
+          await widget.client.usersRegistry.updateUserInfo(widget.userInfo!);
         }
         catch(e){
           CustomAlertDialog(
@@ -59,13 +47,6 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
         Navigator.pop(context);
       }
     }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
 
   Future<void> updatePictureContact(String selectedPicture) async{
     Contact? contact = widget.contact;
@@ -193,7 +174,7 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
                 children: [
                   ElevatedButton(
                     onPressed: () async{
-                      if (widget.user != null) {
+                      if (widget.userInfo != null) {
                         if (_selectedProfilePicture != null){
                           await updatePictureUser(_selectedProfilePicture!);
                         }
