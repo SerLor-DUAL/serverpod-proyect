@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class CustomInputDialog extends StatelessWidget {
   // POSSIBLE USER AND CLIENT
   final Client? client;
   final UsersRegistry? user;
-  // IF I
   final List<int>? buttonInTextFields;
 
   final String title;
@@ -138,13 +138,13 @@ class CustomInputDialog extends StatelessWidget {
                             ? (buttonInTextFields!.contains(index)
                                 ? IconButton(
                                     icon: const Icon(
-                                      Icons.add, // Choose the icon you want
+                                      Icons.add,
                                       color: Color.fromARGB(255, 54, 157, 216),
                                     ),
-                                    onPressed: () async{
-                                      await _selectDate(context, textControllers[index]);
-                                    }
-                                  )
+                                    onPressed: () async {
+                                      await _selectDate(
+                                          context, textControllers[index]);
+                                    })
                                 : null)
                             : null,
                       ),
@@ -201,17 +201,35 @@ class CustomInputDialog extends StatelessWidget {
       child: button.child,
     );
   }
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async{
+
+  // DATE SELECTOR
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final today = DateTime.now();
     final aYearFromToday = today.add(const Duration(days: 365));
 
-    DateTime? _picked = await showDatePicker(
-                              context: context, 
-                              firstDate: today, 
-                              lastDate: aYearFromToday);
-    if (_picked != null) {
-      controller.text = _picked.toString().split(" ")[0];
+    var picked = await showCalendarDatePicker2Dialog(
+        context: context,
+        config: CalendarDatePicker2WithActionButtonsConfig(
+          currentDate: today,
+          firstDate: today,
+          lastDate: aYearFromToday,
+          calendarType: CalendarDatePicker2Type.single,
+          calendarViewMode: CalendarDatePicker2Mode.day,
+          selectedDayHighlightColor: const Color.fromARGB(255, 54, 157, 216),
+          controlsTextStyle:const TextStyle(color: Color.fromARGB(255, 54, 157, 216),),
+          nextMonthIcon: const Icon(Icons.navigate_next, color:   Color.fromARGB(255, 54, 157, 216),),
+          lastMonthIcon: const Icon(Icons.navigate_before, color:  Color.fromARGB(255, 54, 157, 216),),
+          centerAlignModePicker: true,
+          useAbbrLabelForMonthModePicker: false
+        ),
+        dialogSize: const Size(525, 300),
+        value: [today],
+        borderRadius: BorderRadius.circular(8),
+      );
+
+    if (picked != null) {
+      controller.text = picked.toString().split(" ")[0];
     }
   }
 }
-

@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
-import 'package:proyect_flutter/main.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import '../../contacts/presentation/contact_list.dart';
 import '../../common/ui/custom_alert_dialog.dart';
@@ -14,172 +13,229 @@ part '../domain/home_controller.dart';
 class Home extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
+
   const Home({super.key, required this.client, required this.user});
 
   @override
   createState() => _Home();
-
-  
 }
 
 class _Home extends HomeController {
-  int currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    if (!sessionManager.isSignedIn) {
-      return const Text("401 - NOT AUTHORIZED");
-    }
     return Scaffold(
       body: SafeArea(
         top: true,
-        child: Row(
-          children: [
-            Column(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // SCREEN SIZING
+            double screenWidth = constraints.maxWidth;
+
+            // UPDATES SCREEN SIZING AFTER BUILDING THE SCREEN
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (screenWidth != this.screenWidth) {
+                _updateScreenWidth(screenWidth);
+              }
+            });
+
+            // CHECK SIDEBAR STATUS BASED IN SCREEN SIZING AND SIDEBAR BUTTON
+            bool isSidebarExpanded = screenWidth > _sidebarBreakpoint
+                ? _isSidebarManuallyToggled || _isSidebarExpanded
+                : _isSidebarExpanded;
+
+            return Row(
               children: [
-                Row(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                // SIDEBAR
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  width: isSidebarExpanded ? 400 : 85,
+                  child: Column(
+                    children: [
+                      _buildSidebarHeader(),
+                      Expanded(
+                        child: _buildSidebar(),
                       ),
-                      width: 400,
-                      height: 20,
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    width: 400,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        right: BorderSide(
-                          color: Color(0xFF369DD8),
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    // LISTA DE MENUS
-                    child: ListView(
-                      padding: const EdgeInsets.only(left: 20, bottom: 20),
-                      children: [
-                        // MENU USARIO
-                        buildSideBarItem(
-                          icon: FontAwesomeIcons.solidCircleUser,
-                          text: widget.user.userName,
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // OPCIONES MENU USUARIO
-                        buildSideBarSubItem(
-                          isHovering: _isHoveringOptions,
-                          isSelected: currentIndex == 0,
-                          icon: Icons.settings_sharp,
-                          text: 'Options',
-                          onTap: () {
-                            setState(() {
-                              currentIndex = 0;
-                            });
-                          },
-                          onEnter: (_) =>
-                              setState(() => _isHoveringOptions = true),
-                          onExit: (_) =>
-                              setState(() => _isHoveringOptions = false),
-                        ),
-
-                        // TO DO LIST MENU USUARIO
-                        buildSideBarSubItem(
-                          isHovering: _isHoveringToDo,
-                          isSelected: currentIndex == 2,
-                          icon: Icons.toc,
-                          text: 'To Do List',
-                          onTap: () {
-                            setState(() {
-                              currentIndex = 2;
-                            });
-                          },
-                          onEnter: (_) =>
-                              setState(() => _isHoveringToDo = true),
-                          onExit: (_) =>
-                              setState(() => _isHoveringToDo = false),
-                        ),
-
-                        // LOG OUT MENU USUARIO
-                        buildSideBarSubItem(
-                          isHovering: _isHoveringLogOut,
-                          isSelected: currentIndex == 4,
-                          icon: Icons.login_rounded,
-                          text: 'Log Out',
-                          onTap: () {
-                            _askForExitConfirmation();
-                          },
-                          onEnter: (_) =>
-                              setState(() => _isHoveringLogOut = true),
-                          onExit: (_) =>
-                              setState(() => _isHoveringLogOut = false),
-                        ),
-
-                        const SizedBox(height: 30),
-
-                        // MENU CONTACTOS
-                        buildSideBarItem(
-                          icon: Icons.people,
-                          text: 'Contacts',
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // LIST OF CONTACTS MENU CONTACTOS
-                        buildSideBarSubItem(
-                          isHovering: _isHoveringList,
-                          isSelected: currentIndex == 1,
-                          icon: Icons.contact_page_rounded,
-                          text: 'List',
-                          onTap: () {
-                            setState(() {
-                              currentIndex = 1;
-                            });
-                          },
-                          onEnter: (_) =>
-                              setState(() => _isHoveringList = true),
-                          onExit: (_) =>
-                              setState(() => _isHoveringList = false),
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // CHAT MENU CONTACTOS
-                        buildSideBarSubItem(
-                          isHovering: _isHoveringChat,
-                          isSelected: currentIndex == 3, 
-                          icon: Icons.chat_bubble_rounded,
-                          text: 'Chat',
-                          onTap: () {
-                            setState(() {
-                              currentIndex = 3;
-                            });
-                          },
-                          onEnter: (_) =>
-                              setState(() => _isHoveringChat = true),
-                          onExit: (_) =>
-                              setState(() => _isHoveringChat = false),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
+                Expanded(
+                  flex: isSidebarExpanded ? 3 : 1,
+                  child: _getCurrentPage(),
+                ),
               ],
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                child: _getCurrentPage(),
-              ),
-            ),
-          ],
+            );
+          },
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: _toggleSidebar,
+        backgroundColor: Colors.blue,
+        child: Icon(
+          _isSidebarExpanded ? Icons.chevron_left : Icons.chevron_right,
+          color: Colors.white,
+          size: 40,
+        ),
+      ),
+    );
+  }
+
+  // SIDEBAR HEADER
+  Widget _buildSidebarHeader() {
+    return AnimatedCrossFade(
+      duration: const Duration(milliseconds: 300),
+      firstChild: Container(
+        color: Colors.white,
+        height: 20,
+        width: double.infinity,
+      ),
+      secondChild: Container(
+        color: Colors.white,
+        height: 20,
+        width: double.infinity,
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(),
+        ),
+      ),
+      crossFadeState: _isSidebarExpanded
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
+    );
+  }
+
+  // FULLY SIDEBAR BUILDER
+  Widget _buildSidebar() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          right: BorderSide(
+            color: Color(0xFF369DD8),
+            width: 2,
+          ),
+        ),
+      ),
+      child: ListView(
+        padding: EdgeInsets.only(
+          left: _isSidebarExpanded ? 20 : 0,
+          bottom: 20,
+        ),
+        children: [
+
+          // MENU USER
+          buildSideBarItem(
+            icon: FontAwesomeIcons.solidCircleUser,
+            text: _isSidebarExpanded ? widget.user.userName : '',
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+          ),
+
+          const SizedBox(height: 20),
+
+          // OPTIONS MENU USER
+          buildSideBarSubItem(
+            hasText: _isSidebarExpanded,
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            isHovering: _isHoveringOptions,
+            isSelected: currentIndex == 0,
+            icon: Icons.settings_sharp,
+            text: 'Options',
+            onTap: () {
+              setState(() {
+                currentIndex = 0;
+              });
+            },
+            onEnter: (_) => setState(() => _isHoveringOptions = true),
+            onExit: (_) => setState(() => _isHoveringOptions = false),
+          ),
+
+          // TO DO LIST MENU USER
+          buildSideBarSubItem(
+            hasText: _isSidebarExpanded,
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            isHovering: _isHoveringToDo,
+            isSelected: currentIndex == 2,
+            icon: Icons.toc,
+            text: 'To Do List',
+            onTap: () {
+              setState(() {
+                currentIndex = 2;
+              });
+            },
+            onEnter: (_) => setState(() => _isHoveringToDo = true),
+            onExit: (_) => setState(() => _isHoveringToDo = false),
+          ),
+
+          // LOG OUT MENU USER
+          buildSideBarSubItem(
+            hasText: _isSidebarExpanded,
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            isHovering: _isHoveringLogOut,
+            isSelected: currentIndex == 4,
+            icon: Icons.login_rounded,
+            text: 'Log Out',
+            onTap: () {
+              _askForExitConfirmation();
+            },
+            onEnter: (_) => setState(() => _isHoveringLogOut = true),
+            onExit: (_) => setState(() => _isHoveringLogOut = false),
+          ),
+
+          const SizedBox(height: 30),
+
+          // MENU CONTACTS
+          buildSideBarItem(
+            icon: Icons.people,
+            text: _isSidebarExpanded ? 'Contacts' : '',
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+          ),
+
+          const SizedBox(height: 20),
+
+          // LIST OF CONTACTS MENU CONTACTS
+          buildSideBarSubItem(
+            hasText: _isSidebarExpanded,
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            isHovering: _isHoveringList,
+            isSelected: currentIndex == 1,
+            icon: Icons.contact_page_rounded,
+            text: 'List',
+            onTap: () {
+              setState(() {
+                currentIndex = 1;
+              });
+            },
+            onEnter: (_) => setState(() => _isHoveringList = true),
+            onExit: (_) => setState(() => _isHoveringList = false),
+          ),
+
+          const SizedBox(height: 10),
+
+          // CHAT MENU CONTACTS
+          buildSideBarSubItem(
+            hasText: _isSidebarExpanded,
+            borderQuantity: _isSidebarExpanded ? 40 : 0,
+            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            isHovering: _isHoveringChat,
+            isSelected: currentIndex == 3,
+            icon: Icons.chat_bubble_rounded,
+            text: 'Chat',
+            onTap: () {
+              setState(() {
+                currentIndex = 3;
+              });
+            },
+            onEnter: (_) => setState(() => _isHoveringChat = true),
+            onExit: (_) => setState(() => _isHoveringChat = false),
+          ),
+        ],
       ),
     );
   }
