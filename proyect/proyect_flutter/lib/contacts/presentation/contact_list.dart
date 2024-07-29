@@ -208,13 +208,18 @@ class _ExpandableContactItemState extends State<ExpandableContactItem> {
               ListTile(
                 mouseCursor: SystemMouseCursors.click,
                 leading: CircleAvatar(
-                  backgroundColor: const Color(0xFF369DD8),
-                  radius: 40,
-                  child: Text(widget.contact.name[0].toUpperCase(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold)),
+                  backgroundImage: (widget.contact.profileIMG != null)? AssetImage(widget.contact.profileIMG!): null,
+                  backgroundColor: (widget.contact.profileIMG != null)? Colors.transparent : const Color(0xFF369DD8),
+                  radius: 35,
+                  child: (widget.contact.profileIMG == null)?
+                                Text(  
+                                  widget.contact.name[0].toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white, 
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.00)
+                                ) :
+                                null,
                 ),
                 title: Text(
                   widget.contact.name,
