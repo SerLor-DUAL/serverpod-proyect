@@ -44,3 +44,5 @@ usersRegistry:
   - authenticateUser:
   - validatePassword:
   - createUserInfo:
+whatsApp:
+  - sendMessage:

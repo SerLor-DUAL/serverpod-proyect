@@ -379,6 +379,21 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointWhatsApp extends _i1.EndpointRef {
+  EndpointWhatsApp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'whatsApp';
+
+  _i2.Future<Map<String, String>> sendMessage() =>
+      caller.callServerEndpoint<Map<String, String>>(
+        'whatsApp',
+        'sendMessage',
+        {},
+      );
+}
+
 class _Modules {
   _Modules(Client client) {
     auth = _i7.Caller(client);
@@ -416,6 +431,7 @@ class Client extends _i1.ServerpodClient {
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
+    whatsApp = EndpointWhatsApp(this);
     modules = _Modules(this);
   }
 
@@ -431,6 +447,8 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
+  late final EndpointWhatsApp whatsApp;
+
   late final _Modules modules;
 
   @override
@@ -441,6 +459,7 @@ class Client extends _i1.ServerpodClient {
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
+        'whatsApp': whatsApp,
       };
 
   @override

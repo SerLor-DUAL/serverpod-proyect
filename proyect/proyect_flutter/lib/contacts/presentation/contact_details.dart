@@ -325,7 +325,28 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async{
+                    Map<String, String?> ret = await widget.client.whatsApp.sendMessage();
+                    if (ret["status"] == 'success'){
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const CustomAlertDialog(
+                              customTitle: 'Mensaje Enviado',
+                              customContent: 'Todo bien',
+                            );
+                          });
+                    } else {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              customTitle: ret["status"]?? '',
+                              customContent: ret["error"]?? '',
+                            );
+                          });
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                     padding: const EdgeInsets.all(30.0),

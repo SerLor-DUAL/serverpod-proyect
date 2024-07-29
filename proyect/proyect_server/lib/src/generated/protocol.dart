@@ -427,6 +427,10 @@ class Protocol extends _i1.SerializationManagerServer {
           .map((e) => deserialize<_i10.UsersRegistry>(e))
           .toList() as dynamic;
     }
+    if (t == Map<String, String>) {
+      return (data as Map).map((k, v) =>
+          MapEntry(deserialize<String>(k), deserialize<String>(v))) as dynamic;
+    }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}

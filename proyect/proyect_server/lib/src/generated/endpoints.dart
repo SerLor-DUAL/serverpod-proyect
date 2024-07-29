@@ -15,12 +15,13 @@ import '../endpoints/users/authenticated_endpoint.dart' as _i4;
 import '../endpoints/users/password_generator_endpoint.dart' as _i5;
 import '../endpoints/users/password_options_endpoint.dart' as _i6;
 import '../endpoints/users/users_registry_endpoint.dart' as _i7;
-import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i8;
-import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i9;
+import '../endpoints/whatsapp/whatsapp_endpoint.dart' as _i8;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
 import 'package:proyect_server/src/generated/users/password_options.dart'
-    as _i10;
-import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i12;
+    as _i11;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i12;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i13;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -62,6 +63,12 @@ class Endpoints extends _i1.EndpointDispatch {
           'usersRegistry',
           null,
         ),
+      'whatsApp': _i8.WhatsAppEndpoint()
+        ..initialize(
+          server,
+          'whatsApp',
+          null,
+        ),
     };
     connectors['contact'] = _i1.EndpointConnector(
       name: 'contact',
@@ -72,7 +79,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'contact': _i1.ParameterDescription(
               name: 'contact',
-              type: _i1.getType<_i8.Contact>(),
+              type: _i1.getType<_i9.Contact>(),
               nullable: false,
             )
           },
@@ -90,7 +97,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'contacts': _i1.ParameterDescription(
               name: 'contacts',
-              type: _i1.getType<List<_i8.Contact>>(),
+              type: _i1.getType<List<_i9.Contact>>(),
               nullable: false,
             )
           },
@@ -169,7 +176,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'contact': _i1.ParameterDescription(
               name: 'contact',
-              type: _i1.getType<_i8.Contact?>(),
+              type: _i1.getType<_i9.Contact?>(),
               nullable: true,
             )
           },
@@ -187,7 +194,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'contact': _i1.ParameterDescription(
               name: 'contact',
-              type: _i1.getType<_i8.Contact>(),
+              type: _i1.getType<_i9.Contact>(),
               nullable: false,
             )
           },
@@ -205,7 +212,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'tasks': _i1.ParameterDescription(
               name: 'tasks',
-              type: _i1.getType<List<_i8.Contact>>(),
+              type: _i1.getType<List<_i9.Contact>>(),
               nullable: false,
             )
           },
@@ -230,7 +237,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'task': _i1.ParameterDescription(
               name: 'task',
-              type: _i1.getType<_i9.Task>(),
+              type: _i1.getType<_i10.Task>(),
               nullable: false,
             )
           },
@@ -248,7 +255,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'tasks': _i1.ParameterDescription(
               name: 'tasks',
-              type: _i1.getType<List<_i9.Task>>(),
+              type: _i1.getType<List<_i10.Task>>(),
               nullable: false,
             )
           },
@@ -331,7 +338,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'task': _i1.ParameterDescription(
               name: 'task',
-              type: _i1.getType<_i9.Task>(),
+              type: _i1.getType<_i10.Task>(),
               nullable: false,
             )
           },
@@ -349,7 +356,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'task': _i1.ParameterDescription(
               name: 'task',
-              type: _i1.getType<_i9.Task>(),
+              type: _i1.getType<_i10.Task>(),
               nullable: false,
             )
           },
@@ -367,7 +374,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'task': _i1.ParameterDescription(
               name: 'task',
-              type: _i1.getType<_i9.Task>(),
+              type: _i1.getType<_i10.Task>(),
               nullable: false,
             )
           },
@@ -385,7 +392,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'tasks': _i1.ParameterDescription(
               name: 'tasks',
-              type: _i1.getType<List<_i9.Task>>(),
+              type: _i1.getType<List<_i10.Task>>(),
               nullable: false,
             )
           },
@@ -435,7 +442,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i10.PasswordOptions>(),
+              type: _i1.getType<_i11.PasswordOptions>(),
               nullable: false,
             ),
             'passwordInput': _i1.ParameterDescription(
@@ -495,7 +502,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i10.PasswordOptions>(),
+              type: _i1.getType<_i11.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -514,7 +521,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i10.PasswordOptions>(),
+              type: _i1.getType<_i11.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -533,7 +540,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'options': _i1.ParameterDescription(
               name: 'options',
-              type: _i1.getType<_i10.PasswordOptions>(),
+              type: _i1.getType<_i11.PasswordOptions>(),
               nullable: false,
             )
           },
@@ -654,7 +661,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i11.UsersRegistry>(),
+              type: _i1.getType<_i12.UsersRegistry>(),
               nullable: false,
             )
           },
@@ -673,7 +680,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'userInfo': _i1.ParameterDescription(
               name: 'userInfo',
-              type: _i1.getType<_i12.UserInfo>(),
+              type: _i1.getType<_i13.UserInfo>(),
               nullable: false,
             )
           },
@@ -697,7 +704,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'selectedUserOptions': _i1.ParameterDescription(
               name: 'selectedUserOptions',
-              type: _i1.getType<_i10.PasswordOptions>(),
+              type: _i1.getType<_i11.PasswordOptions>(),
               nullable: false,
             ),
             'selectedUserPassword': _i1.ParameterDescription(
@@ -723,7 +730,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i11.UsersRegistry>(),
+              type: _i1.getType<_i12.UsersRegistry>(),
               nullable: false,
             )
           },
@@ -766,7 +773,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i11.UsersRegistry?>(),
+              type: _i1.getType<_i12.UsersRegistry?>(),
               nullable: true,
             ),
             'password': _i1.ParameterDescription(
@@ -832,6 +839,22 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i12.Endpoints()..initializeEndpoints(server);
+    connectors['whatsApp'] = _i1.EndpointConnector(
+      name: 'whatsApp',
+      endpoint: endpoints['whatsApp']!,
+      methodConnectors: {
+        'sendMessage': _i1.MethodConnector(
+          name: 'sendMessage',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint)
+                  .sendMessage(session),
+        )
+      },
+    );
+    modules['serverpod_auth'] = _i13.Endpoints()..initializeEndpoints(server);
   }
 }
