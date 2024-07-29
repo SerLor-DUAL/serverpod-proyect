@@ -34,9 +34,9 @@ class _UserProfileConfigState extends State<UserProfileConfig> {
           );
   }
 
+  // TODO: FINISH THIS.
   Future<void> updateUserInfo() async{
     UserInfo newuserInfo = widget.userInfo;
-    newuserInfo.userName = 
   }
 
   @override
