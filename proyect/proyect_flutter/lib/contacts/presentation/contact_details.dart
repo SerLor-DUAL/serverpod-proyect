@@ -110,6 +110,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
         controller: _tabController,
         children: [
           _buildDetailsTab(contact),
+          Container(),
         ],
       ),
     );
@@ -128,7 +129,8 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  // CircleAvatar with background image or default avatar
+
+                  // CIRCLEAVATAR WITH BACKGROUND IMAGE OR DEFAULT AVATAR
                   CircleAvatar(
                     backgroundImage: (contact.profileIMG != null)? AssetImage(contact.profileIMG!): null,
                     backgroundColor: (contact.profileIMG != null)? Colors.transparent : const Color(0xFF369DD8),
@@ -145,21 +147,20 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                     
                     //backgroundColor: Colors.blueAccent,
                   ),
-                  // Positioned IconButton
                   Positioned(
-                          right: 2, // Adjust position to overlap on the edge of the base CircleAvatar
-                          bottom: 2, // Adjust position to overlap on the edge of the base CircleAvatar
+                          right: 2,
+                          bottom: 2,
                           child: CircleAvatar(
-                            radius: 14, // Radius of the smaller blue circle
-                            backgroundColor: Colors.blue, // Background color of the small circle
+                            radius: 14,
+                            backgroundColor: Colors.blue,
                             child: IconButton(
                               icon: const Icon(Icons.edit, color: Colors.white, size: 16),
                               onPressed: () async{
                                 await updateContactPicture();
                                 setState(() {});
                               },
-                              padding: EdgeInsets.zero, // Remove default padding
-                              constraints: BoxConstraints(), // Remove default constraints
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(), 
                             ),
                           ),
                         ),

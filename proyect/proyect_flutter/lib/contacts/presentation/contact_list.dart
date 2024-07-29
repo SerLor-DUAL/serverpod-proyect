@@ -186,7 +186,7 @@ class _ExpandableContactItemState extends State<ExpandableContactItem> {
           });
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           padding: EdgeInsets.symmetric(vertical: isHovered ? 30.0 : 15.0),
           margin: const EdgeInsets.symmetric(vertical: 5.0),

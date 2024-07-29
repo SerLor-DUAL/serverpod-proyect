@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// MENU ITEM
 Widget buildSideBarSubItem({
+  required bool hasText,
+  required double borderQuantity,
+  required List<double> paddingSizingList,
   required bool isHovering,
   required bool isSelected,
   required IconData icon,
@@ -20,23 +22,30 @@ Widget buildSideBarSubItem({
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          padding: const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
-          duration: const Duration(milliseconds: 200),
+          padding: EdgeInsets.only(left: paddingSizingList[0], top: 10, bottom: 10),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-            borderRadius:
-                const BorderRadius.horizontal(left: Radius.circular(40)),
+            borderRadius: BorderRadius.horizontal(
+              left: Radius.circular(borderQuantity),
+            ),
             border: Border(
               top: BorderSide(
-                color: isHovering || isSelected ? const Color(0xFF369DD8) : Colors.transparent,
+                color: isHovering || isSelected
+                    ? const Color(0xFF369DD8)
+                    : Colors.transparent,
                 width: 2,
               ),
               bottom: BorderSide(
-                color: isHovering || isSelected ? const Color(0xFF369DD8) : Colors.transparent,
+                color: isHovering || isSelected
+                    ? const Color(0xFF369DD8)
+                    : Colors.transparent,
                 width: 2,
               ),
               left: BorderSide(
-                color: isHovering || isSelected ? const Color(0xFF369DD8) : Colors.transparent,
+                color: isHovering || isSelected
+                    ? const Color(0xFF369DD8)
+                    : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -51,14 +60,16 @@ Widget buildSideBarSubItem({
               color: const Color(0xFF369DD8),
               size: 35,
             ),
-            title: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-            ),
+            title: hasText
+                ? Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  )
+                : null,
           ),
         ),
       ),

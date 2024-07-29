@@ -1,6 +1,7 @@
 part of '../presentation/home.dart';
 
 abstract class HomeController extends State<Home> {
+
   // HOVERING BOOLS
   bool _isHoveringOptions = false;
   bool _isHoveringLogOut = false;
@@ -8,13 +9,17 @@ abstract class HomeController extends State<Home> {
   bool _isHoveringChat = false;
   bool _isHoveringToDo = false;
 
+  // ------------------------------ PAGE INDEXING -------------------------------------
+
   // ACTUAL PAGE
   int currentIndex = 0;
 
-  // CALLBACK VARIABLES
-  Contact? selectedContact;
-  Task? selectedTask;
-  
+  // UPDATES THE INDEX OF HOME
+  void updateIndex(int newIndex) {
+    setState(() {
+      currentIndex = newIndex;
+    });
+  }
 
   // PAGING INDEX
   Widget _getCurrentPage() {
@@ -44,8 +49,8 @@ abstract class HomeController extends State<Home> {
       case 4:
         if (selectedContact != null) {
           return ContactDetails(
-              client: widget.client, 
-              contact: selectedContact!, 
+              client: widget.client,
+              contact: selectedContact!,
               updateHomeIndex: updateIndex,
               user: widget.user);
         } else {
@@ -59,12 +64,46 @@ abstract class HomeController extends State<Home> {
     }
   }
 
-  // UPDATES THE INDEX OF HOME
-  void updateIndex(int newIndex) {
+  // ---------------------------------------------------------------------------------
+
+  // ------------------------------ SIDEBAR ------------------------------------------
+
+  bool _isSidebarExpanded = true; // ACTUAL STATUS
+  bool _isSidebarManuallyToggled = false; // MANUAL TOGGLE OF SIDEBAR
+  final double _sidebarBreakpoint = 600.0;
+  double screenWidth = 0.0;
+
+  // UPDATES SCREEN SIZING
+  void _updateScreenWidth(double width) {
     setState(() {
-      currentIndex = newIndex;
+      screenWidth = width;
+      // IF THE WIDTH IS LESS THAN OR EQUAL TO THE BREAKPOINT AND THE SIDEBAR IS EXPANDED, COLLAPSE IT AUTOMATICALLY
+      if (screenWidth <= _sidebarBreakpoint && _isSidebarExpanded) {
+        _isSidebarExpanded = false;
+        _isSidebarManuallyToggled = false;
+      }
     });
   }
+
+  // SIDEBAR STATUS CHANGER
+  void _toggleSidebar() {
+    setState(() {
+      if (screenWidth <= _sidebarBreakpoint) {
+        _isSidebarExpanded = !_isSidebarExpanded;
+      } else {
+        _isSidebarExpanded = !_isSidebarExpanded;
+        _isSidebarManuallyToggled = _isSidebarExpanded;
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------------------------
+
+  // ------------------------------ CALLBACK --------------------------------------------
+
+  // CALLBACK VARIABLES
+  Contact? selectedContact;
+  Task? selectedTask;
 
   // SAVES THE SELECTED CONTACT FROM THE CONTACT LIST WIDGET INTO HOME DATA TO DO A CALLBACK
   void selectContact(Contact contact) {
@@ -79,6 +118,10 @@ abstract class HomeController extends State<Home> {
       selectedTask = task;
     });
   }
+
+  // ---------------------------------------------------------------------------------
+
+  // --------------------------- LOGOUT ACTIONS --------------------------------------
 
   // BUTTON CREATOR FOR LOG OUT
   void _askForExitConfirmation() async {
@@ -108,5 +151,5 @@ abstract class HomeController extends State<Home> {
     );
   }
 
-
+  // ---------------------------------------------------------------------------------
 }

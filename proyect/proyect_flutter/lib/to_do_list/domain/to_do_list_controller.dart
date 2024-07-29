@@ -67,7 +67,7 @@ abstract class ToDoListController extends State<ToDoList> {
         buttonInTextFields: const [2],
         content: null,
         textControllers: [_titleCon, _descriptionCon, _dateCon],
-        labels: const ['Title', 'Description', 'Deadline (YYYY-MM-DD)'],
+        labels: const ['Title', 'Description', 'Deadline (YYYY-MM-DD)'],    
         actions: [
           ElevatedButton(
             onPressed: () {

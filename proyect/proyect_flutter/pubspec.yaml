@@ -64,6 +64,7 @@ dependencies:
   stroke_text: ^0.0.3
   envied: ^0.5.4+1
   serverpod_auth_shared_flutter: 2.0.2
+  calendar_date_picker2: ^1.1.5
   serverpod_auth_client: ^2.0.2
 
 dev_dependencies:

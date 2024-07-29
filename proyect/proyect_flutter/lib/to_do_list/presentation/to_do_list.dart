@@ -191,7 +191,7 @@ class _ExpandableTaskItemState extends State<ExpandableTaskItem> {
           });
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           padding: EdgeInsets.symmetric(vertical: isHovered ? 20.0 : 15.0),
           margin: const EdgeInsets.symmetric(vertical: 5.0),
