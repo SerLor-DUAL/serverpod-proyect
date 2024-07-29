@@ -32,10 +32,12 @@ passwordOptions:
 usersRegistry:
   - getAllUsers:
   - getUserById:
+  - getUserInfoById:
   - getUserByName:
   - checkUserExistanceByName:
   - getLastUserID:
   - updateUser:
+  - updateUserInfo:
   - createUser:
   - deleteUser:
   - login:

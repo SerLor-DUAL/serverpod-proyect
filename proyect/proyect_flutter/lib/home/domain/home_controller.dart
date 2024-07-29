@@ -14,7 +14,7 @@ abstract class HomeController extends State<Home> {
   // CALLBACK VARIABLES
   Contact? selectedContact;
   Task? selectedTask;
-
+  
 
   // PAGING INDEX
   Widget _getCurrentPage() {
@@ -106,4 +106,6 @@ abstract class HomeController extends State<Home> {
       ),
     );
   }
+
+
 }

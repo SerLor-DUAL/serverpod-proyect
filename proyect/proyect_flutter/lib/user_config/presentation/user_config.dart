@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 class UserProfileConfig extends StatefulWidget {
   final Client client;
@@ -10,6 +13,7 @@ class UserProfileConfig extends StatefulWidget {
     required this.client,
     required this.user
   });
+  
 
   @override
   _UserProfileConfigState createState() => _UserProfileConfigState();
@@ -17,6 +21,24 @@ class UserProfileConfig extends StatefulWidget {
 
 class _UserProfileConfigState extends State<UserProfileConfig> {
   
+
+  UserInfo? _userInfo;
+
+  void _fetchUserInfo()async{
+    _userInfo = await widget.client.usersRegistry.getUserInfoById(widget.user.id!);
+  }
+
+  Future<void> updateUserPicture() async{
+    await showDialog(
+            context: context,
+            builder: (context) {
+              return ProfilePictureSelector(
+                user: widget.user,
+                client: widget.client,
+              );
+            }
+          );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +64,17 @@ class _UserProfileConfigState extends State<UserProfileConfig> {
                       bottom: 0,
                       child: CircleAvatar(
                         radius: 17,
+                        backgroundImage: (widget.user.userInfo?.imageUrl != null)
+                                        ? AssetImage(widget.user.userInfo!.imageUrl!)
+                                        : null,
                         backgroundColor: Colors.blue,
                         child: IconButton(
-                          onPressed: () {null;},
+                          onPressed: () async{
+                            await updateUserPicture();
+                            setState(() {
+                              
+                            });
+                          },
                           icon: const Icon(
                                   Icons.camera_alt,
                                   size: 17,
@@ -67,7 +97,9 @@ class _UserProfileConfigState extends State<UserProfileConfig> {
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: TextEditingController(text: 'widget.currentEmail'),
+              controller: TextEditingController(text: (widget.user.userInfo != null && widget.user.userInfo?.email != null)
+                                                      ? widget.user.userInfo?.email :
+                                                        ''  ),
               decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),

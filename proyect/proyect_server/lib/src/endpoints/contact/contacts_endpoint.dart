@@ -43,8 +43,11 @@ class ContactEndpoint extends Endpoint {
   }
 
   // UPDATE
-  Future<void> updateContact(Session session, Contact contact) async {
-    await Contact.db.updateRow(session, contact);
+  Future<void> updateContact(Session session, Contact? contact) async {
+    if (contact != null){
+      await Contact.db.updateRow(session, contact);
+    }
+    throw Error();
   }
 
   // DELETE

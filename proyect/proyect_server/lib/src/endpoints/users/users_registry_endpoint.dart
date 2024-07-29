@@ -18,6 +18,10 @@ class UsersRegistryEndpoint extends Endpoint {
 
     return user;
   }
+  Future<UserInfo?> getUserInfoById(Session session, int userInfoId) async{
+    UserInfo? userInfo = await UserInfo.db.findById(session, userInfoId);
+    return userInfo;
+  }
 
   Future<UsersRegistry?> getUserByName(Session session, String name) async {
     return await UsersRegistry.db.findFirstRow(session,
@@ -36,6 +40,7 @@ class UsersRegistryEndpoint extends Endpoint {
   }
 
 
+
   // UPDATE
   Future<void> updateUser(Session session, UsersRegistry user) async {
     if (user.id != null) {
@@ -44,25 +49,30 @@ class UsersRegistryEndpoint extends Endpoint {
       throw Exception('User with selected ID not found.');
     }
   }
+  Future<void> updateUserInfo(Session session, UserInfo userInfo) async {
+    await UserInfo.db.updateRow(session, userInfo);
+  }
 
   // CREATE
   Future<UsersRegistry> createUser(
       Session session, String name, PasswordOptions selectedUserOptions,
       {String? selectedUserPassword}) async {
     
-    // CREATE PASSWORD
-    String? passwordGenerated = createPassword(selectedUserOptions,
-        passwordInput: selectedUserPassword);
-    String hashedPass = bcryptPassword(passwordGenerated);
-    // CREATE USERINFO
-    UserInfo? userInfo = await createUserInfo(session, name);
-    // CREATE USERS
-    UsersRegistry createdUser = UsersRegistry(
-        userName: name,
-        userPassword: hashedPass,
-        options: selectedUserOptions.id!,
-        userInfoId: userInfo!.id!
-        );
+  // CREATE PASSWORD
+  String? passwordGenerated = createPassword(selectedUserOptions,
+      passwordInput: selectedUserPassword);
+  String hashedPass = bcryptPassword(passwordGenerated);
+  
+  // CREATE USERINFO
+  UserInfo? userInfo = await createUserInfo(session, name);
+  // CREATE USERS
+  UsersRegistry createdUser = UsersRegistry(
+      userName: name,
+      userPassword: hashedPass,
+      options: selectedUserOptions.id!,
+      userInfoId: userInfo!.id!,
+      userInfo: userInfo
+      );
 
     return await UsersRegistry.db.insertRow(session, createdUser);
   }
