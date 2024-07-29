@@ -84,9 +84,9 @@ Future<void> welcomeUser(String userName) async
 
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else {
-      // Navigator.pushNamed(context, '/todolist', arguments: user.id) will give arguments that the routing will call.
-      // Go to main to see were they are applied.
-      BasicArguments args = BasicArguments(client: widget.client, user: user);
+      UserInfo? userInfo = await widget.client.usersRegistry.getUserInfoById(user.id!);
+        
+      HomeArgs args = HomeArgs(client: widget.client, user: user, userInfo: userInfo!);
       showDialog( context: context,
                   builder: (context) => AlertDialog( title: const Text("User"),
                                                      content: Text("Welcome ${user.userName}"),
@@ -147,8 +147,26 @@ bool validateInputs(){
     areValid = false;
     return areValid;
   }
+  if (!checkPassword(passwordController.text)){
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Password Error"),
+                                                           content: Text("Minimum eight characters, at least one letter and one number"),
+        ),
+      );
+    }
+    areValid = false;
+  }
+  
   return areValid;
 }
+
+bool checkPassword(String password) {
+  RegExp exp = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+  return exp.hasMatch(password);
+}
+
 // CHECK IF USER ALREADY EXISTS. IF IT DOES IT RETURNS A DIALOG.
 Future<bool> checkUserExistance() async{
 

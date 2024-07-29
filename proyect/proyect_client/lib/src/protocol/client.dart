@@ -65,7 +65,7 @@ class EndpointContact extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> updateContact(_i3.Contact contact) =>
+  _i2.Future<void> updateContact(_i3.Contact? contact) =>
       caller.callServerEndpoint<void>(
         'contact',
         'updateContact',
@@ -268,6 +268,13 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'userId': userId},
       );
 
+  _i2.Future<_i7.UserInfo?> getUserInfoById(int userInfoId) =>
+      caller.callServerEndpoint<_i7.UserInfo?>(
+        'usersRegistry',
+        'getUserInfoById',
+        {'userInfoId': userInfoId},
+      );
+
   _i2.Future<_i5.UsersRegistry?> getUserByName(String name) =>
       caller.callServerEndpoint<_i5.UsersRegistry?>(
         'usersRegistry',
@@ -294,6 +301,13 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         'usersRegistry',
         'updateUser',
         {'user': user},
+      );
+
+  _i2.Future<void> updateUserInfo(_i7.UserInfo userInfo) =>
+      caller.callServerEndpoint<void>(
+        'usersRegistry',
+        'updateUserInfo',
+        {'userInfo': userInfo},
       );
 
   _i2.Future<_i5.UsersRegistry> createUser(

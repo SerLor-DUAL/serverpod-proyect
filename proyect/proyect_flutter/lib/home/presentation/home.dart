@@ -4,6 +4,8 @@ import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
+import 'package:proyect_flutter/user_config/presentation/user_config.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import '../../contacts/presentation/contact_list.dart';
 import '../../common/ui/custom_alert_dialog.dart';
 import './widget_sidebar_item.dart';
@@ -13,8 +15,8 @@ part '../domain/home_controller.dart';
 class Home extends StatefulWidget {
   final Client client;
   final UsersRegistry user;
-
-  const Home({super.key, required this.client, required this.user});
+  final UserInfo? userInfo;
+  const Home({super.key, required this.client, required this.user, required this.userInfo});
 
   @override
   createState() => _Home();

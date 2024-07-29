@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
+
 
 class ProfilePictureSelector extends StatefulWidget {
-  final String title;
-  final List<String> profilePictures; // List of asset paths
-  final ValueChanged<String> onProfilePictureSelected;
+
   final Client client;
-  final Contact contact;
+  final Contact? contact;
+  final UserInfo? userInfo;
 
   const ProfilePictureSelector({
     super.key,
-    required this.title,
-    required this.profilePictures,
-    required this.onProfilePictureSelected,
     required this.client,
-    required this.contact
+    this.contact,
+    this.userInfo,
   });
 
   @override
@@ -23,15 +23,48 @@ class ProfilePictureSelector extends StatefulWidget {
 
 class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
   String? _selectedProfilePicture;
+  final List<String> profilePictures = [
+      'assets/img/profiles/profile1.jpg',
+      'assets/img/profiles/profile2.jpg',
+      'assets/img/profiles/profile3.jpg'
+    ]; // List of asset paths
 
-  Future<void> updatePicture(String selectedPicture) async{
-    Contact contact = widget.contact;
-    contact.profileIMG = selectedPicture;
-    await widget.client.contact.updateContact(contact);
+
+    Future<void> updatePictureUser(String selectedPicture) async{
+      if (widget.userInfo != null){
+        try{
+          widget.userInfo!.imageUrl = selectedPicture;
+          await widget.client.usersRegistry.updateUserInfo(widget.userInfo!);
+        }
+        catch(e){
+          CustomAlertDialog(
+            customTitle: 'Error Ocurred',
+            customContent: e.toString(),
+          );
+        }
+      }
+      if (mounted){
+        Navigator.pop(context);
+      }
+    }
+
+  Future<void> updatePictureContact(String selectedPicture) async{
+    Contact? contact = widget.contact;
+    contact?.profileIMG = selectedPicture;
+    try {
+      await widget.client.contact.updateContact(contact);
+    }
+    catch (e){
+      CustomAlertDialog(
+        customTitle: 'Error Ocurred',
+        customContent: e.toString(),
+      );
+    }
     if (mounted){
       Navigator.pop(context);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,16 +94,16 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 10.0,
                 left: 30,
                 right: 30,
                 bottom: 10,
               ),
               child: Text(
-                widget.title,
-                style: const TextStyle(
+                'Select a picture:',
+                style: TextStyle(
                   color: Color(0xFF369DD8),
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
@@ -100,15 +133,14 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
-                itemCount: widget.profilePictures.length,
+                itemCount: profilePictures.length,
                 itemBuilder: (context, index) {
-                  final assetPath = widget.profilePictures[index];
+                  final assetPath = profilePictures[index];
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         _selectedProfilePicture = assetPath;
                       });
-                      widget.onProfilePictureSelected(assetPath);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -142,8 +174,15 @@ class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {
                 children: [
                   ElevatedButton(
                     onPressed: () async{
-                      if (_selectedProfilePicture != null && _selectedProfilePicture != widget.contact.profileIMG){
-                        await updatePicture(_selectedProfilePicture!);
+                      if (widget.userInfo != null) {
+                        if (_selectedProfilePicture != null){
+                          await updatePictureUser(_selectedProfilePicture!);
+                        }
+                      }
+                      if (widget.contact != null){
+                        if (_selectedProfilePicture != null && _selectedProfilePicture != widget.contact?.profileIMG){
+                          await updatePictureContact(_selectedProfilePicture!);
+                        }
                       }
                     },
                     

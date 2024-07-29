@@ -5,6 +5,7 @@ import 'package:proyect_flutter/home/presentation/home.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'common/services/route_generator.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 
 // ------------------------ Global variables ------------------------- \\
 
@@ -18,8 +19,13 @@ void main() async {
 
   // GETS USER IF IT WAS ALREADY AUTHENTICATED.
   UsersRegistry? authUser = await getUserIfAuth();
+  UserInfo? userInfo;
+  if (authUser != null){
+    userInfo = await getUserInfoIfAuth(authUser);
+  }
 
-  runApp(MyApp(user: authUser,));
+
+  runApp(MyApp(user: authUser, userInfo: userInfo,));
 
   
 }
@@ -65,12 +71,24 @@ Future<UsersRegistry?> getUserIfAuth() async {
     return authUser;
   }
 
+Future<UserInfo?> getUserInfoIfAuth(UsersRegistry user) async {
+    bool isAuth = sessionManager.isSignedIn;
+    UserInfo? userInfo;
+    if (isAuth){
+      // We get the user if it was authenticated before.
+      userInfo = await client.usersRegistry.getUserInfoById(user.userInfoId);
+    }
+    return userInfo;
+  }
+
+
 // ------------------------ FLUTTER ------------------------- \\
 
 class MyApp extends StatelessWidget {
   final UsersRegistry? user;
+  final UserInfo? userInfo;
   
-  const MyApp({super.key, required this.user});
+  const MyApp({super.key, required this.user, required this.userInfo});
   
   // THIS WIDGET IS THE ROOT OF YOUR APPLICATION.
   @override
@@ -79,7 +97,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sample App',
       // Test
-      home: (user != null)? Home(client: client, user: user!) :
+      home: (user != null)? Home(client: client, user: user!, userInfo: userInfo!) :
                             Login(client: client,),
       onGenerateRoute: RouteGenerator.generateRoute,
     );

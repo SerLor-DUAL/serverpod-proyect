@@ -169,8 +169,8 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'contact': _i1.ParameterDescription(
               name: 'contact',
-              type: _i1.getType<_i8.Contact>(),
-              nullable: false,
+              type: _i1.getType<_i8.Contact?>(),
+              nullable: true,
             )
           },
           call: (
@@ -582,6 +582,25 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
+        'getUserInfoById': _i1.MethodConnector(
+          name: 'getUserInfoById',
+          params: {
+            'userInfoId': _i1.ParameterDescription(
+              name: 'userInfoId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
+                  .getUserInfoById(
+            session,
+            params['userInfoId'],
+          ),
+        ),
         'getUserByName': _i1.MethodConnector(
           name: 'getUserByName',
           params: {
@@ -647,6 +666,25 @@ class Endpoints extends _i1.EndpointDispatch {
                   .updateUser(
             session,
             params['user'],
+          ),
+        ),
+        'updateUserInfo': _i1.MethodConnector(
+          name: 'updateUserInfo',
+          params: {
+            'userInfo': _i1.ParameterDescription(
+              name: 'userInfo',
+              type: _i1.getType<_i12.UserInfo>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
+                  .updateUserInfo(
+            session,
+            params['userInfo'],
           ),
         ),
         'createUser': _i1.MethodConnector(

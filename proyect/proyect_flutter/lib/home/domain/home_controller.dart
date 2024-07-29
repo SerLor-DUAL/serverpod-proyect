@@ -1,7 +1,7 @@
 part of '../presentation/home.dart';
 
 abstract class HomeController extends State<Home> {
-  
+
   // HOVERING BOOLS
   bool _isHoveringOptions = false;
   bool _isHoveringLogOut = false;
@@ -25,9 +25,11 @@ abstract class HomeController extends State<Home> {
   Widget _getCurrentPage() {
     switch (currentIndex) {
       case 0:
-        return const Center(
-            child:
-                Text('TODO: Options Screen', style: TextStyle(fontSize: 24)));
+        return UserProfileConfig(
+          client: widget.client,
+          user: widget.user,
+          userInfo: widget.userInfo!,
+        );
       case 1:
         return ContactList(
           client: widget.client,

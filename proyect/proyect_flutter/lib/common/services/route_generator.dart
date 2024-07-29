@@ -7,13 +7,14 @@ import 'package:proyect_flutter/authentication/register/presentation/register.da
 import 'package:proyect_flutter/to_do_list/presentation/to_do_list.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/home/presentation/home.dart';
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.home:
-        var args = settings.arguments as BasicArguments;
-        return buildRoute(Home(client: args.client, user: args.user), settings: settings);
+        var args = settings.arguments as HomeArgs;
+        return buildRoute(Home(client: args.client, user: args.user, userInfo: args.userInfo,), settings: settings);
 
       case AppRoutes.login:
         final client = settings.arguments as Client;
@@ -62,6 +63,13 @@ class BasicArguments {
 
   const BasicArguments({required this.client, required this.user});
 }
+
+class HomeArgs extends BasicArguments {
+  final UserInfo? userInfo;
+
+  const HomeArgs({required super.client, required super.user, required this.userInfo});
+}
+
 
 class ContactDetailsArgs extends BasicArguments {
   final Contact contact;

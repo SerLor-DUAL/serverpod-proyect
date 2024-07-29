@@ -55,12 +55,8 @@ abstract class ContactDetailsController extends State<ContactDetails> {
             context: context,
             builder: (context) {
               return ProfilePictureSelector(
-                title: 'Select a Profile Picture',
-                profilePictures: profilePictures,
                 contact: widget.contact,
                 client: widget.client,
-                onProfilePictureSelected: (selectedPicture) {
-                },
               );
             }
           );
