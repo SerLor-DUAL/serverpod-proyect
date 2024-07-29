@@ -147,8 +147,26 @@ bool validateInputs(){
     areValid = false;
     return areValid;
   }
+  if (!checkPassword(passwordController.text)){
+    if (mounted) 
+    {
+      showDialog( context: context,
+                  builder: (context) => const AlertDialog( title: Text("Password Error"),
+                                                           content: Text("Minimum eight characters, at least one letter and one number"),
+        ),
+      );
+    }
+    areValid = false;
+  }
+  
   return areValid;
 }
+
+bool checkPassword(String password) {
+  RegExp exp = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+  return exp.hasMatch(password);
+}
+
 // CHECK IF USER ALREADY EXISTS. IF IT DOES IT RETURNS A DIALOG.
 Future<bool> checkUserExistance() async{
 
