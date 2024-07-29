@@ -20,9 +20,10 @@ abstract class HomeController extends State<Home> {
   Widget _getCurrentPage() {
     switch (currentIndex) {
       case 0:
-        return const Center(
-            child:
-                Text('TODO: Options Screen', style: TextStyle(fontSize: 24)));
+        return UserProfileConfig(
+          client: widget.client,
+          user: widget.user
+        );
       case 1:
         return ContactList(
           client: widget.client,
