@@ -2,11 +2,11 @@ part of '../presentation/contact_details.dart';
 
 abstract class ContactDetailsController extends State<ContactDetails> {
   // List of asset paths for profile pictures
-    final profilePictures = [
-      'assets/img/profiles/profile1.jpg',
-      'assets/img/profiles/profile2.jpg',
-      'assets/img/profiles/profile3.jpg'
-    ];
+  final profilePictures = [
+    'assets/img/profiles/profile1.jpg',
+    'assets/img/profiles/profile2.jpg',
+    'assets/img/profiles/profile3.jpg'
+  ];
 
   // CONTROLLERS
   final TextEditingController _nameCon = TextEditingController();
@@ -22,17 +22,85 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
-  
+  Future<void> sendSMS(String message) async {
+    if (message != '') {
+      MessageResponse ret = await widget.client.whatsApp.sendMessageSMS(
+          widget.user.userName, widget.contact.phoneNumber, message);
+      if (ret.status == 'success') {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Mensaje Enviado',
+                customContent: 'Todo bien',
+              );
+            });
+      } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: ret.status,
+                customContent: ret.error ?? '',
+              );
+            });
+      }
+    } else {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              customTitle: 'Message Error',
+              customContent: "The message can't be empty",
+            );
+          });
+    }
+  }
+
+  Future<void> sendWpp(String message) async {
+    if (message != '') {
+      MessageResponse ret = await widget.client.whatsApp
+          .sendMessageWpp(widget.contact.phoneNumber, message);
+      if (ret.status == 'success') {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Mensaje Enviado',
+                customContent: 'Todo bien',
+              );
+            });
+      } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: ret.status,
+                customContent: ret.error ?? '',
+              );
+            });
+      }
+    } else {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              customTitle: 'Message Error',
+              customContent: "The message can't be empty",
+            );
+          });
+    }
+  }
 
   Future<Map<String, String>?> checkIfContactIsOnList() async {
     Map<String, String>? error;
-    
-    if (isPhoneMatch(_phoneCon.text)){
-      bool isContactOnList =
-          await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
+
+    if (isPhoneMatch(_phoneCon.text)) {
+      bool isContactOnList = await widget.client.contact
+          .isContactOnList(_phoneCon.text, widget.user.id!);
 
       if (isContactOnList) {
-        if (widget.contact.phoneNumber != _phoneCon.text){
+        if (widget.contact.phoneNumber != _phoneCon.text) {
           error = {
             'errorTitle': 'Contact in list',
             'errorMessage': 'That contact is already in the list'
@@ -41,49 +109,43 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       }
     } else {
       error = {
-            'errorTitle': "Phone doesn't match",
-            'errorMessage': 'Phone must have 9 nums'
+        'errorTitle': "Phone doesn't match",
+        'errorMessage': 'Phone must have 9 nums'
       };
     }
-
 
     return error;
   }
 
-  Future<void> updateContactPicture() async{
+  Future<void> updateContactPicture() async {
     await showDialog(
-            context: context,
-            builder: (context) {
-              return ProfilePictureSelector(
-                contact: widget.contact,
-                client: widget.client,
-              );
-            }
+        context: context,
+        builder: (context) {
+          return ProfilePictureSelector(
+            contact: widget.contact,
+            client: widget.client,
           );
+        });
   }
+
   // IF THERE'S NO ERROR IN THE CONTACT. UPDATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
   Future<void> updateContact() async {
-
-    Map<String, String>? error =
-        await checkIfContactIsOnList();
-    if (error == null){
+    Map<String, String>? error = await checkIfContactIsOnList();
+    if (error == null) {
       Contact updatedContact = updateContactWithData();
       await widget.client.contact.updateContact(updatedContact);
-      } 
-      else {
-        if (mounted)
-          {
-            await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return CustomAlertDialog(
-                    customTitle: error["errorTitle"]!,
-                    customContent: error["errorMessage"]!,
-                  );
-                }
+    } else {
+      if (mounted) {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: error["errorTitle"]!,
+                customContent: error["errorMessage"]!,
               );
-          }
-          }
+            });
+      }
+    }
   }
 
   Future<void> deleteContact(Contact contact) async {
@@ -148,7 +210,8 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       ),
     );
   }
-    // ------------------------ Format Methods ------------------------- \\
+
+  // ------------------------ Format Methods ------------------------- \\
   // RETURNS TRUE IF THE PHONE IS A MATCH
   bool isPhoneMatch(String phoneNumber) {
     RegExp exp = RegExp(r'^[0-9]{9}$');

@@ -7,7 +7,7 @@ class CustomInputDialog extends StatelessWidget {
   final Client? client;
   final UsersRegistry? user;
   final List<int>? buttonInTextFields;
-
+  final bool? isPhone;
   final String title;
   final String? content; // POSSIBLE CONTENT
 
@@ -16,7 +16,7 @@ class CustomInputDialog extends StatelessWidget {
 
   // TEXT LABELS LIST
   final List<String> labels;
-
+  
   // BUTTONS LIST
   final List<ElevatedButton> actions;
 
@@ -25,6 +25,7 @@ class CustomInputDialog extends StatelessWidget {
     this.client,
     this.user,
     this.buttonInTextFields,
+    this.isPhone,
     required this.title,
     this.content,
     required this.textControllers,
@@ -111,7 +112,65 @@ class CustomInputDialog extends StatelessWidget {
                 children: List.generate(textControllers.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: TextField(
+                    child: (isPhone == true && index == 1)?
+                          Row(
+                           children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 80, // Adjust the width of the dropdown
+                                  child: LanguageDropdown(
+                                    initialValue: 'ES',
+                                    onChanged: (value) {
+                                      // Handle value change if needed
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2, // Allow TextField to take more space
+                                child: TextField(
+                                  controller: textControllers[index],
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(255, 54, 157, 216),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: labels[index],
+                                    labelStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 54, 157, 216),
+                                    ),
+                                    enabledBorder: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 54, 157, 216),
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    focusedBorder: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 54, 157, 216),
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    suffixIcon: (buttonInTextFields != null)
+                                        ? (buttonInTextFields!.contains(index)
+                                            ? IconButton(
+                                                icon: const Icon(
+                                                  Icons.add,
+                                                  color: Color.fromARGB(255, 54, 157, 216),
+                                                ),
+                                                onPressed: () async {
+                                                  await _selectDate(
+                                                      context, textControllers[index]);
+                                                })
+                                            : null)
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ) :
+                    TextField(
                       controller: textControllers[index],
                       style: const TextStyle(
                         color: Color.fromARGB(255, 54, 157, 216),
@@ -231,5 +290,66 @@ class CustomInputDialog extends StatelessWidget {
     if (picked != null) {
       controller.text = picked.toString().split(" ")[0];
     }
+  }
+}
+
+//----------------------------//
+
+class LanguageDropdown extends StatefulWidget {
+  final String? initialValue;
+  final ValueChanged<String?>? onChanged;
+
+  const LanguageDropdown({
+    Key? key,
+    this.initialValue,
+    this.onChanged,
+  }) : super(key: key);
+
+  @override
+  _LanguageDropdownState createState() => _LanguageDropdownState();
+}
+
+class _LanguageDropdownState extends State<LanguageDropdown> {
+  String? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue ?? 'ES'; // Default value
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: _selectedValue,
+      icon: const Icon(Icons.arrow_drop_down),
+      style: const TextStyle(
+        color: Color.fromARGB(255, 54, 157, 216),
+        fontWeight: FontWeight.bold,
+        fontSize: 14, // Smaller font size
+      ),
+      underline: Container(
+        height: 0,
+        color: const Color.fromARGB(255, 54, 157, 216),
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedValue = newValue;
+        });
+        if (widget.onChanged != null) {
+          widget.onChanged!(newValue);
+        }
+      },
+      items: <String>['ES', 'AR', 'VEN'].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 14), // Smaller font size
+          ),
+        );
+      }).toList(),
+      isExpanded: false, // Ensure dropdown is not too wide
+    );
   }
 }

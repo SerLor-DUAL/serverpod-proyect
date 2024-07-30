@@ -33,3 +33,4 @@ proyect/proyect_server/lib/src/models/environment/env.dart
 # Ensure migrations are included
 !migrations/
 migrations/*
+/proyect/proyect_server/lib/env

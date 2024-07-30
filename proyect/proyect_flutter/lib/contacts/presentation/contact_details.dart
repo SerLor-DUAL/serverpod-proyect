@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
+import 'package:folder_shared/message_response.dart';
 import 'package:proyect_client/proyect_client.dart';
 part '../domain/contact_details_controller.dart';
 
@@ -26,12 +27,14 @@ class ContactDetails extends StatefulWidget {
 
 class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
   late TabController _tabController;
+  late TextEditingController _messageController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
+    _messageController = TextEditingController();
   }
 
   @override
@@ -303,6 +306,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _messageController,
                     style: const TextStyle(color: Color(0xFF369DD8)),
                     minLines: 2,
                     maxLines: 10,
@@ -325,7 +329,9 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async{
+                    await sendSMS(_messageController.text);
+                  },
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                     padding: const EdgeInsets.all(30.0),
