@@ -7,8 +7,8 @@ import 'dart:convert';
 
 class WhatsAppEndpoint extends Endpoint{
   final URL = 'www.afilnet.com';
-  final api_username = Env.wppUser;
-  final api_password = Env.wppPassword;
+  final api_username = Env.apiUser;
+  final api_password = Env.apiPassword;
 
 
   // SENDS A COMMON MESSAGE
