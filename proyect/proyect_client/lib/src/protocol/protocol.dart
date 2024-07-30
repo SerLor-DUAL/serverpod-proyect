@@ -14,16 +14,15 @@ import 'contacts/contacts.dart' as _i2;
 import 'todolist/tasks.dart' as _i3;
 import 'users/password_options.dart' as _i4;
 import 'users/users_registry.dart' as _i5;
-import 'whatsapp_res.dart' as _i6;
-import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i7;
-import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i8;
-import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i9;
+import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i6;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i7;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i8;
+import 'package:proyect_shared/lib/src/messages_app_res.dart' as _i9;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i10;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
 export 'users/users_registry.dart';
-export 'whatsapp_res.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -51,9 +50,6 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i5.UsersRegistry) {
       return _i5.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i6.WhatsAppRes) {
-      return _i6.WhatsAppRes.fromJson(data) as T;
-    }
     if (t == _i1.getType<_i2.Contact?>()) {
       return (data != null ? _i2.Contact.fromJson(data) : null) as T;
     }
@@ -66,21 +62,24 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i5.UsersRegistry?>()) {
       return (data != null ? _i5.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.WhatsAppRes?>()) {
-      return (data != null ? _i6.WhatsAppRes.fromJson(data) : null) as T;
-    }
-    if (t == List<_i7.Contact>) {
-      return (data as List).map((e) => deserialize<_i7.Contact>(e)).toList()
+    if (t == List<_i6.Contact>) {
+      return (data as List).map((e) => deserialize<_i6.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i8.Task>) {
-      return (data as List).map((e) => deserialize<_i8.Task>(e)).toList()
+    if (t == List<_i7.Task>) {
+      return (data as List).map((e) => deserialize<_i7.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.UsersRegistry>) {
+    if (t == List<_i8.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i9.UsersRegistry>(e))
+          .map((e) => deserialize<_i8.UsersRegistry>(e))
           .toList() as dynamic;
+    }
+    if (t == _i9.MessagesAppRes) {
+      return _i9.MessagesAppRes.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i9.MessagesAppRes?>()) {
+      return (data != null ? _i9.MessagesAppRes.fromJson(data) : null) as T;
     }
     try {
       return _i10.Protocol().deserialize<T>(data, t);
@@ -95,6 +94,9 @@ class Protocol extends _i1.SerializationManager {
     if (className != null) {
       return 'serverpod_auth.$className';
     }
+    if (data is _i9.MessagesAppRes) {
+      return 'MessagesAppRes';
+    }
     if (data is _i2.Contact) {
       return 'Contact';
     }
@@ -107,9 +109,6 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i5.UsersRegistry) {
       return 'UsersRegistry';
     }
-    if (data is _i6.WhatsAppRes) {
-      return 'WhatsAppRes';
-    }
     return super.getClassNameForObject(data);
   }
 
@@ -118,6 +117,9 @@ class Protocol extends _i1.SerializationManager {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
       return _i10.Protocol().deserializeByClassName(data);
+    }
+    if (data['className'] == 'MessagesAppRes') {
+      return deserialize<_i9.MessagesAppRes>(data['data']);
     }
     if (data['className'] == 'Contact') {
       return deserialize<_i2.Contact>(data['data']);
@@ -130,9 +132,6 @@ class Protocol extends _i1.SerializationManager {
     }
     if (data['className'] == 'UsersRegistry') {
       return deserialize<_i5.UsersRegistry>(data['data']);
-    }
-    if (data['className'] == 'WhatsAppRes') {
-      return deserialize<_i6.WhatsAppRes>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

@@ -54,8 +54,8 @@ dependencies:
   url_launcher_android: ^6.3.5
   url_launcher_ios: ^6.3.1
   url_launcher_platform_interface: ^2.3.2
-  proyect_client:
-    path: ../proyect_client
+  proyect_shared:
+    path: ../proyect_shared
 
 
   # The following adds the Cupertino Icons font to your application.

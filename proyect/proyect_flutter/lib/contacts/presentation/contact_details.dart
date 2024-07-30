@@ -329,7 +329,8 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () async{
-                    await sendMessage(_messageController.text);
+                    // TODO: ASDASDASD
+                    //await sendMessageSMS(_messageController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
