@@ -1,4 +1,4 @@
-import 'package:folder_shared/message_response.dart';
+import 'package:shared_folder_santiago/proyect_shared.dart';
 import 'package:proyect_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;

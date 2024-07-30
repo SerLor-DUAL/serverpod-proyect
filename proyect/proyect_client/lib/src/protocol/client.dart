@@ -15,7 +15,7 @@ import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i5;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i6;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
-import 'package:folder_shared/message_response.dart' as _i8;
+import 'package:shared_folder_santiago/src/message_response.dart' as _i8;
 import 'protocol.dart' as _i9;
 
 /// {@category Endpoint}
