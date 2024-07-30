@@ -10,7 +10,7 @@
 library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'afilnet/afilnet_whatsapp_response.dart' as _i2;
+import 'afilnet/afilnet_whatsapp.dart' as _i2;
 import 'contacts/contacts.dart' as _i3;
 import 'todolist/tasks.dart' as _i4;
 import 'users/password_options.dart' as _i5;
@@ -18,9 +18,10 @@ import 'users/users_registry.dart' as _i6;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i7;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i8;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i9;
-import 'package:proyect_shared/proyect_shared.dart' as _i10;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i11;
-export 'afilnet/afilnet_whatsapp_response.dart';
+import 'package:proyect_shared_sergio/proyect_shared.dart' as _i10;
+import 'package:proyect_shared_santiago/proyect_shared.dart' as _i11;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i12;
+export 'afilnet/afilnet_whatsapp.dart';
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -90,6 +91,9 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i10.GenericApiResponse) {
       return _i10.GenericApiResponse.fromJson(data) as T;
     }
+    if (t == _i11.MessageResponse) {
+      return _i11.MessageResponse.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i10.GenericApiRequest?>()) {
       return (data != null ? _i10.GenericApiRequest.fromJson(data) : null) as T;
     }
@@ -97,8 +101,11 @@ class Protocol extends _i1.SerializationManager {
       return (data != null ? _i10.GenericApiResponse.fromJson(data) : null)
           as T;
     }
+    if (t == _i1.getType<_i11.MessageResponse?>()) {
+      return (data != null ? _i11.MessageResponse.fromJson(data) : null) as T;
+    }
     try {
-      return _i11.Protocol().deserialize<T>(data, t);
+      return _i12.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -106,7 +113,7 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i11.Protocol().getClassNameForObject(data);
+    className = _i12.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -115,6 +122,9 @@ class Protocol extends _i1.SerializationManager {
     }
     if (data is _i10.GenericApiResponse) {
       return 'GenericApiResponse';
+    }
+    if (data is _i11.MessageResponse) {
+      return 'MessageResponse';
     }
     if (data is _i2.AfilnetWhatsAppResponse) {
       return 'AfilnetWhatsAppResponse';
@@ -138,13 +148,16 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i11.Protocol().deserializeByClassName(data);
+      return _i12.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'GenericApiRequest') {
       return deserialize<_i10.GenericApiRequest>(data['data']);
     }
     if (data['className'] == 'GenericApiResponse') {
       return deserialize<_i10.GenericApiResponse>(data['data']);
+    }
+    if (data['className'] == 'MessageResponse') {
+      return deserialize<_i11.MessageResponse>(data['data']);
     }
     if (data['className'] == 'AfilnetWhatsAppResponse') {
       return deserialize<_i2.AfilnetWhatsAppResponse>(data['data']);

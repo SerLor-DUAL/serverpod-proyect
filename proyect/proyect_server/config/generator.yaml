@@ -7,5 +7,6 @@ modules:
     nickname: auth
 
 extraClasses:
-  - package:proyect_shared/proyect_shared.dart:GenericApiRequest
-  - package:proyect_shared/proyect_shared.dart:GenericApiResponse
+  - package:proyect_shared_sergio/proyect_shared.dart:GenericApiRequest
+  - package:proyect_shared_sergio/proyect_shared.dart:GenericApiResponse
+  - package:proyect_shared_santiago/proyect_shared.dart:MessageResponse

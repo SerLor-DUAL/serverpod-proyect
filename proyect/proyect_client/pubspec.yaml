@@ -7,5 +7,7 @@ environment:
 dependencies:
   serverpod_auth_client: 2.0.2
   serverpod_client: 2.0.2
-  proyect_shared:
-    path: ../proyect_shared
+  proyect_shared_sergio:
+    path: ../proyect_shared_sergio
+  proyect_shared_santiago:
+    path: ../proyect_shared_santiago

@@ -13,8 +13,12 @@ dependencies:
   envied: ^0.5.4+1
   serverpod_auth_server: 2.0.2
   http: ^1.2.2
-  proyect_shared:
-    path: ../proyect_shared
+  json_serializable: ^6.8.0
+  json_annotation: ^4.9.0
+  proyect_shared_sergio:
+    path: ../proyect_shared_sergio
+  proyect_shared_santiago:
+    path: ../proyect_shared_santiago
 
 dev_dependencies:
   build_runner: ^2.4.11

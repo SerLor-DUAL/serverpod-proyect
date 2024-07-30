@@ -10,15 +10,16 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:proyect_shared/src/generic_api_response.dart' as _i3;
-import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp_response.dart'
+import 'package:proyect_shared_sergio/src/generic_api_response.dart' as _i3;
+import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp.dart'
     as _i4;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i5;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i6;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i7;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i8;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i9;
-import 'protocol.dart' as _i10;
+import 'package:proyect_shared_santiago/src/message_response.dart' as _i10;
+import 'protocol.dart' as _i11;
 
 /// {@category Endpoint}
 class EndpointAfilnetSms extends _i1.EndpointRef {
@@ -428,6 +429,42 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointWhatsApp extends _i1.EndpointRef {
+  EndpointWhatsApp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'whatsApp';
+
+  _i2.Future<_i10.MessageResponse> sendMessageWpp(
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i10.MessageResponse>(
+        'whatsApp',
+        'sendMessageWpp',
+        {
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
+      );
+
+  _i2.Future<_i10.MessageResponse> sendMessageSMS(
+    String username,
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i10.MessageResponse>(
+        'whatsApp',
+        'sendMessageSMS',
+        {
+          'username': username,
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
+      );
+}
+
 class _Modules {
   _Modules(Client client) {
     auth = _i9.Caller(client);
@@ -451,7 +488,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i10.Protocol(),
+          _i11.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -467,6 +504,7 @@ class Client extends _i1.ServerpodClient {
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
+    whatsApp = EndpointWhatsApp(this);
     modules = _Modules(this);
   }
 
@@ -486,6 +524,8 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
+  late final EndpointWhatsApp whatsApp;
+
   late final _Modules modules;
 
   @override
@@ -498,6 +538,7 @@ class Client extends _i1.ServerpodClient {
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
+        'whatsApp': whatsApp,
       };
 
   @override

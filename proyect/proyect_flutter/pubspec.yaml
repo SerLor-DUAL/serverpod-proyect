@@ -44,8 +44,13 @@ dependencies:
   url_launcher_platform_interface: ^2.3.2
   proyect_client:
     path: ../proyect_client
-  proyect_shared:
-    path: ../proyect_shared
+  proyect_shared_sergio:
+    path: ../proyect_shared_sergio
+  proyect_shared_santiago:
+    path: ../proyect_shared_santiago
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
   stroke_text: ^0.0.3
   envied: ^0.5.4+1
@@ -53,6 +58,8 @@ dependencies:
   calendar_date_picker2: ^1.1.5
   serverpod_auth_client: 2.0.2
   http: ^1.2.2
+  json_annotation: ^4.9.0
+  json_serializable: ^6.8.0
 
 dev_dependencies:
   build_runner: ^2.4.11
