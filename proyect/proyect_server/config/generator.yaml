@@ -5,6 +5,3 @@ client_package_path: ../proyect_client
 modules:
   serverpod_auth:
     nickname: auth
-
-extraClasses:
-  - package:proyect_shared/lib/src/messages_app_res.dart:MessagesAppRes

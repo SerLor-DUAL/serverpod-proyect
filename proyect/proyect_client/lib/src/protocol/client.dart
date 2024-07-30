@@ -15,7 +15,8 @@ import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i5;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i6;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'package:proyect_client/src/protocol/whatsapp_res.dart' as _i8;
+import 'protocol.dart' as _i9;
 
 /// {@category Endpoint}
 class EndpointContact extends _i1.EndpointRef {
@@ -85,14 +86,6 @@ class EndpointContact extends _i1.EndpointRef {
         'deleteMultipleContacts',
         {'tasks': tasks},
       );
-}
-
-/// {@category Endpoint}
-class EndpointMessages extends _i1.EndpointRef {
-  EndpointMessages(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'messages';
 }
 
 /// {@category Endpoint}
@@ -387,6 +380,27 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointWhatsApp extends _i1.EndpointRef {
+  EndpointWhatsApp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'whatsApp';
+
+  _i2.Future<_i8.WhatsAppRes> sendMessage(
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i8.WhatsAppRes>(
+        'whatsApp',
+        'sendMessage',
+        {
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
+      );
+}
+
 class _Modules {
   _Modules(Client client) {
     auth = _i7.Caller(client);
@@ -410,7 +424,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i8.Protocol(),
+          _i9.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -419,18 +433,16 @@ class Client extends _i1.ServerpodClient {
           onSucceededCall: onSucceededCall,
         ) {
     contact = EndpointContact(this);
-    messages = EndpointMessages(this);
     tasks = EndpointTasks(this);
     authenticated = EndpointAuthenticated(this);
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
+    whatsApp = EndpointWhatsApp(this);
     modules = _Modules(this);
   }
 
   late final EndpointContact contact;
-
-  late final EndpointMessages messages;
 
   late final EndpointTasks tasks;
 
@@ -442,17 +454,19 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
+  late final EndpointWhatsApp whatsApp;
+
   late final _Modules modules;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'contact': contact,
-        'messages': messages,
         'tasks': tasks,
         'authenticated': authenticated,
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
+        'whatsApp': whatsApp,
       };
 
   @override

@@ -13,8 +13,6 @@ dependencies:
   envied: ^0.5.4+1
   serverpod_auth_server: 2.0.2
   http: ^1.2.2
-  proyect_shared:
-    path: ../proyect_shared
 
 dev_dependencies:
   build_runner: ^2.4.11

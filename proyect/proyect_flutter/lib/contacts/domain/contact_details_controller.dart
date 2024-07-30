@@ -22,13 +22,9 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
-    /*
-    Future<void> sendMessageSMS(String message) async{
+  Future<void> sendMessage(String message) async{
     if (message != ''){
-      MessagesAppRes ret = await widget.client.messages.sendMessageSMS(
-                                                          widget.user.userName,
-                                                          widget.contact.phoneNumber, 
-                                                          message,);
+      WhatsAppRes ret = await widget.client.whatsApp.sendMessage(widget.contact.phoneNumber, message);
       if (ret.status == 'success'){
         await showDialog(
             context: context,
@@ -58,43 +54,9 @@ abstract class ContactDetailsController extends State<ContactDetails> {
               );
             });
       }
+  }
 
-  }
-  Future<void> sendMessageWpp(String message) async{
-    if (message != ''){
-      MessagesAppRes ret = await widget.client.messages.sendMessageWpp(widget.contact.phoneNumber, message);
-      if (ret.status == 'success'){
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const CustomAlertDialog(
-                customTitle: 'Mensaje Enviado',
-                customContent: 'Todo bien',
-              );
-            });
-      } else {
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CustomAlertDialog(
-                customTitle: ret.status,
-                customContent: ret.error?? '',
-              );
-            });
-      }
-    } else {
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const CustomAlertDialog(
-                customTitle: 'Message Error',
-                customContent: "The message can't be empty",
-              );
-            });
-      }
-  }
-*/
-// TODO: ASDASDASD  
+  
 
   Future<Map<String, String>?> checkIfContactIsOnList() async {
     Map<String, String>? error;

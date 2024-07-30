@@ -10,12 +10,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/contact/contacts_endpoint.dart' as _i2;
-import '../endpoints/messages/whatsapp_endpoint.dart' as _i3;
-import '../endpoints/todolist/tasks_endpoint.dart' as _i4;
-import '../endpoints/users/authenticated_endpoint.dart' as _i5;
-import '../endpoints/users/password_generator_endpoint.dart' as _i6;
-import '../endpoints/users/password_options_endpoint.dart' as _i7;
-import '../endpoints/users/users_registry_endpoint.dart' as _i8;
+import '../endpoints/todolist/tasks_endpoint.dart' as _i3;
+import '../endpoints/users/authenticated_endpoint.dart' as _i4;
+import '../endpoints/users/password_generator_endpoint.dart' as _i5;
+import '../endpoints/users/password_options_endpoint.dart' as _i6;
+import '../endpoints/users/users_registry_endpoint.dart' as _i7;
+import '../endpoints/whatsapp/whatsapp_endpoint.dart' as _i8;
 import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
 import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
 import 'package:proyect_server/src/generated/users/password_options.dart'
@@ -33,40 +33,40 @@ class Endpoints extends _i1.EndpointDispatch {
           'contact',
           null,
         ),
-      'messages': _i3.MessagesEndpoint()
-        ..initialize(
-          server,
-          'messages',
-          null,
-        ),
-      'tasks': _i4.TasksEndpoint()
+      'tasks': _i3.TasksEndpoint()
         ..initialize(
           server,
           'tasks',
           null,
         ),
-      'authenticated': _i5.AuthenticatedEndpoint()
+      'authenticated': _i4.AuthenticatedEndpoint()
         ..initialize(
           server,
           'authenticated',
           null,
         ),
-      'passwordGenerator': _i6.PasswordGeneratorEndpoint()
+      'passwordGenerator': _i5.PasswordGeneratorEndpoint()
         ..initialize(
           server,
           'passwordGenerator',
           null,
         ),
-      'passwordOptions': _i7.PasswordOptionsEndpoint()
+      'passwordOptions': _i6.PasswordOptionsEndpoint()
         ..initialize(
           server,
           'passwordOptions',
           null,
         ),
-      'usersRegistry': _i8.UsersRegistryEndpoint()
+      'usersRegistry': _i7.UsersRegistryEndpoint()
         ..initialize(
           server,
           'usersRegistry',
+          null,
+        ),
+      'whatsApp': _i8.WhatsAppEndpoint()
+        ..initialize(
+          server,
+          'whatsApp',
           null,
         ),
     };
@@ -228,11 +228,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    connectors['messages'] = _i1.EndpointConnector(
-      name: 'messages',
-      endpoint: endpoints['messages']!,
-      methodConnectors: {},
-    );
     connectors['tasks'] = _i1.EndpointConnector(
       name: 'tasks',
       endpoint: endpoints['tasks']!,
@@ -250,7 +245,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).addTask(
+              (endpoints['tasks'] as _i3.TasksEndpoint).addTask(
             session,
             params['task'],
           ),
@@ -268,7 +263,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).addListOfTasks(
+              (endpoints['tasks'] as _i3.TasksEndpoint).addListOfTasks(
             session,
             params['tasks'],
           ),
@@ -286,7 +281,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).findById(
+              (endpoints['tasks'] as _i3.TasksEndpoint).findById(
             session,
             params['taskID'],
           ),
@@ -304,7 +299,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).getEveryTaskByUser(
+              (endpoints['tasks'] as _i3.TasksEndpoint).getEveryTaskByUser(
             session,
             params['userID'],
           ),
@@ -322,7 +317,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint)
+              (endpoints['tasks'] as _i3.TasksEndpoint)
                   .getEveryTaskByDeadLineASC(
             session,
             params['idUser'],
@@ -335,7 +330,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint)
+              (endpoints['tasks'] as _i3.TasksEndpoint)
                   .getEveryTaskByDeadLineDES(session),
         ),
         'updateTask': _i1.MethodConnector(
@@ -351,7 +346,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).updateTask(
+              (endpoints['tasks'] as _i3.TasksEndpoint).updateTask(
             session,
             params['task'],
           ),
@@ -369,7 +364,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).toogleComplete(
+              (endpoints['tasks'] as _i3.TasksEndpoint).toogleComplete(
             session,
             params['task'],
           ),
@@ -387,7 +382,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).deleteTask(
+              (endpoints['tasks'] as _i3.TasksEndpoint).deleteTask(
             session,
             params['task'],
           ),
@@ -405,7 +400,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['tasks'] as _i4.TasksEndpoint).deleteMultipleTasks(
+              (endpoints['tasks'] as _i3.TasksEndpoint).deleteMultipleTasks(
             session,
             params['tasks'],
           ),
@@ -423,7 +418,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['authenticated'] as _i5.AuthenticatedEndpoint)
+              (endpoints['authenticated'] as _i4.AuthenticatedEndpoint)
                   .logout(session),
         ),
         'getUserIfAuth': _i1.MethodConnector(
@@ -433,7 +428,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['authenticated'] as _i5.AuthenticatedEndpoint)
+              (endpoints['authenticated'] as _i4.AuthenticatedEndpoint)
                   .getUserIfAuth(session),
         ),
       },
@@ -460,7 +455,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordGenerator'] as _i6.PasswordGeneratorEndpoint)
+              (endpoints['passwordGenerator'] as _i5.PasswordGeneratorEndpoint)
                   .createPassword(
             session,
             params['options'],
@@ -486,7 +481,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordOptions'] as _i7.PasswordOptionsEndpoint)
+              (endpoints['passwordOptions'] as _i6.PasswordOptionsEndpoint)
                   .getOptions(
             session,
             params['optionsID'],
@@ -499,7 +494,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordOptions'] as _i7.PasswordOptionsEndpoint)
+              (endpoints['passwordOptions'] as _i6.PasswordOptionsEndpoint)
                   .getLastID(session),
         ),
         'updateOptions': _i1.MethodConnector(
@@ -515,7 +510,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordOptions'] as _i7.PasswordOptionsEndpoint)
+              (endpoints['passwordOptions'] as _i6.PasswordOptionsEndpoint)
                   .updateOptions(
             session,
             params['options'],
@@ -534,7 +529,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordOptions'] as _i7.PasswordOptionsEndpoint)
+              (endpoints['passwordOptions'] as _i6.PasswordOptionsEndpoint)
                   .createOptions(
             session,
             params['options'],
@@ -553,7 +548,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['passwordOptions'] as _i7.PasswordOptionsEndpoint)
+              (endpoints['passwordOptions'] as _i6.PasswordOptionsEndpoint)
                   .deleteOptions(
             session,
             params['options'],
@@ -572,7 +567,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .getAllUsers(session),
         ),
         'getUserById': _i1.MethodConnector(
@@ -588,7 +583,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .getUserById(
             session,
             params['userId'],
@@ -607,7 +602,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .getUserInfoById(
             session,
             params['userInfoId'],
@@ -626,7 +621,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .getUserByName(
             session,
             params['name'],
@@ -645,7 +640,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .checkUserExistanceByName(
             session,
             params['name'],
@@ -658,7 +653,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .getLastUserID(session),
         ),
         'updateUser': _i1.MethodConnector(
@@ -674,7 +669,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .updateUser(
             session,
             params['user'],
@@ -693,7 +688,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .updateUserInfo(
             session,
             params['userInfo'],
@@ -722,7 +717,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .createUser(
             session,
             params['name'],
@@ -743,7 +738,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .deleteUser(
             session,
             params['user'],
@@ -767,7 +762,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint).login(
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint).login(
             session,
             params['username'],
             params['password'],
@@ -791,7 +786,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .authenticateUser(
             session,
             params['user'],
@@ -816,7 +811,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .validatePassword(
             session,
             params['password'],
@@ -836,12 +831,42 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['usersRegistry'] as _i8.UsersRegistryEndpoint)
+              (endpoints['usersRegistry'] as _i7.UsersRegistryEndpoint)
                   .createUserInfo(
             session,
             params['username'],
           ),
         ),
+      },
+    );
+    connectors['whatsApp'] = _i1.EndpointConnector(
+      name: 'whatsApp',
+      endpoint: endpoints['whatsApp']!,
+      methodConnectors: {
+        'sendMessage': _i1.MethodConnector(
+          name: 'sendMessage',
+          params: {
+            'phoneNumber': _i1.ParameterDescription(
+              name: 'phoneNumber',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'message': _i1.ParameterDescription(
+              name: 'message',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint).sendMessage(
+            session,
+            params['phoneNumber'],
+            params['message'],
+          ),
+        )
       },
     );
     modules['serverpod_auth'] = _i13.Endpoints()..initializeEndpoints(server);
