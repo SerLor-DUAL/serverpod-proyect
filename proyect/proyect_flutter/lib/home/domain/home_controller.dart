@@ -70,7 +70,7 @@ abstract class HomeController extends State<Home> {
 
   bool _isSidebarExpanded = true; // ACTUAL STATUS
   bool _isSidebarManuallyToggled = false; // MANUAL TOGGLE OF SIDEBAR
-  final double _sidebarBreakpoint = 600.0;
+  final double _sidebarBreakpoint = 960.0;
   double screenWidth = 0.0;
 
   // UPDATES SCREEN SIZING

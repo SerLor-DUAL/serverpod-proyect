@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
+part '../domain/user_config_controller.dart';
 
 class UserProfileConfig extends StatefulWidget {
   final Client client;
@@ -15,30 +16,12 @@ class UserProfileConfig extends StatefulWidget {
     required this.userInfo
   });
   
-
   @override
-  _UserProfileConfigState createState() => _UserProfileConfigState();
+  createState() => _UserProfileConfig();
 }
 
-class _UserProfileConfigState extends State<UserProfileConfig> {
+class _UserProfileConfig extends UserProfileConfigController{
   
-  Future<void> updateUserPicture() async{
-    await showDialog(
-            context: context,
-            builder: (context) {
-              return ProfilePictureSelector(
-                userInfo: widget.userInfo,
-                client: widget.client,
-              );
-            }
-          );
-  }
-
-  // TODO: FINISH THIS.
-  Future<void> updateUserInfo() async{
-    UserInfo newuserInfo = widget.userInfo;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +34,7 @@ class _UserProfileConfigState extends State<UserProfileConfig> {
           children: [
             GestureDetector(
               onTap: () {
-                // Add your image picker logic here
+              
               },
               child: CircleAvatar(
                 radius: 50,
@@ -113,7 +96,6 @@ class _UserProfileConfigState extends State<UserProfileConfig> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add your save logic here
               },
               child: const Text('Save'),
             ),

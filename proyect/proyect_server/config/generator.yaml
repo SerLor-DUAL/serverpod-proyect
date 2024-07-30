@@ -5,3 +5,7 @@ client_package_path: ../proyect_client
 modules:
   serverpod_auth:
     nickname: auth
+
+extraClasses:
+  - package:proyect_shared/proyect_shared.dart:GenericApiRequest
+  - package:proyect_shared/proyect_shared.dart:GenericApiResponse

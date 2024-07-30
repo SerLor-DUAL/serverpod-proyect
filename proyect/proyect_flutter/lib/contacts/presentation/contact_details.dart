@@ -1,51 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/services/afilnet_service.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
-import 'package:proyect_client/proyect_client.dart';
+
 part '../domain/contact_details_controller.dart';
 
 class ContactDetails extends StatefulWidget {
   final Contact contact;
   final Client client;
   final UsersRegistry user;
-
-  // FUNCIÓN DE CALLBACK PARA ACTUALIZAR EL ÍNDICE
   final void Function(int) updateHomeIndex;
 
-  const ContactDetails(
-      {super.key,
-      required this.contact,
-      required this.client,
-      required this.user,
-      required this.updateHomeIndex});
+  const ContactDetails({
+    super.key,
+    required this.contact,
+    required this.client,
+    required this.user,
+    required this.updateHomeIndex,
+  });
 
   @override
-  createState() => _ContactDetails();
+ createState() => _ContactDetails();
 }
 
-class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
-  late TabController _tabController;
+class _ContactDetails extends ContactDetailsController {
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
+    _afilnetService = AfilnetService(widget.client);
   }
 
   @override
   void dispose() {
     _tabController.removeListener(_handleTabChange);
     _tabController.dispose();
+    _messageController.dispose();
     super.dispose();
   }
 
-  void _handleTabChange() {
-    if (_tabController.indexIsChanging && _tabController.index == 1) {
-      widget.updateHomeIndex(1);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,53 +119,47 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // UI elements
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // PROFILE IMAGE
               Stack(
                 alignment: Alignment.topRight,
                 children: [
-
-                  // CIRCLEAVATAR WITH BACKGROUND IMAGE OR DEFAULT AVATAR
                   CircleAvatar(
-                    backgroundImage: (contact.profileIMG != null)? AssetImage(contact.profileIMG!): null,
-                    backgroundColor: (contact.profileIMG != null)? Colors.transparent : const Color(0xFF369DD8),
+                    backgroundImage: (contact.profileIMG != null) ? AssetImage(contact.profileIMG!) : null,
+                    backgroundColor: (contact.profileIMG != null) ? Colors.transparent : const Color(0xFF369DD8),
                     radius: 40,
-                    child: (contact.profileIMG == null)?
-                                Text(  
-                                  widget.contact.name[0].toUpperCase(),
-                                  style: const TextStyle(
-                                    color: Colors.white, 
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24.00)
-                                ) :
-                                null,
-                    
-                    //backgroundColor: Colors.blueAccent,
+                    child: (contact.profileIMG == null)
+                        ? Text(
+                            widget.contact.name[0].toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24.00),
+                          )
+                        : null,
                   ),
                   Positioned(
-                          right: 2,
-                          bottom: 2,
-                          child: CircleAvatar(
-                            radius: 14,
-                            backgroundColor: Colors.blue,
-                            child: IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.white, size: 16),
-                              onPressed: () async{
-                                await updateContactPicture();
-                                setState(() {});
-                              },
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(), 
-                            ),
-                          ),
-                        ),
+                    right: 2,
+                    bottom: 2,
+                    child: CircleAvatar(
+                      radius: 14,
+                      backgroundColor: Colors.blue,
+                      child: IconButton(
+                        icon: const Icon(Icons.edit, color: Colors.white, size: 16),
+                        onPressed: () async {
+                          await _updateContactPicture();
+                          setState(() {});
+                        },
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(width: 20.0),
-
-              // COLUMN FOR CONTACT INFORMATION
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,8 +183,6 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
                 ),
               ),
               const SizedBox(width: 20.0),
-
-              // COLUMN FOR ACTION BUTTONS
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -261,10 +250,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               ),
             ],
           ),
-
           const SizedBox(height: 50.0),
-
-          // MESSAGE SECTION
           Container(
             height: 420,
             padding: const EdgeInsets.all(16.0),
@@ -303,6 +289,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _messageController,
                     style: const TextStyle(color: Color(0xFF369DD8)),
                     minLines: 2,
                     maxLines: 10,
@@ -325,7 +312,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: _sendSms,
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                     padding: const EdgeInsets.all(30.0),

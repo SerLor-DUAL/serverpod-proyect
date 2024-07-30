@@ -24,10 +24,7 @@ void main() async {
     userInfo = await getUserInfoIfAuth(authUser);
   }
 
-
   runApp(MyApp(user: authUser, userInfo: userInfo,));
-
-  
 }
 
 // ------------------------ METHODS ------------------------- \\

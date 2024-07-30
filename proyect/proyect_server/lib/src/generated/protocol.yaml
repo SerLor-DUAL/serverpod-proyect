@@ -1,3 +1,7 @@
+afilnetSms:
+  - sendSms:
+afilnetWhatsApp:
+  - sendMessage:
 contact:
   - addContact:
   - addListOfContacts:

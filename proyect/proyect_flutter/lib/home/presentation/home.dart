@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_flutter/common/services/app_routes.dart';
 import 'package:proyect_flutter/contacts/presentation/contact_details.dart';
@@ -130,11 +129,11 @@ class _Home extends HomeController {
 
           // MENU USER
           buildSideBarItem(
-            icon: FontAwesomeIcons.solidCircleUser,
-            text: _isSidebarExpanded ? widget.user.userName : '',
+            icon: null,                                             // NULL FOR ACTIVATED AVATAR IMAGE
+            imageUrl: widget.userInfo?.imageUrl,                    // CONDITIONAL FOR IMAGE URL
+            text: _isSidebarExpanded ? widget.user.userName : '',   // USER NAME IF SIDEBAR IS EXPANDED
             borderQuantity: _isSidebarExpanded ? 40 : 0,
           ),
-
           const SizedBox(height: 20),
 
           // OPTIONS MENU USER
@@ -194,6 +193,7 @@ class _Home extends HomeController {
           // MENU CONTACTS
           buildSideBarItem(
             icon: Icons.people,
+            imageUrl: null, // NULL FOR DEACTIVATED AVATAR IMAGE
             text: _isSidebarExpanded ? 'Contacts' : '',
             borderQuantity: _isSidebarExpanded ? 40 : 0,
           ),

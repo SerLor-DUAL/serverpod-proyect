@@ -12,13 +12,16 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
-import 'contacts/contacts.dart' as _i4;
-import 'todolist/tasks.dart' as _i5;
-import 'users/password_options.dart' as _i6;
-import 'users/users_registry.dart' as _i7;
-import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i8;
-import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i9;
-import 'package:proyect_server/src/generated/users/users_registry.dart' as _i10;
+import 'afilnet/afilnet_whatsapp_response.dart' as _i4;
+import 'contacts/contacts.dart' as _i5;
+import 'todolist/tasks.dart' as _i6;
+import 'users/password_options.dart' as _i7;
+import 'users/users_registry.dart' as _i8;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
+import 'package:proyect_shared/proyect_shared.dart' as _i12;
+export 'afilnet/afilnet_whatsapp_response.dart';
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -390,42 +393,62 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i4.Contact) {
-      return _i4.Contact.fromJson(data) as T;
+    if (t == _i4.AfilnetWhatsAppResponse) {
+      return _i4.AfilnetWhatsAppResponse.fromJson(data) as T;
     }
-    if (t == _i5.Task) {
-      return _i5.Task.fromJson(data) as T;
+    if (t == _i5.Contact) {
+      return _i5.Contact.fromJson(data) as T;
     }
-    if (t == _i6.PasswordOptions) {
-      return _i6.PasswordOptions.fromJson(data) as T;
+    if (t == _i6.Task) {
+      return _i6.Task.fromJson(data) as T;
     }
-    if (t == _i7.UsersRegistry) {
-      return _i7.UsersRegistry.fromJson(data) as T;
+    if (t == _i7.PasswordOptions) {
+      return _i7.PasswordOptions.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i4.Contact?>()) {
-      return (data != null ? _i4.Contact.fromJson(data) : null) as T;
+    if (t == _i8.UsersRegistry) {
+      return _i8.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i5.Task?>()) {
-      return (data != null ? _i5.Task.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.AfilnetWhatsAppResponse?>()) {
+      return (data != null ? _i4.AfilnetWhatsAppResponse.fromJson(data) : null)
+          as T;
     }
-    if (t == _i1.getType<_i6.PasswordOptions?>()) {
-      return (data != null ? _i6.PasswordOptions.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.Contact?>()) {
+      return (data != null ? _i5.Contact.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.UsersRegistry?>()) {
-      return (data != null ? _i7.UsersRegistry.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.Task?>()) {
+      return (data != null ? _i6.Task.fromJson(data) : null) as T;
     }
-    if (t == List<_i8.Contact>) {
-      return (data as List).map((e) => deserialize<_i8.Contact>(e)).toList()
+    if (t == _i1.getType<_i7.PasswordOptions?>()) {
+      return (data != null ? _i7.PasswordOptions.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i8.UsersRegistry?>()) {
+      return (data != null ? _i8.UsersRegistry.fromJson(data) : null) as T;
+    }
+    if (t == List<_i9.Contact>) {
+      return (data as List).map((e) => deserialize<_i9.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.Task>) {
-      return (data as List).map((e) => deserialize<_i9.Task>(e)).toList()
+    if (t == List<_i10.Task>) {
+      return (data as List).map((e) => deserialize<_i10.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i10.UsersRegistry>) {
+    if (t == List<_i11.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i10.UsersRegistry>(e))
+          .map((e) => deserialize<_i11.UsersRegistry>(e))
           .toList() as dynamic;
+    }
+    if (t == _i12.GenericApiRequest) {
+      return _i12.GenericApiRequest.fromJson(data) as T;
+    }
+    if (t == _i12.GenericApiResponse) {
+      return _i12.GenericApiResponse.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i12.GenericApiRequest?>()) {
+      return (data != null ? _i12.GenericApiRequest.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i12.GenericApiResponse?>()) {
+      return (data != null ? _i12.GenericApiResponse.fromJson(data) : null)
+          as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -443,16 +466,25 @@ class Protocol extends _i1.SerializationManagerServer {
     if (className != null) {
       return 'serverpod_auth.$className';
     }
-    if (data is _i4.Contact) {
+    if (data is _i12.GenericApiRequest) {
+      return 'GenericApiRequest';
+    }
+    if (data is _i12.GenericApiResponse) {
+      return 'GenericApiResponse';
+    }
+    if (data is _i4.AfilnetWhatsAppResponse) {
+      return 'AfilnetWhatsAppResponse';
+    }
+    if (data is _i5.Contact) {
       return 'Contact';
     }
-    if (data is _i5.Task) {
+    if (data is _i6.Task) {
       return 'Task';
     }
-    if (data is _i6.PasswordOptions) {
+    if (data is _i7.PasswordOptions) {
       return 'PasswordOptions';
     }
-    if (data is _i7.UsersRegistry) {
+    if (data is _i8.UsersRegistry) {
       return 'UsersRegistry';
     }
     return super.getClassNameForObject(data);
@@ -464,17 +496,26 @@ class Protocol extends _i1.SerializationManagerServer {
       data['className'] = data['className'].substring(15);
       return _i3.Protocol().deserializeByClassName(data);
     }
+    if (data['className'] == 'GenericApiRequest') {
+      return deserialize<_i12.GenericApiRequest>(data['data']);
+    }
+    if (data['className'] == 'GenericApiResponse') {
+      return deserialize<_i12.GenericApiResponse>(data['data']);
+    }
+    if (data['className'] == 'AfilnetWhatsAppResponse') {
+      return deserialize<_i4.AfilnetWhatsAppResponse>(data['data']);
+    }
     if (data['className'] == 'Contact') {
-      return deserialize<_i4.Contact>(data['data']);
+      return deserialize<_i5.Contact>(data['data']);
     }
     if (data['className'] == 'Task') {
-      return deserialize<_i5.Task>(data['data']);
+      return deserialize<_i6.Task>(data['data']);
     }
     if (data['className'] == 'PasswordOptions') {
-      return deserialize<_i6.PasswordOptions>(data['data']);
+      return deserialize<_i7.PasswordOptions>(data['data']);
     }
     if (data['className'] == 'UsersRegistry') {
-      return deserialize<_i7.UsersRegistry>(data['data']);
+      return deserialize<_i8.UsersRegistry>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -494,14 +535,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.Contact:
-        return _i4.Contact.t;
-      case _i5.Task:
-        return _i5.Task.t;
-      case _i6.PasswordOptions:
-        return _i6.PasswordOptions.t;
-      case _i7.UsersRegistry:
-        return _i7.UsersRegistry.t;
+      case _i5.Contact:
+        return _i5.Contact.t;
+      case _i6.Task:
+        return _i6.Task.t;
+      case _i7.PasswordOptions:
+        return _i7.PasswordOptions.t;
+      case _i8.UsersRegistry:
+        return _i8.UsersRegistry.t;
     }
     return null;
   }

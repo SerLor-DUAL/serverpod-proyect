@@ -1,0 +1,5 @@
+class: AfilnetWhatsAppResponse
+fields:
+  status: String
+  result: String?
+  error: String?

@@ -1,97 +1,198 @@
 part of '../presentation/contact_details.dart';
 
-abstract class ContactDetailsController extends State<ContactDetails> {
-  // List of asset paths for profile pictures
-    final profilePictures = [
-      'assets/img/profiles/profile1.jpg',
-      'assets/img/profiles/profile2.jpg',
-      'assets/img/profiles/profile3.jpg'
-    ];
+abstract class ContactDetailsController extends State<ContactDetails> with TickerProviderStateMixin 
+{
 
-  // CONTROLLERS
+  @override
+  void initState() 
+  {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);     // INITIALIZE TAB CONTROLLER WITH 2 TABS AND A TICKER PROVIDER
+    _afilnetService = AfilnetService(widget.client);            // INITIALIZE THE AFILNET SERVICE WITH THE CLIENT
+    _tabController.addListener(_handleTabChange);               // ADD A LISTENER TO HANDLE TAB CHANGES
+  }
+
+  // --------------------------- TAB FUNCTIONS ---------------------------------//
+
+  // TAB CONTROLLER TO MANAGE TABS IN THE UI
+  late TabController _tabController;
+
+  // HANDLES CHANGES BETWEEN TABS
+  void _handleTabChange() 
+  {
+    if (_tabController.indexIsChanging && _tabController.index == 1) 
+    {
+      widget.updateHomeIndex(1);
+    }
+  }
+
+  // ----------------------------------------------------------------------------//
+
+  // SERVICE FOR INTERACTING WITH THE AFILNET API
+  late AfilnetService _afilnetService;
+
+  // TEXT CONTROLLER FOR THE MESSAGE INPUT
+  final TextEditingController _messageController = TextEditingController();
+
+  // -------------------------- SMS FUNCTIONS -----------------------------------//
+
+  void _sendSms() async {
+    String sms = _messageController.text;
+    try {
+      final response = await _afilnetService.sendSms(
+        widget.contact.phoneNumber,
+        sms,
+      );
+      if (response.status == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('SMS sent successfully!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send SMS: ${response.error}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to send SMS: $e')),
+      );
+    }
+  }
+
+  // ----------------------------------------------------------------------------//
+
+  // ---------------------- MESSAGING FUNCTIONS ---------------------------------//
+
+  // SEND A MESSAGE USING THE AFILNET SERVICE
+  void _sendMessage() async 
+  {
+    String message = _messageController.text;
+    try 
+    {
+      // CALL THE SERVICE TO SEND THE MESSAGE
+      final response = await _afilnetService.sendMessage(widget.contact.phoneNumber, message);
+      if (response.status == 'success') 
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Message sent successfully!')),  // SHOW SUCCESS SNACKBAR IF MESSAGE SENT SUCCESSFULLY
+        );
+      } 
+      else 
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send message: ${response.error}')), // SHOW ERROR SNACKBAR IF MESSAGE SENDING FAILED
+        );
+      }
+    } 
+    catch (e) 
+    {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to send message: $e')),  // SHOW ERROR SNACKBAR IF AN EXCEPTION OCCURS
+      );
+    }
+  }
+
+  // ----------------------------------------------------------------------------//
+
+    // ------------------------ CONTACT FUNCTIONS ---------------------------------//
+
+  // TEXT CONTROLLERS FOR CONTACT DATA
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _phoneCon = TextEditingController();
 
-  // TAKES CONTROLLER'S DATA AND CREATE A TASK
-  Contact updateContactWithData() {
-    Contact updatedContact = widget.contact;
-    updatedContact.name =
-        (_nameCon.text == '') ? updatedContact.name : _nameCon.text;
-    updatedContact.phoneNumber =
-        (_phoneCon.text == '') ? updatedContact.phoneNumber : _phoneCon.text;
-    return updatedContact;
+  // RETURNS TRUE IF THE PHONE NUMBER MATCHES THE EXPECTED FORMAT
+  bool _isPhoneMatch(String phoneNumber) 
+  {
+    RegExp exp = RegExp(r'^[0-9]{9}$');
+    return exp.hasMatch(phoneNumber);
   }
 
-  
-
-  Future<Map<String, String>?> checkIfContactIsOnList() async {
+  // CHECK IF THE CONTACT IS ALREADY IN THE LIST OR PHONE NUMBER IS VALID
+  Future<Map<String, String>?> _checkIfContactIsOnList() async 
+  {
     Map<String, String>? error;
-    
-    if (isPhoneMatch(_phoneCon.text)){
-      bool isContactOnList =
-          await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
 
-      if (isContactOnList) {
-        if (widget.contact.phoneNumber != _phoneCon.text){
+    if (_isPhoneMatch(_phoneCon.text)) 
+    {
+      bool isContactOnList = await widget.client.contact.isContactOnList(_phoneCon.text, widget.user.id!);
+
+      if (isContactOnList) 
+      {
+        if (widget.contact.phoneNumber != _phoneCon.text) 
+        {
           error = {
             'errorTitle': 'Contact in list',
             'errorMessage': 'That contact is already in the list'
           };
         }
       }
-    } else {
+    } 
+    else 
+    {
       error = {
-            'errorTitle': "Phone doesn't match",
-            'errorMessage': 'Phone must have 9 nums'
+        'errorTitle': "Phone doesn't match",
+        'errorMessage': 'Phone must have 9 nums'
       };
     }
-
-
     return error;
   }
 
-  Future<void> updateContactPicture() async{
+  // ------------------------ UPDATE FUNCTIONS ---------------------------------//
+
+  // UPDATE THE CONTACT'S PROFILE PICTURE
+  Future<void> _updateContactPicture() async 
+  {
     await showDialog(
-            context: context,
-            builder: (context) {
-              return ProfilePictureSelector(
-                contact: widget.contact,
-                client: widget.client,
-              );
-            }
-          );
+      context: context,
+      builder: (context) {
+        return ProfilePictureSelector(
+          contact: widget.contact,
+          client: widget.client,
+        );
+      }
+    );
   }
-  // IF THERE'S NO ERROR IN THE CONTACT. UPDATES THE TASK IN THE DB, ELSE POPUP ErrorAlertDialog
-  Future<void> updateContact() async {
 
+  // UPDATES CONTACT DATA BASED ON CONTROLLER INPUT
+  Contact _updateContactWithData() 
+  {
+    Contact updatedContact = widget.contact;
+    updatedContact.name = (_nameCon.text == '') ? updatedContact.name : _nameCon.text;
+    updatedContact.phoneNumber = (_phoneCon.text == '') ? updatedContact.phoneNumber : _phoneCon.text;
+    Navigator.pop(context);
+    return updatedContact;
+  }
+
+  // UPDATE THE CONTACT IF NO ERROR OCCURS, OTHERWISE SHOW ERROR DIALOG
+  Future<void> _updateContact() async 
+  {
     Map<String, String>? error =
-        await checkIfContactIsOnList();
-    if (error == null){
-      Contact updatedContact = updateContactWithData();
+        await _checkIfContactIsOnList();
+    if (error == null) 
+    {
+      Contact updatedContact = _updateContactWithData();
       await widget.client.contact.updateContact(updatedContact);
-      } 
-      else {
-        if (mounted)
-          {
-            await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return CustomAlertDialog(
-                    customTitle: error["errorTitle"]!,
-                    customContent: error["errorMessage"]!,
-                  );
-                }
-              );
+    } 
+    else 
+    {
+      if (mounted) 
+      {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomAlertDialog(
+              customTitle: error["errorTitle"]!,
+              customContent: error["errorMessage"]!,
+            );
           }
-          }
+        );
+      }
+    }
   }
 
-  Future<void> deleteContact(Contact contact) async {
-    await widget.client.contact.deleteContact(contact);
-  }
-
-  // CUSTOM INPUT DIALOG FOR UPDATE OF CONTACTS
-  Future<void> _askForUpdateToDoInput() async {
+  // CUSTOM INPUT DIALOG FOR UPDATING CONTACT DETAILS
+  Future<void> _askForUpdateToDoInput() async 
+  {
     _nameCon.text = widget.contact.name;
     _phoneCon.text = widget.contact.phoneNumber;
     await showDialog(
@@ -99,20 +200,19 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       builder: (BuildContext context) => CustomInputDialog(
         client: widget.client,
         title: 'Edit Contact',
-        content: null, // NO QUIERO CONTENIDO AQUÍ
+        content: null, // NO CONTENT REQUIRED HERE
         textControllers: [_nameCon, _phoneCon],
         labels: const ['Name', 'Phone'],
         actions: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
             child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () async {
-              await updateContact();
-              Navigator.of(context).pop();
+              await _updateContact();
             },
             child: const Text('Edit Contact'),
           ),
@@ -121,8 +221,19 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     );
   }
 
-  // BUTTON CREATOR FOR LOG OUT
-  void _askForDeleteConfirmation(Contact contact) async {
+  // ----------------------------------------------------------------------------//
+
+  // ------------------------ DELETE FUNCTIONS ----------------------------------//
+
+  // DELETE THE SPECIFIED CONTACT
+  Future<void> _deleteContact(Contact contact) async 
+  {
+    await widget.client.contact.deleteContact(contact);
+  }
+
+  // CONFIRMATION DIALOG FOR DELETING CONTACT
+  void _askForDeleteConfirmation(Contact contact) async 
+  {
     await showDialog(
       context: context,
       builder: (context) => CustomAlertDialog(
@@ -137,7 +248,7 @@ abstract class ContactDetailsController extends State<ContactDetails> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await deleteContact(contact);
+              await _deleteContact(contact);
               if (!context.mounted) return;
               widget.updateHomeIndex(1);
               Navigator.pop(context);
@@ -148,10 +259,9 @@ abstract class ContactDetailsController extends State<ContactDetails> {
       ),
     );
   }
-    // ------------------------ Format Methods ------------------------- \\
-  // RETURNS TRUE IF THE PHONE IS A MATCH
-  bool isPhoneMatch(String phoneNumber) {
-    RegExp exp = RegExp(r'^[0-9]{9}$');
-    return exp.hasMatch(phoneNumber);
-  }
+  
+  // ----------------------------------------------------------------------------//
+
+    // ----------------------------------------------------------------------------//
+
 }
