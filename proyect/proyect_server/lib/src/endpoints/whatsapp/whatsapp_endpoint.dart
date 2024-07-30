@@ -1,3 +1,4 @@
+import 'package:folder_shared/message_response.dart';
 import 'package:proyect_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ class WhatsAppEndpoint extends Endpoint{
 
 
   // SENDS A COMMON MESSAGE
-  Future<WhatsAppRes> sendMessage(Session session, String phoneNumber, String message) async{
+  Future<MessageResponse> sendMessageWpp(Session session, String phoneNumber, String message) async{
     // SET UP URL
     var url = Uri.https(URL, '/api/http/' ,{
       'class' : 'whatsapp', 
@@ -26,7 +27,27 @@ class WhatsAppEndpoint extends Endpoint{
       );
     var response = await http.get(url);
     final ret = jsonDecode(response.body); 
-    return WhatsAppRes.fromJson(ret); 
+    return MessageResponse.fromJson(ret); 
+
+  }
+  // SENDS A COMMON MESSAGE
+  Future<MessageResponse> sendMessageSMS(Session session, String username, String phoneNumber, String message) async{
+    // SET UP URL
+    var url = Uri.https(URL, '/api/http/', {
+      'class' : 'sms', 
+      'method' : 'sendsms', 
+      'user' : api_username,        // USERNAME
+      'password' : api_password,   // PASSWORD
+      'from' : username,
+      'to' : phoneNumber, // Number to send message
+      'sms' : message,  // Message content
+      'scheduledatetime' : null,
+      'output' : null
+      }
+      );
+    var response = await http.get(url);
+    final ret = jsonDecode(response.body); 
+    return MessageResponse.fromJson(ret); 
 
   }
 

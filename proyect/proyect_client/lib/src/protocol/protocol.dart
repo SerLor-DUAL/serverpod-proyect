@@ -18,7 +18,8 @@ import 'whatsapp_res.dart' as _i6;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i7;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i8;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i9;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i10;
+import 'package:folder_shared/message_response.dart' as _i10;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i11;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -82,8 +83,14 @@ class Protocol extends _i1.SerializationManager {
           .map((e) => deserialize<_i9.UsersRegistry>(e))
           .toList() as dynamic;
     }
+    if (t == _i10.MessageResponse) {
+      return _i10.MessageResponse.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i10.MessageResponse?>()) {
+      return (data != null ? _i10.MessageResponse.fromJson(data) : null) as T;
+    }
     try {
-      return _i10.Protocol().deserialize<T>(data, t);
+      return _i11.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -91,9 +98,12 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i10.Protocol().getClassNameForObject(data);
+    className = _i11.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
+    }
+    if (data is _i10.MessageResponse) {
+      return 'MessageResponse';
     }
     if (data is _i2.Contact) {
       return 'Contact';
@@ -117,7 +127,10 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i10.Protocol().deserializeByClassName(data);
+      return _i11.Protocol().deserializeByClassName(data);
+    }
+    if (data['className'] == 'MessageResponse') {
+      return deserialize<_i10.MessageResponse>(data['data']);
     }
     if (data['className'] == 'Contact') {
       return deserialize<_i2.Contact>(data['data']);

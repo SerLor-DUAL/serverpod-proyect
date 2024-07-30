@@ -843,8 +843,8 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'whatsApp',
       endpoint: endpoints['whatsApp']!,
       methodConnectors: {
-        'sendMessage': _i1.MethodConnector(
-          name: 'sendMessage',
+        'sendMessageWpp': _i1.MethodConnector(
+          name: 'sendMessageWpp',
           params: {
             'phoneNumber': _i1.ParameterDescription(
               name: 'phoneNumber',
@@ -861,12 +861,42 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint).sendMessage(
+              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint).sendMessageWpp(
             session,
             params['phoneNumber'],
             params['message'],
           ),
-        )
+        ),
+        'sendMessageSMS': _i1.MethodConnector(
+          name: 'sendMessageSMS',
+          params: {
+            'username': _i1.ParameterDescription(
+              name: 'username',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'phoneNumber': _i1.ParameterDescription(
+              name: 'phoneNumber',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'message': _i1.ParameterDescription(
+              name: 'message',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint).sendMessageSMS(
+            session,
+            params['username'],
+            params['phoneNumber'],
+            params['message'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i13.Endpoints()..initializeEndpoints(server);

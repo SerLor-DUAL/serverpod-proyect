@@ -20,6 +20,7 @@ import 'whatsapp_res.dart' as _i8;
 import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
 import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
 import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
+import 'package:folder_shared/message_response.dart' as _i12;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -435,6 +436,12 @@ class Protocol extends _i1.SerializationManagerServer {
           .map((e) => deserialize<_i11.UsersRegistry>(e))
           .toList() as dynamic;
     }
+    if (t == _i12.MessageResponse) {
+      return _i12.MessageResponse.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i12.MessageResponse?>()) {
+      return (data != null ? _i12.MessageResponse.fromJson(data) : null) as T;
+    }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
@@ -450,6 +457,9 @@ class Protocol extends _i1.SerializationManagerServer {
     className = _i3.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
+    }
+    if (data is _i12.MessageResponse) {
+      return 'MessageResponse';
     }
     if (data is _i4.Contact) {
       return 'Contact';
@@ -474,6 +484,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
       return _i3.Protocol().deserializeByClassName(data);
+    }
+    if (data['className'] == 'MessageResponse') {
+      return deserialize<_i12.MessageResponse>(data['data']);
     }
     if (data['className'] == 'Contact') {
       return deserialize<_i4.Contact>(data['data']);
