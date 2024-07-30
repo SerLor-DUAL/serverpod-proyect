@@ -20,7 +20,7 @@ import 'whatsapp_res.dart' as _i8;
 import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
 import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
 import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
-import 'package:folder_shared/message_response.dart' as _i12;
+import 'package:shared_folder_santiago/proyect_shared.dart' as _i12;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';

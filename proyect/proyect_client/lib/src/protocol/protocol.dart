@@ -18,7 +18,7 @@ import 'whatsapp_res.dart' as _i6;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i7;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i8;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i9;
-import 'package:folder_shared/message_response.dart' as _i10;
+import 'package:shared_folder_santiago/proyect_shared.dart' as _i10;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i11;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';

@@ -13,8 +13,8 @@ dependencies:
   envied: ^0.5.4+1
   serverpod_auth_server: 2.0.2
   http: ^1.2.2
-  folder_shared:
-    path: ../folder_shared
+  shared_folder_santiago:
+    path: ../shared_folder_santiago
   json_serializable: ^6.8.0
   json_annotation: ^4.9.0
 

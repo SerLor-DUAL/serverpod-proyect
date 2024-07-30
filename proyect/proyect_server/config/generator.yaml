@@ -7,4 +7,4 @@ modules:
     nickname: auth
 
 extraClasses:
-  - package:folder_shared/message_response.dart:MessageResponse
+  - package:shared_folder_santiago/proyect_shared.dart:MessageResponse
