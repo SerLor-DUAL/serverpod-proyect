@@ -22,6 +22,40 @@ abstract class ContactDetailsController extends State<ContactDetails> {
     return updatedContact;
   }
 
+  Future<void> sendMessage(String message) async{
+    if (message != ''){
+      WhatsAppRes ret = await widget.client.whatsApp.sendMessage(widget.contact.phoneNumber, message);
+      if (ret.status == 'success'){
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Mensaje Enviado',
+                customContent: 'Todo bien',
+              );
+            });
+      } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: ret.status,
+                customContent: ret.error?? '',
+              );
+            });
+      }
+    } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Message Error',
+                customContent: "The message can't be empty",
+              );
+            });
+      }
+  }
+
   
 
   Future<Map<String, String>?> checkIfContactIsOnList() async {
