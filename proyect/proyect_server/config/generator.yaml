@@ -7,4 +7,4 @@ modules:
     nickname: auth
 
 extraClasses:
-  - package:proyect_shared/lib/src/messages_app_res.dart:MessagesAppRes
+  - package:proyect_shared/lib/messages_app_res.dart:MessagesAppRes

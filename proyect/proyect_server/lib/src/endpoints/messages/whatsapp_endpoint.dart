@@ -1,15 +1,15 @@
 import 'package:proyect_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyect_server/env/env.dart';
+import 'package:proyect_server/src/env/env.dart';
 
 import 'dart:convert';
 
 
 class MessagesEndpoint extends Endpoint{
   final URL = 'www.afilnet.com';
-  final api_username = Env.wppUser;
-  final api_password = Env.wppPassword;
+  final api_username = Env.apiUser;
+  final api_password = Env.apiPassword;
   /*
 
   // SENDS A COMMON MESSAGE
