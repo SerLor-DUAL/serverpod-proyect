@@ -88,6 +88,14 @@ class EndpointContact extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointMessages extends _i1.EndpointRef {
+  EndpointMessages(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'messages';
+}
+
+/// {@category Endpoint}
 class EndpointTasks extends _i1.EndpointRef {
   EndpointTasks(_i1.EndpointCaller caller) : super(caller);
 
@@ -411,6 +419,7 @@ class Client extends _i1.ServerpodClient {
           onSucceededCall: onSucceededCall,
         ) {
     contact = EndpointContact(this);
+    messages = EndpointMessages(this);
     tasks = EndpointTasks(this);
     authenticated = EndpointAuthenticated(this);
     passwordGenerator = EndpointPasswordGenerator(this);
@@ -420,6 +429,8 @@ class Client extends _i1.ServerpodClient {
   }
 
   late final EndpointContact contact;
+
+  late final EndpointMessages messages;
 
   late final EndpointTasks tasks;
 
@@ -436,6 +447,7 @@ class Client extends _i1.ServerpodClient {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'contact': contact,
+        'messages': messages,
         'tasks': tasks,
         'authenticated': authenticated,
         'passwordGenerator': passwordGenerator,

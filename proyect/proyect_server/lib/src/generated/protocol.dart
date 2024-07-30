@@ -19,7 +19,7 @@ import 'users/users_registry.dart' as _i7;
 import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i8;
 import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i9;
 import 'package:proyect_server/src/generated/users/users_registry.dart' as _i10;
-import 'package:proyect_shared/lib/messages_app_res.dart' as _i11;
+import 'package:proyect_shared/lib/src/messages_app_res.dart' as _i11;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';

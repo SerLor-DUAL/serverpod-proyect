@@ -7,6 +7,7 @@ contact:
   - updateContact:
   - deleteContact:
   - deleteMultipleContacts:
+messages:
 tasks:
   - addTask:
   - addListOfTasks:

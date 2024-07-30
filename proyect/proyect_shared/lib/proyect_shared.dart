@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export 'proyect_shared_base.dart';
+export 'src/proyect_shared_base.dart';
 
 // TODO: Export any libraries intended for clients of this package.
