@@ -7,4 +7,6 @@ environment:
 dependencies:
   serverpod_auth_client: 2.0.2
   serverpod_client: 2.0.2
+  folder_shared:
+    path: ../folder_shared
 
