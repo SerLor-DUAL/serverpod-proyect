@@ -102,6 +102,7 @@ abstract class ContactListController extends State<ContactList> {
         client: widget.client,
         user: widget.user,
         title: 'Add Contact',
+        isPhone: true,
         content: null, // NO QUIERO CONTENIDO AQUÍ
         textControllers: [_nameCon, _phoneCon],
         labels: const ['Name', 'Phone'],
