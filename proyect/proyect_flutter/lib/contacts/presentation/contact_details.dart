@@ -26,12 +26,14 @@ class ContactDetails extends StatefulWidget {
 
 class _ContactDetails extends ContactDetailsController with TickerProviderStateMixin {
   late TabController _tabController;
+  late TextEditingController _messageController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
+    _messageController = TextEditingController();
   }
 
   @override
@@ -303,6 +305,7 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _messageController,
                     style: const TextStyle(color: Color(0xFF369DD8)),
                     minLines: 2,
                     maxLines: 10,
@@ -326,26 +329,37 @@ class _ContactDetails extends ContactDetailsController with TickerProviderStateM
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () async{
-                    Map<String, String?> ret = await widget.client.whatsApp.sendMessage();
-                    if (ret["status"] == 'success'){
-                      await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const CustomAlertDialog(
-                              customTitle: 'Mensaje Enviado',
-                              customContent: 'Todo bien',
-                            );
-                          });
+                    if (_messageController.text != ''){
+                      WhatsAppRes ret = await widget.client.whatsApp.sendMessage(widget.contact.phoneNumber, _messageController.text);
+                      if (ret.status == 'success'){
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const CustomAlertDialog(
+                                customTitle: 'Mensaje Enviado',
+                                customContent: 'Todo bien',
+                              );
+                            });
+                      } else {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomAlertDialog(
+                                customTitle: ret.status,
+                                customContent: ret.error?? '',
+                              );
+                            });
+                      }
                     } else {
-                      await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return CustomAlertDialog(
-                              customTitle: ret["status"]?? '',
-                              customContent: ret["error"]?? '',
-                            );
-                          });
-                    }
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const CustomAlertDialog(
+                                customTitle: 'Message Error',
+                                customContent: "The message can't be empty",
+                              );
+                            });
+                      }
                   },
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),

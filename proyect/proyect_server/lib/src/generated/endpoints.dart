@@ -845,13 +845,27 @@ class Endpoints extends _i1.EndpointDispatch {
       methodConnectors: {
         'sendMessage': _i1.MethodConnector(
           name: 'sendMessage',
-          params: {},
+          params: {
+            'phoneNumber': _i1.ParameterDescription(
+              name: 'phoneNumber',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'message': _i1.ParameterDescription(
+              name: 'message',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint)
-                  .sendMessage(session),
+              (endpoints['whatsApp'] as _i8.WhatsAppEndpoint).sendMessage(
+            session,
+            params['phoneNumber'],
+            params['message'],
+          ),
         )
       },
     );

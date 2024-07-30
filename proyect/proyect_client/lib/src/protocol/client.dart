@@ -15,7 +15,8 @@ import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i4;
 import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i5;
 import 'package:proyect_client/src/protocol/users/password_options.dart' as _i6;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'package:proyect_client/src/protocol/whatsapp_res.dart' as _i8;
+import 'protocol.dart' as _i9;
 
 /// {@category Endpoint}
 class EndpointContact extends _i1.EndpointRef {
@@ -386,11 +387,17 @@ class EndpointWhatsApp extends _i1.EndpointRef {
   @override
   String get name => 'whatsApp';
 
-  _i2.Future<Map<String, String>> sendMessage() =>
-      caller.callServerEndpoint<Map<String, String>>(
+  _i2.Future<_i8.WhatsAppRes> sendMessage(
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i8.WhatsAppRes>(
         'whatsApp',
         'sendMessage',
-        {},
+        {
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
       );
 }
 
@@ -417,7 +424,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i8.Protocol(),
+          _i9.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

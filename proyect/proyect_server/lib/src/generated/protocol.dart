@@ -16,13 +16,15 @@ import 'contacts/contacts.dart' as _i4;
 import 'todolist/tasks.dart' as _i5;
 import 'users/password_options.dart' as _i6;
 import 'users/users_registry.dart' as _i7;
-import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i8;
-import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i9;
-import 'package:proyect_server/src/generated/users/users_registry.dart' as _i10;
+import 'whatsapp_res.dart' as _i8;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
 export 'users/users_registry.dart';
+export 'whatsapp_res.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -402,6 +404,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i7.UsersRegistry) {
       return _i7.UsersRegistry.fromJson(data) as T;
     }
+    if (t == _i8.WhatsAppRes) {
+      return _i8.WhatsAppRes.fromJson(data) as T;
+    }
     if (t == _i1.getType<_i4.Contact?>()) {
       return (data != null ? _i4.Contact.fromJson(data) : null) as T;
     }
@@ -414,22 +419,21 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i7.UsersRegistry?>()) {
       return (data != null ? _i7.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == List<_i8.Contact>) {
-      return (data as List).map((e) => deserialize<_i8.Contact>(e)).toList()
+    if (t == _i1.getType<_i8.WhatsAppRes?>()) {
+      return (data != null ? _i8.WhatsAppRes.fromJson(data) : null) as T;
+    }
+    if (t == List<_i9.Contact>) {
+      return (data as List).map((e) => deserialize<_i9.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.Task>) {
-      return (data as List).map((e) => deserialize<_i9.Task>(e)).toList()
+    if (t == List<_i10.Task>) {
+      return (data as List).map((e) => deserialize<_i10.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i10.UsersRegistry>) {
+    if (t == List<_i11.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i10.UsersRegistry>(e))
+          .map((e) => deserialize<_i11.UsersRegistry>(e))
           .toList() as dynamic;
-    }
-    if (t == Map<String, String>) {
-      return (data as Map).map((k, v) =>
-          MapEntry(deserialize<String>(k), deserialize<String>(v))) as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -459,6 +463,9 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i7.UsersRegistry) {
       return 'UsersRegistry';
     }
+    if (data is _i8.WhatsAppRes) {
+      return 'WhatsAppRes';
+    }
     return super.getClassNameForObject(data);
   }
 
@@ -479,6 +486,9 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (data['className'] == 'UsersRegistry') {
       return deserialize<_i7.UsersRegistry>(data['data']);
+    }
+    if (data['className'] == 'WhatsAppRes') {
+      return deserialize<_i8.WhatsAppRes>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
