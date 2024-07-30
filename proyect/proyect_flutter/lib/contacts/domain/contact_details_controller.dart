@@ -24,7 +24,7 @@ abstract class ContactDetailsController extends State<ContactDetails> {
 
   Future<void> sendSMS(String message) async {
     if (message != '') {
-      WhatsAppRes ret = await widget.client.whatsApp.sendMessageSMS(
+      MessageResponse ret = await widget.client.whatsApp.sendMessageSMS(
           widget.user.userName, widget.contact.phoneNumber, message);
       if (ret.status == 'success') {
         await showDialog(
@@ -59,7 +59,7 @@ abstract class ContactDetailsController extends State<ContactDetails> {
 
   Future<void> sendWpp(String message) async {
     if (message != '') {
-      WhatsAppRes ret = await widget.client.whatsApp
+      MessageResponse ret = await widget.client.whatsApp
           .sendMessageWpp(widget.contact.phoneNumber, message);
       if (ret.status == 'success') {
         await showDialog(

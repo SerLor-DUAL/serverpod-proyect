@@ -56,6 +56,8 @@ dependencies:
   url_launcher_platform_interface: ^2.3.2
   proyect_client:
     path: ../proyect_client
+  folder_shared:
+    path: ../folder_shared
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -66,6 +68,8 @@ dependencies:
   serverpod_auth_shared_flutter: 2.0.2
   calendar_date_picker2: ^1.1.5
   serverpod_auth_client: ^2.0.2
+  json_annotation: ^4.9.0
+  json_serializable: ^6.8.0
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <5.0.0'

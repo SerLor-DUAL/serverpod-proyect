@@ -30,7 +30,7 @@ class WhatsAppEndpoint extends Endpoint{
     return MessageResponse.fromJson(ret); 
 
   }
-  // SENDS A COMMON MESSAGE
+  // SENDS A SMS MESSAGE
   Future<MessageResponse> sendMessageSMS(Session session, String username, String phoneNumber, String message) async{
     // SET UP URL
     var url = Uri.https(URL, '/api/http/', {
@@ -39,7 +39,7 @@ class WhatsAppEndpoint extends Endpoint{
       'user' : api_username,        // USERNAME
       'password' : api_password,   // PASSWORD
       'from' : username,
-      'to' : phoneNumber, // Number to send message
+      'to' : "34$phoneNumber", // Number to send message
       'sms' : message,  // Message content
       'scheduledatetime' : null,
       'output' : null
