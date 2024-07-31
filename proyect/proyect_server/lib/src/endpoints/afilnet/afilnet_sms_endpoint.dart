@@ -1,6 +1,6 @@
 import 'package:proyect_server/env/env.dart';
 import 'package:serverpod/serverpod.dart';
-import 'package:proyect_shared/proyect_shared.dart';
+import 'package:proyect_shared_sergio/proyect_shared_sergio.dart';
 import 'package:http/http.dart' as http;
 
 class AfilnetSmsEndpoint extends Endpoint {

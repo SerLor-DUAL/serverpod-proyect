@@ -1,7 +1,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library proyect_shared;
+library proyect_shared_sergio;
 
 export 'src/generic_api_request.dart';
 export 'src/generic_api_response.dart';

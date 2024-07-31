@@ -1,5 +1,5 @@
 import 'package:proyect_client/proyect_client.dart';
-import 'package:proyect_shared/proyect_shared.dart';
+import 'package:proyect_shared_sergio/proyect_shared_sergio.dart';
 
 class AfilnetService {
 

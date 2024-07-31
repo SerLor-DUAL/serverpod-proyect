@@ -11,7 +11,7 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:proyect_shared_sergio/src/generic_api_response.dart' as _i3;
-import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp.dart'
+import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp_response.dart'
     as _i4;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i5;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i6;
