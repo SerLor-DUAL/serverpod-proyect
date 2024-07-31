@@ -28,6 +28,7 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactList extends ContactListController with TickerProviderStateMixin {
+  
   late TabController _tabController;
 
   @override
