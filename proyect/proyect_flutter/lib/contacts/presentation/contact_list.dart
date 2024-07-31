@@ -75,7 +75,7 @@ class _ContactList extends ContactListController with TickerProviderStateMixin {
           ),
           centerTitle: true,
           backgroundColor: const Color(0xFF369DD8),
-          toolbarHeight: 106,
+          toolbarHeight: 98,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(76),
             child: Stack(

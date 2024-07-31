@@ -66,7 +66,7 @@ class _ContactDetails extends ContactDetailsController {
           ),
           centerTitle: true,
           backgroundColor: const Color(0xFF369DD8),
-          toolbarHeight: 108,
+          toolbarHeight: 100,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(76),
             child: Container(
