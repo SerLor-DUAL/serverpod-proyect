@@ -68,8 +68,9 @@ class AfilnetSmsEndpoint extends Endpoint {
     // BUILD THE FULL URL WITH QUERY PARAMETERS USING URI.HTTPS
     final uri = Uri.https(baseUrl, '/api/http/', params);
 
-    // // SEND AN HTTP GET REQUEST TO THE AFILNET API WITH THE QUERY PARAMETERS
-    // final response = await http.get(uri);
+    // SEND AN HTTP GET REQUEST TO THE AFILNET API WITH THE QUERY PARAMETERS -- DEBUG TRYING
+    final response = await http.get(uri);
+    print(response.toString());
 
     // CREATE AN INSTANCE OF GENERICAPIREQUEST WITH THE BASE URL AND PARAMETERS
     final apiRequest = GenericApiRequest(
