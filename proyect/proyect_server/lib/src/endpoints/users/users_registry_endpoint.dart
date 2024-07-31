@@ -44,12 +44,7 @@ class UsersRegistryEndpoint extends Endpoint {
   // UPDATE
   Future<void> updateUser(Session session, UsersRegistry user) async {
     if (user.id != null) {
-      UsersRegistry? searchedUser = await getUserByName(session, user.userName);
-      if (searchedUser == null){
         await UsersRegistry.db.updateRow(session, user);
-      } else{
-        throw Exception('That UserName Already Exists');
-      }
     } else {
       throw Exception('User with selected ID not found.');
     }

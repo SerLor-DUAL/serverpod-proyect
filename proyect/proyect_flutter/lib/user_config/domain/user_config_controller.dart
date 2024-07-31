@@ -2,6 +2,7 @@ part of '../presentation/user_config.dart';
 
 abstract class UserProfileConfigController extends State<UserProfileConfig> {
 
+  // ----------------------- Controllers ----------------------------- \\
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -44,7 +45,7 @@ abstract class UserProfileConfigController extends State<UserProfileConfig> {
       };
       return error;
     }
-    if (_emailController.text == '' && widget.userInfo.email != null) {
+    if (_emailController.text == '' && (widget.userInfo.email != null)) {
       error = {
         'errorTitle': "Email empty",
         'errorMessage':
@@ -57,37 +58,42 @@ abstract class UserProfileConfigController extends State<UserProfileConfig> {
   // UPDATES UserInfo and UserName if wanted to.
   Future<void> updateUserInfo() async {
     Map<String, String?>? error = checkIfProfileError();
-    if (error == null) {
-      // UserInfo
-      // UserInfo updateUserInfo = UserInfo(
-      //   id: widget.userInfo.id,
-      //   userIdentifier: widget.userInfo.userIdentifier,
-      //   created: widget.userInfo.created,
-      //   scopeNames: widget.userInfo.scopeNames,
-      //   blocked: widget.userInfo.blocked,
-      //   userName: _userNameController.text,
-      //   fullName: _fullNameController.text,
-      //   email: _emailController.text
-      // );
-      UserInfo updateUserInfo = await widget.client.usersRegistry.getUserInfo(widget.userInfo);
-      updateUserInfo.userName = _userNameController.text;
-      updateUserInfo.email = _emailController.text;
-      updateUserInfo.fullName = _fullNameController.text;
+
       
+    if (error == null) {
       // User change
       try {
         // Try to updateUser. If UserName already exists in the DB and error will raise.
         if (_userNameController.text != widget.user.userName) {
-          UsersRegistry updatedUser =  await widget.client.usersRegistry.getUserRegistry(widget.user);
-          updatedUser.userName = _userNameController.text;
-          await widget.client.usersRegistry.updateUser(updatedUser);
+          bool userExists = await widget.client.usersRegistry.checkUserExistanceByName(_userNameController.text);
+          if (!userExists){
+            UsersRegistry updatedUser =  widget.user;
+            updatedUser.userName = _userNameController.text;
+            await widget.client.usersRegistry.updateUser(updatedUser);
+          }
+          else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => const CustomAlertDialog(
+                    customTitle: 'Error',
+                    customContent: 'User is already in the DB',
+                  ));
+            return;
+          }
         }
+        // UPDATE USER INFO
+        UserInfo updateUserInfo = widget.userInfo;
+        updateUserInfo.userName = _userNameController.text;
+        updateUserInfo.email = (_emailController.text == '')? null : _emailController.text; 
+        updateUserInfo.fullName = (_fullNameController.text == '')? null : _fullNameController.text;
         await widget.client.usersRegistry.updateUserInfo(updateUserInfo);
+
+          
         if (mounted) {
           showDialog(
               context: context,
               builder: (BuildContext context) => const CustomAlertDialog(
-                    customTitle: 'UserUpdated',
+                    customTitle: 'User updated!',
                     customContent: 'UserInfo was correctly updated.',
                   )
           );
@@ -99,7 +105,7 @@ abstract class UserProfileConfigController extends State<UserProfileConfig> {
               context: context,
               builder: (BuildContext context) => const CustomAlertDialog(
                     customTitle: 'Error',
-                    customContent: 'User already exists in the DB.',
+                    customContent: 'Error raised',
                   ));
         }
       }
