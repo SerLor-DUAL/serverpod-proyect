@@ -1,5 +1,8 @@
 afilnetSms:
   - sendSms:
+messageApp:
+  - sendMessageWpp:
+  - sendMessageSMS:
 afilnetWhatsApp:
   - sendMessage:
 contact:
@@ -48,6 +51,3 @@ usersRegistry:
   - authenticateUser:
   - validatePassword:
   - createUserInfo:
-whatsApp:
-  - sendMessageWpp:
-  - sendMessageSMS:

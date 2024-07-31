@@ -7,9 +7,10 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
   void initState() 
   {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);     // INITIALIZE TAB CONTROLLER WITH 2 TABS AND A TICKER PROVIDER
-    _afilnetService = AfilnetService(widget.client);            // INITIALIZE THE AFILNET SERVICE WITH THE CLIENT
-    _tabController.addListener(_handleTabChange);               // ADD A LISTENER TO HANDLE TAB CHANGES
+    _tabController = TabController(length: 2, vsync: this);                 // INITIALIZE TAB CONTROLLER WITH 2 TABS AND A TICKER PROVIDER
+    _afilnetServiceSergio = AfilnetServiceSergio(widget.client);            // INITIALIZE THE SERGIO'S AFILNET SERVICE WITH THE CLIENT
+    _afilnetServiceSantiago = AfilnetServiceSantiago(widget.client);        // INITIALIZE THE SANTIAGO'S AFILNET SERVICE WITH THE CLIENT
+    _tabController.addListener(_handleTabChange);                           // ADD A LISTENER TO HANDLE TAB CHANGES
   }
 
   // --------------------------- TAB FUNCTIONS ---------------------------------//
@@ -29,17 +30,19 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
   // ----------------------------------------------------------------------------//
 
   // SERVICE FOR INTERACTING WITH THE AFILNET API
-  late AfilnetService _afilnetService;
+  late AfilnetServiceSergio _afilnetServiceSergio;
+  late AfilnetServiceSantiago _afilnetServiceSantiago;
 
   // TEXT CONTROLLER FOR THE MESSAGE INPUT
   final TextEditingController _messageController = TextEditingController();
 
   // -------------------------- SMS FUNCTIONS -----------------------------------//
 
-  void _sendSms() async {
+  // SERGIO SMS SENDING
+  void _sergioSendSms() async {
     String sms = _messageController.text;
     try {
-      final response = await _afilnetService.sendSms(
+      final response = await _afilnetServiceSergio.sendSms(
         widget.contact.phoneNumber,
         sms,
       );
@@ -59,18 +62,60 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
     }
   }
 
+  // SANTIAGO SMS SENDING
+  Future<void> _santiSendSms(String message) async {
+    if (message != '') {
+      MessageResponse ret = await _afilnetServiceSantiago.sendSms(
+        widget.user.userName,
+        widget.contact.phoneNumber, 
+        message
+      );
+      if (ret.status == 'success') {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Mensaje Enviado',
+                customContent: 'Todo bien',
+              );
+            });
+      } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: ret.status,
+                customContent: ret.error ?? '',
+              );
+            });
+      }
+    } else {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              customTitle: 'Message Error',
+              customContent: "The message can't be empty",
+            );
+          });
+    }
+  }
+
   // ----------------------------------------------------------------------------//
 
   // ---------------------- MESSAGING FUNCTIONS ---------------------------------//
 
-  // SEND A MESSAGE USING THE AFILNET SERVICE
-  void _sendMessage() async 
+  // SERGIO WHATSAPP SENDING
+  void _sergioSendWhatsApp() async 
   {
     String message = _messageController.text;
     try 
     {
       // CALL THE SERVICE TO SEND THE MESSAGE
-      final response = await _afilnetService.sendMessage(widget.contact.phoneNumber, message);
+      final response = await _afilnetServiceSergio.sendMessage(
+        widget.contact.phoneNumber, 
+        message
+      );
       if (response.status == 'success') 
       {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -89,6 +134,41 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to send message: $e')),  // SHOW ERROR SNACKBAR IF AN EXCEPTION OCCURS
       );
+    }
+  }
+
+  // SANTIAGO WHATSAPP SENDING
+  Future<void> _santiSendWhatsApp(String message) async {
+    if (message != '') {
+      MessageResponse ret = await _afilnetServiceSantiago.sendMessage(widget.contact.phoneNumber, message);
+      if (ret.status == 'success') {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomAlertDialog(
+                customTitle: 'Mensaje Enviado',
+                customContent: 'Todo bien',
+              );
+            });
+      } else {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomAlertDialog(
+                customTitle: ret.status,
+                customContent: ret.error ?? '',
+              );
+            });
+      }
+    } else {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              customTitle: 'Message Error',
+              customContent: "The message can't be empty",
+            );
+          });
     }
   }
 

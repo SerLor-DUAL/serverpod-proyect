@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
-import 'package:proyect_flutter/common/services/afilnet_service.dart';
+import 'package:proyect_flutter/common/services/afilnet_service_santiago.dart';
+import 'package:proyect_flutter/common/services/afilnet_service_sergio.dart';
 import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
@@ -26,14 +27,6 @@ class ContactDetails extends StatefulWidget {
 }
 
 class _ContactDetails extends ContactDetailsController {
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_handleTabChange);
-    _afilnetService = AfilnetService(widget.client);
-  }
 
   @override
   void dispose() {
@@ -312,7 +305,7 @@ class _ContactDetails extends ContactDetailsController {
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: _sendSms,
+                  onPressed: _sergioSendSms,
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                     padding: const EdgeInsets.all(30.0),

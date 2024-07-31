@@ -1,33 +1,32 @@
 import 'package:proyect_client/proyect_client.dart';
-import 'package:proyect_shared_sergio/proyect_shared_sergio.dart';
+import 'package:proyect_shared_santiago/proyect_shared_santiago.dart';
 
-class AfilnetService {
+class AfilnetServiceSantiago {
 
   final Client client;
-  AfilnetService(this.client);
+  AfilnetServiceSantiago(this.client);
 
   // METHOD TO SEND A MESSAGE USING THE AFILNET API
   // PRINCIPAL PARAMETERS:
-    // DESTINATION: THE PHONE NUMBER TO WHICH THE MESSAGE WILL BE SENT
+    // PHONENUMBER: THE PHONE NUMBER TO WHICH THE MESSAGE WILL BE SENT
     // MESSAGE: THE CONTENT OF THE MESSAGE TO BE SENT
 
-  Future<AfilnetWhatsAppResponse> sendMessage(String destination, String message) async 
+  Future<MessageResponse> sendMessage(String phoneNumber, String message) async 
   {
-
     // CALL THE SENDMESSAGE METHOD FROM THE AFILNET ENDPOINT ON THE CLIENT
     // THIS METHOD SENDS THE REQUEST TO THE SERVER WHICH WILL HANDLE THE INTERACTION WITH THE AFILNET API
-    final response = await client.afilnetWhatsApp.sendMessage(destination, message);
+    MessageResponse response = await client.messageApp.sendMessageWpp(phoneNumber, message);
 
-    // RETURN THE RESPONSE FROM THE SERVER, THE RESPONSE IS EXPECTED TO BE OF TYPE AFILNETRESPONSE
+    // RETURN THE RESPONSE FROM THE SERVER, THE RESPONSE IS EXPECTED TO BE OF TYPE MESSAGERESPONSE
     return response;
   }
 
-  Future<GenericApiResponse> sendSms(String destinationPhone, String message, {DateTime? scheduleDateTime}) async 
+  Future<MessageResponse> sendSms(String customSenderUser, String destinationPhone, String message) async 
   {
     // CALL THE SENDMESSAGE METHOD FROM THE AFILNET ENDPOINT ON THE CLIENT
     // THIS METHOD SENDS THE REQUEST TO THE SERVER WHICH WILL HANDLE THE INTERACTION WITH THE AFILNET API
-      // ES FOR SPAIN
-    final response = await client.afilnetSms.sendSms('ES', destinationPhone, message, scheduleDateTime: scheduleDateTime);
+    
+    final response = await client.messageApp.sendMessageSMS(customSenderUser, destinationPhone, message);
 
     // RETURN THE RESPONSE FROM THE SERVER, THE RESPONSE IS EXPECTED TO BE OF TYPE AFILNETRESPONSE
     return response;

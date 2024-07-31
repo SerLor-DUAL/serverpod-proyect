@@ -17,18 +17,16 @@ import 'contacts/contacts.dart' as _i5;
 import 'todolist/tasks.dart' as _i6;
 import 'users/password_options.dart' as _i7;
 import 'users/users_registry.dart' as _i8;
-import 'whatsapp_res.dart' as _i9;
-import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i10;
-import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i11;
-import 'package:proyect_server/src/generated/users/users_registry.dart' as _i12;
-import 'package:proyect_shared_sergio/proyect_shared_sergio.dart' as _i13;
-import 'package:proyect_shared_santiago/proyect_shared_santiago.dart' as _i14;
+import 'package:proyect_server/src/generated/contacts/contacts.dart' as _i9;
+import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
+import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
+import 'package:proyect_shared_sergio/proyect_shared_sergio.dart' as _i12;
+import 'package:proyect_shared_santiago/proyect_shared_santiago.dart' as _i13;
 export 'afilnet/afilnet_whatsapp_response.dart';
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
 export 'users/users_registry.dart';
-export 'whatsapp_res.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -411,9 +409,6 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i8.UsersRegistry) {
       return _i8.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i9.WhatsAppRes) {
-      return _i9.WhatsAppRes.fromJson(data) as T;
-    }
     if (t == _i1.getType<_i4.AfilnetWhatsAppResponse?>()) {
       return (data != null ? _i4.AfilnetWhatsAppResponse.fromJson(data) : null)
           as T;
@@ -430,40 +425,37 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i8.UsersRegistry?>()) {
       return (data != null ? _i8.UsersRegistry.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i9.WhatsAppRes?>()) {
-      return (data != null ? _i9.WhatsAppRes.fromJson(data) : null) as T;
-    }
-    if (t == List<_i10.Contact>) {
-      return (data as List).map((e) => deserialize<_i10.Contact>(e)).toList()
+    if (t == List<_i9.Contact>) {
+      return (data as List).map((e) => deserialize<_i9.Contact>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i11.Task>) {
-      return (data as List).map((e) => deserialize<_i11.Task>(e)).toList()
+    if (t == List<_i10.Task>) {
+      return (data as List).map((e) => deserialize<_i10.Task>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i12.UsersRegistry>) {
+    if (t == List<_i11.UsersRegistry>) {
       return (data as List)
-          .map((e) => deserialize<_i12.UsersRegistry>(e))
+          .map((e) => deserialize<_i11.UsersRegistry>(e))
           .toList() as dynamic;
     }
-    if (t == _i13.GenericApiRequest) {
-      return _i13.GenericApiRequest.fromJson(data) as T;
+    if (t == _i12.GenericApiRequest) {
+      return _i12.GenericApiRequest.fromJson(data) as T;
     }
-    if (t == _i13.GenericApiResponse) {
-      return _i13.GenericApiResponse.fromJson(data) as T;
+    if (t == _i12.GenericApiResponse) {
+      return _i12.GenericApiResponse.fromJson(data) as T;
     }
-    if (t == _i14.MessageResponse) {
-      return _i14.MessageResponse.fromJson(data) as T;
+    if (t == _i13.MessageResponse) {
+      return _i13.MessageResponse.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i13.GenericApiRequest?>()) {
-      return (data != null ? _i13.GenericApiRequest.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i12.GenericApiRequest?>()) {
+      return (data != null ? _i12.GenericApiRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.GenericApiResponse?>()) {
-      return (data != null ? _i13.GenericApiResponse.fromJson(data) : null)
+    if (t == _i1.getType<_i12.GenericApiResponse?>()) {
+      return (data != null ? _i12.GenericApiResponse.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i14.MessageResponse?>()) {
-      return (data != null ? _i14.MessageResponse.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.MessageResponse?>()) {
+      return (data != null ? _i13.MessageResponse.fromJson(data) : null) as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -481,13 +473,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (className != null) {
       return 'serverpod_auth.$className';
     }
-    if (data is _i13.GenericApiRequest) {
+    if (data is _i12.GenericApiRequest) {
       return 'GenericApiRequest';
     }
-    if (data is _i13.GenericApiResponse) {
+    if (data is _i12.GenericApiResponse) {
       return 'GenericApiResponse';
     }
-    if (data is _i14.MessageResponse) {
+    if (data is _i13.MessageResponse) {
       return 'MessageResponse';
     }
     if (data is _i4.AfilnetWhatsAppResponse) {
@@ -505,9 +497,6 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i8.UsersRegistry) {
       return 'UsersRegistry';
     }
-    if (data is _i9.WhatsAppRes) {
-      return 'WhatsAppRes';
-    }
     return super.getClassNameForObject(data);
   }
 
@@ -518,13 +507,13 @@ class Protocol extends _i1.SerializationManagerServer {
       return _i3.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'GenericApiRequest') {
-      return deserialize<_i13.GenericApiRequest>(data['data']);
+      return deserialize<_i12.GenericApiRequest>(data['data']);
     }
     if (data['className'] == 'GenericApiResponse') {
-      return deserialize<_i13.GenericApiResponse>(data['data']);
+      return deserialize<_i12.GenericApiResponse>(data['data']);
     }
     if (data['className'] == 'MessageResponse') {
-      return deserialize<_i14.MessageResponse>(data['data']);
+      return deserialize<_i13.MessageResponse>(data['data']);
     }
     if (data['className'] == 'AfilnetWhatsAppResponse') {
       return deserialize<_i4.AfilnetWhatsAppResponse>(data['data']);
@@ -540,9 +529,6 @@ class Protocol extends _i1.SerializationManagerServer {
     }
     if (data['className'] == 'UsersRegistry') {
       return deserialize<_i8.UsersRegistry>(data['data']);
-    }
-    if (data['className'] == 'WhatsAppRes') {
-      return deserialize<_i9.WhatsAppRes>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

@@ -11,14 +11,14 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:proyect_shared_sergio/src/generic_api_response.dart' as _i3;
+import 'package:proyect_shared_santiago/src/message_response.dart' as _i4;
 import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp_response.dart'
-    as _i4;
-import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i5;
-import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i6;
-import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i7;
-import 'package:proyect_client/src/protocol/users/password_options.dart' as _i8;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i9;
-import 'package:proyect_shared_santiago/src/message_response.dart' as _i10;
+    as _i5;
+import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i6;
+import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i7;
+import 'package:proyect_client/src/protocol/users/users_registry.dart' as _i8;
+import 'package:proyect_client/src/protocol/users/password_options.dart' as _i9;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i10;
 import 'protocol.dart' as _i11;
 
 /// {@category Endpoint}
@@ -47,17 +47,53 @@ class EndpointAfilnetSms extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointMessageApp extends _i1.EndpointRef {
+  EndpointMessageApp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'messageApp';
+
+  _i2.Future<_i4.MessageResponse> sendMessageWpp(
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i4.MessageResponse>(
+        'messageApp',
+        'sendMessageWpp',
+        {
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
+      );
+
+  _i2.Future<_i4.MessageResponse> sendMessageSMS(
+    String username,
+    String phoneNumber,
+    String message,
+  ) =>
+      caller.callServerEndpoint<_i4.MessageResponse>(
+        'messageApp',
+        'sendMessageSMS',
+        {
+          'username': username,
+          'phoneNumber': phoneNumber,
+          'message': message,
+        },
+      );
+}
+
+/// {@category Endpoint}
 class EndpointAfilnetWhatsApp extends _i1.EndpointRef {
   EndpointAfilnetWhatsApp(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'afilnetWhatsApp';
 
-  _i2.Future<_i4.AfilnetWhatsAppResponse> sendMessage(
+  _i2.Future<_i5.AfilnetWhatsAppResponse> sendMessage(
     String destination,
     String message,
   ) =>
-      caller.callServerEndpoint<_i4.AfilnetWhatsAppResponse>(
+      caller.callServerEndpoint<_i5.AfilnetWhatsAppResponse>(
         'afilnetWhatsApp',
         'sendMessage',
         {
@@ -74,29 +110,29 @@ class EndpointContact extends _i1.EndpointRef {
   @override
   String get name => 'contact';
 
-  _i2.Future<void> addContact(_i5.Contact contact) =>
+  _i2.Future<void> addContact(_i6.Contact contact) =>
       caller.callServerEndpoint<void>(
         'contact',
         'addContact',
         {'contact': contact},
       );
 
-  _i2.Future<void> addListOfContacts(List<_i5.Contact> contacts) =>
+  _i2.Future<void> addListOfContacts(List<_i6.Contact> contacts) =>
       caller.callServerEndpoint<void>(
         'contact',
         'addListOfContacts',
         {'contacts': contacts},
       );
 
-  _i2.Future<_i5.Contact?> findById(int contactID) =>
-      caller.callServerEndpoint<_i5.Contact?>(
+  _i2.Future<_i6.Contact?> findById(int contactID) =>
+      caller.callServerEndpoint<_i6.Contact?>(
         'contact',
         'findById',
         {'contactID': contactID},
       );
 
-  _i2.Future<List<_i5.Contact>> getEveryContactByUser(int userID) =>
-      caller.callServerEndpoint<List<_i5.Contact>>(
+  _i2.Future<List<_i6.Contact>> getEveryContactByUser(int userID) =>
+      caller.callServerEndpoint<List<_i6.Contact>>(
         'contact',
         'getEveryContactByUser',
         {'userID': userID},
@@ -115,21 +151,21 @@ class EndpointContact extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> updateContact(_i5.Contact? contact) =>
+  _i2.Future<void> updateContact(_i6.Contact? contact) =>
       caller.callServerEndpoint<void>(
         'contact',
         'updateContact',
         {'contact': contact},
       );
 
-  _i2.Future<void> deleteContact(_i5.Contact contact) =>
+  _i2.Future<void> deleteContact(_i6.Contact contact) =>
       caller.callServerEndpoint<void>(
         'contact',
         'deleteContact',
         {'contact': contact},
       );
 
-  _i2.Future<void> deleteMultipleContacts(List<_i5.Contact> tasks) =>
+  _i2.Future<void> deleteMultipleContacts(List<_i6.Contact> tasks) =>
       caller.callServerEndpoint<void>(
         'contact',
         'deleteMultipleContacts',
@@ -144,67 +180,67 @@ class EndpointTasks extends _i1.EndpointRef {
   @override
   String get name => 'tasks';
 
-  _i2.Future<void> addTask(_i6.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> addTask(_i7.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'addTask',
         {'task': task},
       );
 
-  _i2.Future<void> addListOfTasks(List<_i6.Task> tasks) =>
+  _i2.Future<void> addListOfTasks(List<_i7.Task> tasks) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'addListOfTasks',
         {'tasks': tasks},
       );
 
-  _i2.Future<_i6.Task?> findById(int taskID) =>
-      caller.callServerEndpoint<_i6.Task?>(
+  _i2.Future<_i7.Task?> findById(int taskID) =>
+      caller.callServerEndpoint<_i7.Task?>(
         'tasks',
         'findById',
         {'taskID': taskID},
       );
 
-  _i2.Future<List<_i6.Task>> getEveryTaskByUser(int userID) =>
-      caller.callServerEndpoint<List<_i6.Task>>(
+  _i2.Future<List<_i7.Task>> getEveryTaskByUser(int userID) =>
+      caller.callServerEndpoint<List<_i7.Task>>(
         'tasks',
         'getEveryTaskByUser',
         {'userID': userID},
       );
 
-  _i2.Future<List<_i6.Task>> getEveryTaskByDeadLineASC(int idUser) =>
-      caller.callServerEndpoint<List<_i6.Task>>(
+  _i2.Future<List<_i7.Task>> getEveryTaskByDeadLineASC(int idUser) =>
+      caller.callServerEndpoint<List<_i7.Task>>(
         'tasks',
         'getEveryTaskByDeadLineASC',
         {'idUser': idUser},
       );
 
-  _i2.Future<List<_i6.Task>> getEveryTaskByDeadLineDES() =>
-      caller.callServerEndpoint<List<_i6.Task>>(
+  _i2.Future<List<_i7.Task>> getEveryTaskByDeadLineDES() =>
+      caller.callServerEndpoint<List<_i7.Task>>(
         'tasks',
         'getEveryTaskByDeadLineDES',
         {},
       );
 
-  _i2.Future<void> updateTask(_i6.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> updateTask(_i7.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'updateTask',
         {'task': task},
       );
 
-  _i2.Future<void> toogleComplete(_i6.Task task) =>
+  _i2.Future<void> toogleComplete(_i7.Task task) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'toogleComplete',
         {'task': task},
       );
 
-  _i2.Future<void> deleteTask(_i6.Task task) => caller.callServerEndpoint<void>(
+  _i2.Future<void> deleteTask(_i7.Task task) => caller.callServerEndpoint<void>(
         'tasks',
         'deleteTask',
         {'task': task},
       );
 
-  _i2.Future<void> deleteMultipleTasks(List<_i6.Task> tasks) =>
+  _i2.Future<void> deleteMultipleTasks(List<_i7.Task> tasks) =>
       caller.callServerEndpoint<void>(
         'tasks',
         'deleteMultipleTasks',
@@ -225,8 +261,8 @@ class EndpointAuthenticated extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<_i7.UsersRegistry?> getUserIfAuth() =>
-      caller.callServerEndpoint<_i7.UsersRegistry?>(
+  _i2.Future<_i8.UsersRegistry?> getUserIfAuth() =>
+      caller.callServerEndpoint<_i8.UsersRegistry?>(
         'authenticated',
         'getUserIfAuth',
         {},
@@ -241,7 +277,7 @@ class EndpointPasswordGenerator extends _i1.EndpointRef {
   String get name => 'passwordGenerator';
 
   _i2.Future<String> createPassword(
-    _i8.PasswordOptions options, {
+    _i9.PasswordOptions options, {
     String? passwordInput,
   }) =>
       caller.callServerEndpoint<String>(
@@ -261,35 +297,35 @@ class EndpointPasswordOptions extends _i1.EndpointRef {
   @override
   String get name => 'passwordOptions';
 
-  _i2.Future<_i8.PasswordOptions?> getOptions(int optionsID) =>
-      caller.callServerEndpoint<_i8.PasswordOptions?>(
+  _i2.Future<_i9.PasswordOptions?> getOptions(int optionsID) =>
+      caller.callServerEndpoint<_i9.PasswordOptions?>(
         'passwordOptions',
         'getOptions',
         {'optionsID': optionsID},
       );
 
-  _i2.Future<_i8.PasswordOptions?> getLastID() =>
-      caller.callServerEndpoint<_i8.PasswordOptions?>(
+  _i2.Future<_i9.PasswordOptions?> getLastID() =>
+      caller.callServerEndpoint<_i9.PasswordOptions?>(
         'passwordOptions',
         'getLastID',
         {},
       );
 
-  _i2.Future<void> updateOptions(_i8.PasswordOptions options) =>
+  _i2.Future<void> updateOptions(_i9.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'updateOptions',
         {'options': options},
       );
 
-  _i2.Future<void> createOptions(_i8.PasswordOptions options) =>
+  _i2.Future<void> createOptions(_i9.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'createOptions',
         {'options': options},
       );
 
-  _i2.Future<void> deleteOptions(_i8.PasswordOptions options) =>
+  _i2.Future<void> deleteOptions(_i9.PasswordOptions options) =>
       caller.callServerEndpoint<void>(
         'passwordOptions',
         'deleteOptions',
@@ -304,29 +340,29 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
   @override
   String get name => 'usersRegistry';
 
-  _i2.Future<List<_i7.UsersRegistry>> getAllUsers() =>
-      caller.callServerEndpoint<List<_i7.UsersRegistry>>(
+  _i2.Future<List<_i8.UsersRegistry>> getAllUsers() =>
+      caller.callServerEndpoint<List<_i8.UsersRegistry>>(
         'usersRegistry',
         'getAllUsers',
         {},
       );
 
-  _i2.Future<_i7.UsersRegistry?> getUserById(int userId) =>
-      caller.callServerEndpoint<_i7.UsersRegistry?>(
+  _i2.Future<_i8.UsersRegistry?> getUserById(int userId) =>
+      caller.callServerEndpoint<_i8.UsersRegistry?>(
         'usersRegistry',
         'getUserById',
         {'userId': userId},
       );
 
-  _i2.Future<_i9.UserInfo?> getUserInfoById(int userInfoId) =>
-      caller.callServerEndpoint<_i9.UserInfo?>(
+  _i2.Future<_i10.UserInfo?> getUserInfoById(int userInfoId) =>
+      caller.callServerEndpoint<_i10.UserInfo?>(
         'usersRegistry',
         'getUserInfoById',
         {'userInfoId': userInfoId},
       );
 
-  _i2.Future<_i7.UsersRegistry?> getUserByName(String name) =>
-      caller.callServerEndpoint<_i7.UsersRegistry?>(
+  _i2.Future<_i8.UsersRegistry?> getUserByName(String name) =>
+      caller.callServerEndpoint<_i8.UsersRegistry?>(
         'usersRegistry',
         'getUserByName',
         {'name': name},
@@ -339,33 +375,33 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         {'name': name},
       );
 
-  _i2.Future<_i7.UsersRegistry?> getLastUserID() =>
-      caller.callServerEndpoint<_i7.UsersRegistry?>(
+  _i2.Future<_i8.UsersRegistry?> getLastUserID() =>
+      caller.callServerEndpoint<_i8.UsersRegistry?>(
         'usersRegistry',
         'getLastUserID',
         {},
       );
 
-  _i2.Future<void> updateUser(_i7.UsersRegistry user) =>
+  _i2.Future<void> updateUser(_i8.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'updateUser',
         {'user': user},
       );
 
-  _i2.Future<void> updateUserInfo(_i9.UserInfo userInfo) =>
+  _i2.Future<void> updateUserInfo(_i10.UserInfo userInfo) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'updateUserInfo',
         {'userInfo': userInfo},
       );
 
-  _i2.Future<_i7.UsersRegistry> createUser(
+  _i2.Future<_i8.UsersRegistry> createUser(
     String name,
-    _i8.PasswordOptions selectedUserOptions, {
+    _i9.PasswordOptions selectedUserOptions, {
     String? selectedUserPassword,
   }) =>
-      caller.callServerEndpoint<_i7.UsersRegistry>(
+      caller.callServerEndpoint<_i8.UsersRegistry>(
         'usersRegistry',
         'createUser',
         {
@@ -375,18 +411,18 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> deleteUser(_i7.UsersRegistry user) =>
+  _i2.Future<void> deleteUser(_i8.UsersRegistry user) =>
       caller.callServerEndpoint<void>(
         'usersRegistry',
         'deleteUser',
         {'user': user},
       );
 
-  _i2.Future<_i9.AuthenticationResponse> login(
+  _i2.Future<_i10.AuthenticationResponse> login(
     String username,
     String password,
   ) =>
-      caller.callServerEndpoint<_i9.AuthenticationResponse>(
+      caller.callServerEndpoint<_i10.AuthenticationResponse>(
         'usersRegistry',
         'login',
         {
@@ -396,7 +432,7 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
       );
 
   _i2.Future<bool> authenticateUser(
-    _i7.UsersRegistry? user,
+    _i8.UsersRegistry? user,
     String password,
   ) =>
       caller.callServerEndpoint<bool>(
@@ -421,56 +457,20 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i9.UserInfo?> createUserInfo(String username) =>
-      caller.callServerEndpoint<_i9.UserInfo?>(
+  _i2.Future<_i10.UserInfo?> createUserInfo(String username) =>
+      caller.callServerEndpoint<_i10.UserInfo?>(
         'usersRegistry',
         'createUserInfo',
         {'username': username},
       );
 }
 
-/// {@category Endpoint}
-class EndpointWhatsApp extends _i1.EndpointRef {
-  EndpointWhatsApp(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'whatsApp';
-
-  _i2.Future<_i10.MessageResponse> sendMessageWpp(
-    String phoneNumber,
-    String message,
-  ) =>
-      caller.callServerEndpoint<_i10.MessageResponse>(
-        'whatsApp',
-        'sendMessageWpp',
-        {
-          'phoneNumber': phoneNumber,
-          'message': message,
-        },
-      );
-
-  _i2.Future<_i10.MessageResponse> sendMessageSMS(
-    String username,
-    String phoneNumber,
-    String message,
-  ) =>
-      caller.callServerEndpoint<_i10.MessageResponse>(
-        'whatsApp',
-        'sendMessageSMS',
-        {
-          'username': username,
-          'phoneNumber': phoneNumber,
-          'message': message,
-        },
-      );
-}
-
 class _Modules {
   _Modules(Client client) {
-    auth = _i9.Caller(client);
+    auth = _i10.Caller(client);
   }
 
-  late final _i9.Caller auth;
+  late final _i10.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -497,6 +497,7 @@ class Client extends _i1.ServerpodClient {
           onSucceededCall: onSucceededCall,
         ) {
     afilnetSms = EndpointAfilnetSms(this);
+    messageApp = EndpointMessageApp(this);
     afilnetWhatsApp = EndpointAfilnetWhatsApp(this);
     contact = EndpointContact(this);
     tasks = EndpointTasks(this);
@@ -504,11 +505,12 @@ class Client extends _i1.ServerpodClient {
     passwordGenerator = EndpointPasswordGenerator(this);
     passwordOptions = EndpointPasswordOptions(this);
     usersRegistry = EndpointUsersRegistry(this);
-    whatsApp = EndpointWhatsApp(this);
     modules = _Modules(this);
   }
 
   late final EndpointAfilnetSms afilnetSms;
+
+  late final EndpointMessageApp messageApp;
 
   late final EndpointAfilnetWhatsApp afilnetWhatsApp;
 
@@ -524,13 +526,12 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointUsersRegistry usersRegistry;
 
-  late final EndpointWhatsApp whatsApp;
-
   late final _Modules modules;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'afilnetSms': afilnetSms,
+        'messageApp': messageApp,
         'afilnetWhatsApp': afilnetWhatsApp,
         'contact': contact,
         'tasks': tasks,
@@ -538,7 +539,6 @@ class Client extends _i1.ServerpodClient {
         'passwordGenerator': passwordGenerator,
         'passwordOptions': passwordOptions,
         'usersRegistry': usersRegistry,
-        'whatsApp': whatsApp,
       };
 
   @override

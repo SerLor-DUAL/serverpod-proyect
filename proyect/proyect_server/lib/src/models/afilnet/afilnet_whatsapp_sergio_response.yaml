@@ -1,4 +1,4 @@
-class: AfilnetWhatsAppResponse
+class: AfilnetWhatsAppSergioResponse
 fields:
   status: String
   result: String?
