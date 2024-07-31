@@ -288,7 +288,7 @@ class CustomInputDialog extends StatelessWidget {
       );
 
     if (picked != null) {
-      controller.text = picked.toString().split(" ")[0];
+      controller.text = picked.toString().substring(1,11);
     }
   }
 }
