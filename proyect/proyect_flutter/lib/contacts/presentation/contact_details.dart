@@ -5,7 +5,6 @@ import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/custom_input_dialog.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
 import 'package:proyect_shared_santiago/proyect_shared_santiago.dart';
-import 'package:proyect_client/proyect_client.dart';
 part '../domain/contact_details_controller.dart';
 
 class ContactDetails extends StatefulWidget {

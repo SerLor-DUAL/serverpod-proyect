@@ -1,6 +1,5 @@
 
 import 'package:proyect_shared_santiago/proyect_shared_santiago.dart';
-import 'package:proyect_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyect_server/env/env.dart';
