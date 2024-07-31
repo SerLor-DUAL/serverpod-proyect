@@ -69,7 +69,7 @@ class _ToDoList extends ToDoListController with TickerProviderStateMixin {
           ),
           centerTitle: true,
           backgroundColor: const Color(0xFF369DD8),
-          toolbarHeight: 96,
+          toolbarHeight: 106,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(76),
             child: Stack(
