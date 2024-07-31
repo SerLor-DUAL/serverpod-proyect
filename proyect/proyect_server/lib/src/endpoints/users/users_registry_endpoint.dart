@@ -211,4 +211,12 @@ class UsersRegistryEndpoint extends Endpoint {
                                               where: (userInfo) => userInfo.userIdentifier.equals(username));
     return userInfo;
   }
+  Future<UsersRegistry> getUserRegistry(Session session, UsersRegistry userRegistry)async{
+    UsersRegistry newUser = userRegistry;
+    return newUser;
+  }
+   Future<UserInfo> getUserInfo(Session session, UserInfo userInfo)async{
+    UserInfo newUserInfo = userInfo;
+    return newUserInfo;
+  }
 }

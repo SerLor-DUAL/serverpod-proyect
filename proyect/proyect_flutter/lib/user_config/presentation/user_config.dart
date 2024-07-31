@@ -25,10 +25,6 @@ class UserProfileConfig extends StatefulWidget {
 
 class _UserProfileConfig extends UserProfileConfigController{
 
- 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

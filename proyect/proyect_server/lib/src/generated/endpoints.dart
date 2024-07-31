@@ -986,6 +986,44 @@ class Endpoints extends _i1.EndpointDispatch {
             params['username'],
           ),
         ),
+        'getUserRegistry': _i1.MethodConnector(
+          name: 'getUserRegistry',
+          params: {
+            'userRegistry': _i1.ParameterDescription(
+              name: 'userRegistry',
+              type: _i1.getType<_i14.UsersRegistry>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i10.UsersRegistryEndpoint)
+                  .getUserRegistry(
+            session,
+            params['userRegistry'],
+          ),
+        ),
+        'getUserInfo': _i1.MethodConnector(
+          name: 'getUserInfo',
+          params: {
+            'userInfo': _i1.ParameterDescription(
+              name: 'userInfo',
+              type: _i1.getType<_i15.UserInfo>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['usersRegistry'] as _i10.UsersRegistryEndpoint)
+                  .getUserInfo(
+            session,
+            params['userInfo'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i15.Endpoints()..initializeEndpoints(server);

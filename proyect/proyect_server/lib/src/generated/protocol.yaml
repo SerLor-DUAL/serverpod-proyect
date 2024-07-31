@@ -51,3 +51,5 @@ usersRegistry:
   - authenticateUser:
   - validatePassword:
   - createUserInfo:
+  - getUserRegistry:
+  - getUserInfo:

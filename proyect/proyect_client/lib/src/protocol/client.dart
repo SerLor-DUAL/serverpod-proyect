@@ -463,6 +463,21 @@ class EndpointUsersRegistry extends _i1.EndpointRef {
         'createUserInfo',
         {'username': username},
       );
+
+  _i2.Future<_i8.UsersRegistry> getUserRegistry(
+          _i8.UsersRegistry userRegistry) =>
+      caller.callServerEndpoint<_i8.UsersRegistry>(
+        'usersRegistry',
+        'getUserRegistry',
+        {'userRegistry': userRegistry},
+      );
+
+  _i2.Future<_i10.UserInfo> getUserInfo(_i10.UserInfo userInfo) =>
+      caller.callServerEndpoint<_i10.UserInfo>(
+        'usersRegistry',
+        'getUserInfo',
+        {'userInfo': userInfo},
+      );
 }
 
 class _Modules {
