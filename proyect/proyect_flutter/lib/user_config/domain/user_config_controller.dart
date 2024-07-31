@@ -1,6 +1,7 @@
 part of '../presentation/user_config.dart';
 
 abstract class UserProfileConfigController extends State<UserProfileConfig> {
+  // ----------------------- Controllers ----------------------------- \\
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();

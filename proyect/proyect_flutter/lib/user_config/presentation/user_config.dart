@@ -12,19 +12,17 @@ class UserProfileConfig extends StatefulWidget {
   final UsersRegistry user;
   final UserInfo userInfo;
 
-  const UserProfileConfig({
-    super.key,
-    required this.client,
-    required this.user,
-    required this.userInfo
-  });
-  
+  const UserProfileConfig(
+      {super.key,
+      required this.client,
+      required this.user,
+      required this.userInfo});
+
   @override
   createState() => _UserProfileConfig();
 }
 
-class _UserProfileConfig extends UserProfileConfigController{
-
+class _UserProfileConfig extends UserProfileConfigController {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,42 +33,38 @@ class _UserProfileConfig extends UserProfileConfigController{
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () {
-              
-              },
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: (widget.userInfo.imageUrl != null)
-                                        ? AssetImage(widget.userInfo.imageUrl!)
-                                        : null,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: CircleAvatar(
-                        radius: 17,
-                        backgroundColor: Colors.blue,
-                        child: IconButton(
-                          onPressed: () async{
-                            await updateUserPicture();
-                            setState(() {
-                            });
-                          },
-                          icon: const Icon(
-                                  Icons.camera_alt,
-                                  size: 17,
-                                  color: Colors.white,
-                                  ),
+            // AVATAR AND ICONBUTTON
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: (widget.userInfo.imageUrl != null)
+                  ? AssetImage(widget.userInfo.imageUrl!)
+                  : null,
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: CircleAvatar(
+                      radius: 17,
+                      backgroundColor: Colors.blue,
+                      child: IconButton(
+                        onPressed: () async {
+                          await updateUserPicture();
+                          setState(() {});
+                        },
+                        icon: const Icon(
+                          Icons.camera_alt,
+                          size: 17,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 20),
+            // USERNAME TEXTFIELD
             TextField(
               controller: _userNameController,
               decoration: const InputDecoration(
@@ -78,7 +72,8 @@ class _UserProfileConfig extends UserProfileConfigController{
                 border: OutlineInputBorder(),
               ),
             ),
-             const SizedBox(height: 20),
+            const SizedBox(height: 20),
+            // FULLNAME TEXTFIELD
             TextField(
               controller: _fullNameController,
               decoration: const InputDecoration(
@@ -87,6 +82,7 @@ class _UserProfileConfig extends UserProfileConfigController{
               ),
             ),
             const SizedBox(height: 20),
+            // EMAIL TEXTFIELD
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -95,8 +91,9 @@ class _UserProfileConfig extends UserProfileConfigController{
               ),
             ),
             const SizedBox(height: 20),
+            // SAVE BUTTON
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 await updateUserInfo();
               },
               child: const Text('Save'),
