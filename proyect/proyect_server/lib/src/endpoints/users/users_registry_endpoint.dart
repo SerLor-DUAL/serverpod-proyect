@@ -55,32 +55,33 @@ class UsersRegistryEndpoint extends Endpoint {
 
   // CREATE
   Future<UsersRegistry> createUser(
-      Session session, String name, PasswordOptions selectedUserOptions,
-      {String? selectedUserPassword}) async {
+    Session session, String name, PasswordOptions selectedUserOptions,
+    {String? selectedUserPassword}) async {
 
-        // Check if a user with the same name already exists
-  if (await checkUserExistanceByName(session, name)) {
-    throw Exception('User with this name already exists.');
-  }
+      // Check if a user with the same name already exists
+    bool checkIfExists = await checkUserExistanceByName(session, name);
+    if (checkIfExists) {
+      throw Exception('User with this name already exists.');
+    }
+      
+    // CREATE PASSWORD
+    String? passwordGenerated = createPassword(selectedUserOptions,
+        passwordInput: selectedUserPassword);
+    String hashedPass = bcryptPassword(passwordGenerated);
     
-  // CREATE PASSWORD
-  String? passwordGenerated = createPassword(selectedUserOptions,
-      passwordInput: selectedUserPassword);
-  String hashedPass = bcryptPassword(passwordGenerated);
-  
-  // CREATE USERINFO
-  UserInfo? userInfo = await createUserInfo(session, name);
-  // CREATE USERS
-  UsersRegistry createdUser = UsersRegistry(
-      userName: name,
-      userPassword: hashedPass,
-      options: selectedUserOptions.id!,
-      userInfoId: userInfo!.id!,
-      userInfo: userInfo
-      );
+    // CREATE USERINFO
+    UserInfo? userInfo = await createUserInfo(session, name);
+    // CREATE USERS
+    UsersRegistry createdUser = UsersRegistry(
+        userName: name,
+        userPassword: hashedPass,
+        options: selectedUserOptions.id!,
+        userInfoId: userInfo!.id!,
+        userInfo: userInfo
+        );
 
-    return await UsersRegistry.db.insertRow(session, createdUser);
-  }
+      return await UsersRegistry.db.insertRow(session, createdUser);
+    }
 
   // DELETE
   Future<void> deleteUser(Session session, UsersRegistry user) async {
