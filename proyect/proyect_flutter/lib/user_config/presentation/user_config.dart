@@ -255,12 +255,7 @@ class _UserProfileConfig extends UserProfileConfigController
                                 ),
                                 const SizedBox(height: 20),
                                 TextField(
-                                  controller: TextEditingController(
-                                    text: (widget.user.userInfo != null &&
-                                            widget.user.userInfo?.email != null)
-                                        ? widget.user.userInfo?.email
-                                        : '',
-                                  ),
+                                  controller: _emailController,
                                   style: const TextStyle(
                                     color: Color.fromARGB(255, 54, 157, 216),
                                     fontWeight: FontWeight.bold,
