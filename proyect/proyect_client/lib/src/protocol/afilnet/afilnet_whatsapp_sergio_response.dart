@@ -10,22 +10,22 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
-abstract class AfilnetWhatsAppResponse implements _i1.SerializableModel {
-  AfilnetWhatsAppResponse._({
+abstract class AfilnetWhatsAppSergioResponse implements _i1.SerializableModel {
+  AfilnetWhatsAppSergioResponse._({
     required this.status,
     this.result,
     this.error,
   });
 
-  factory AfilnetWhatsAppResponse({
+  factory AfilnetWhatsAppSergioResponse({
     required String status,
     String? result,
     String? error,
-  }) = _AfilnetWhatsAppResponseImpl;
+  }) = _AfilnetWhatsAppSergioResponseImpl;
 
-  factory AfilnetWhatsAppResponse.fromJson(
+  factory AfilnetWhatsAppSergioResponse.fromJson(
       Map<String, dynamic> jsonSerialization) {
-    return AfilnetWhatsAppResponse(
+    return AfilnetWhatsAppSergioResponse(
       status: jsonSerialization['status'] as String,
       result: jsonSerialization['result'] as String?,
       error: jsonSerialization['error'] as String?,
@@ -38,7 +38,7 @@ abstract class AfilnetWhatsAppResponse implements _i1.SerializableModel {
 
   String? error;
 
-  AfilnetWhatsAppResponse copyWith({
+  AfilnetWhatsAppSergioResponse copyWith({
     String? status,
     String? result,
     String? error,
@@ -60,8 +60,8 @@ abstract class AfilnetWhatsAppResponse implements _i1.SerializableModel {
 
 class _Undefined {}
 
-class _AfilnetWhatsAppResponseImpl extends AfilnetWhatsAppResponse {
-  _AfilnetWhatsAppResponseImpl({
+class _AfilnetWhatsAppSergioResponseImpl extends AfilnetWhatsAppSergioResponse {
+  _AfilnetWhatsAppSergioResponseImpl({
     required String status,
     String? result,
     String? error,
@@ -72,12 +72,12 @@ class _AfilnetWhatsAppResponseImpl extends AfilnetWhatsAppResponse {
         );
 
   @override
-  AfilnetWhatsAppResponse copyWith({
+  AfilnetWhatsAppSergioResponse copyWith({
     String? status,
     Object? result = _Undefined,
     Object? error = _Undefined,
   }) {
-    return AfilnetWhatsAppResponse(
+    return AfilnetWhatsAppSergioResponse(
       status: status ?? this.status,
       result: result is String? ? result : this.result,
       error: error is String? ? error : this.error,

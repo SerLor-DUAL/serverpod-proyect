@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:proyect_server/env/env.dart';
-import 'package:proyect_server/src/generated/afilnet/afilnet_whatsapp_response.dart';
+import 'package:proyect_server/src/generated/afilnet/afilnet_whatsapp_sergio_response.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +10,7 @@ class AfilnetWhatsAppEndpoint extends Endpoint {
   bool get requireLogin => true;
 
   // METHOD TO SEND A MESSAGE USING THE AFILNET API
-  Future<AfilnetWhatsAppResponse> sendMessage(Session session, String destination, String message) async {
+  Future<AfilnetWhatsAppSergioResponse> sendMessage(Session session, String destination, String message) async {
 
     // BASE URL OF THE AFILNET API ENDPOINT
     final baseUrl = 'www.afilnet.com';
@@ -44,7 +44,7 @@ class AfilnetWhatsAppEndpoint extends Endpoint {
       final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
 
       // CONVERT THE JSON RESPONSE INTO AN AFILNETRESPONSE OBJECT
-      return AfilnetWhatsAppResponse.fromJson(jsonResponse);
+      return AfilnetWhatsAppSergioResponse.fromJson(jsonResponse);
     } 
     else 
     {

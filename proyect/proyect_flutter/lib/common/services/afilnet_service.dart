@@ -1,10 +1,10 @@
 import 'package:proyect_client/proyect_client.dart';
 import 'package:proyect_shared_sergio/proyect_shared_sergio.dart';
 
-class AfilnetServiceSergio {
+class AfilnetService {
 
   final Client client;
-  AfilnetServiceSergio(this.client);
+  AfilnetService(this.client);
 
   // METHOD TO SEND A MESSAGE USING THE AFILNET API
   // PRINCIPAL PARAMETERS:

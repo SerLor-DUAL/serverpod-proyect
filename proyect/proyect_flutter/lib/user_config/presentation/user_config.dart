@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_client/proyect_client.dart';
+import 'package:proyect_flutter/common/ui/custom_alert_dialog.dart';
 import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 part '../domain/user_config_controller.dart';
 
 // ------------------ User Profile Configuration -------------------------- \\
 class UserProfileConfig extends StatefulWidget {
+  //----- Parameters -----\\
   final Client client;
   final UsersRegistry user;
   final UserInfo userInfo;
@@ -22,7 +24,11 @@ class UserProfileConfig extends StatefulWidget {
 }
 
 class _UserProfileConfig extends UserProfileConfigController{
-  
+
+ 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +76,7 @@ class _UserProfileConfig extends UserProfileConfigController{
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: TextEditingController(text: widget.userInfo.userName?? widget.user.userName),
+              controller: _userNameController,
               decoration: const InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -78,7 +84,7 @@ class _UserProfileConfig extends UserProfileConfigController{
             ),
              const SizedBox(height: 20),
             TextField(
-              controller: TextEditingController(text: widget.userInfo.fullName?? ''),
+              controller: _fullNameController,
               decoration: const InputDecoration(
                 labelText: 'Full Name',
                 border: OutlineInputBorder(),
@@ -96,7 +102,8 @@ class _UserProfileConfig extends UserProfileConfigController{
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
+                await updateUserInfo();
               },
               child: const Text('Save'),
             ),

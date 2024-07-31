@@ -12,7 +12,7 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:proyect_shared_sergio/src/generic_api_response.dart' as _i3;
 import 'package:proyect_shared_santiago/src/message_response.dart' as _i4;
-import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp_response.dart'
+import 'package:proyect_client/src/protocol/afilnet/afilnet_whatsapp_sergio_response.dart'
     as _i5;
 import 'package:proyect_client/src/protocol/contacts/contacts.dart' as _i6;
 import 'package:proyect_client/src/protocol/todolist/tasks.dart' as _i7;
@@ -89,11 +89,11 @@ class EndpointAfilnetWhatsApp extends _i1.EndpointRef {
   @override
   String get name => 'afilnetWhatsApp';
 
-  _i2.Future<_i5.AfilnetWhatsAppResponse> sendMessage(
+  _i2.Future<_i5.AfilnetWhatsAppSergioResponse> sendMessage(
     String destination,
     String message,
   ) =>
-      caller.callServerEndpoint<_i5.AfilnetWhatsAppResponse>(
+      caller.callServerEndpoint<_i5.AfilnetWhatsAppSergioResponse>(
         'afilnetWhatsApp',
         'sendMessage',
         {

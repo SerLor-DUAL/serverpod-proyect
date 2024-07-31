@@ -12,7 +12,7 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
-import 'afilnet/afilnet_whatsapp_response.dart' as _i4;
+import 'afilnet/afilnet_whatsapp_sergio_response.dart' as _i4;
 import 'contacts/contacts.dart' as _i5;
 import 'todolist/tasks.dart' as _i6;
 import 'users/password_options.dart' as _i7;
@@ -22,7 +22,7 @@ import 'package:proyect_server/src/generated/todolist/tasks.dart' as _i10;
 import 'package:proyect_server/src/generated/users/users_registry.dart' as _i11;
 import 'package:proyect_shared_sergio/proyect_shared_sergio.dart' as _i12;
 import 'package:proyect_shared_santiago/proyect_shared_santiago.dart' as _i13;
-export 'afilnet/afilnet_whatsapp_response.dart';
+export 'afilnet/afilnet_whatsapp_sergio_response.dart';
 export 'contacts/contacts.dart';
 export 'todolist/tasks.dart';
 export 'users/password_options.dart';
@@ -394,8 +394,8 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i4.AfilnetWhatsAppResponse) {
-      return _i4.AfilnetWhatsAppResponse.fromJson(data) as T;
+    if (t == _i4.AfilnetWhatsAppSergioResponse) {
+      return _i4.AfilnetWhatsAppSergioResponse.fromJson(data) as T;
     }
     if (t == _i5.Contact) {
       return _i5.Contact.fromJson(data) as T;
@@ -409,9 +409,10 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i8.UsersRegistry) {
       return _i8.UsersRegistry.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i4.AfilnetWhatsAppResponse?>()) {
-      return (data != null ? _i4.AfilnetWhatsAppResponse.fromJson(data) : null)
-          as T;
+    if (t == _i1.getType<_i4.AfilnetWhatsAppSergioResponse?>()) {
+      return (data != null
+          ? _i4.AfilnetWhatsAppSergioResponse.fromJson(data)
+          : null) as T;
     }
     if (t == _i1.getType<_i5.Contact?>()) {
       return (data != null ? _i5.Contact.fromJson(data) : null) as T;
@@ -482,8 +483,8 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i13.MessageResponse) {
       return 'MessageResponse';
     }
-    if (data is _i4.AfilnetWhatsAppResponse) {
-      return 'AfilnetWhatsAppResponse';
+    if (data is _i4.AfilnetWhatsAppSergioResponse) {
+      return 'AfilnetWhatsAppSergioResponse';
     }
     if (data is _i5.Contact) {
       return 'Contact';
@@ -515,8 +516,8 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'MessageResponse') {
       return deserialize<_i13.MessageResponse>(data['data']);
     }
-    if (data['className'] == 'AfilnetWhatsAppResponse') {
-      return deserialize<_i4.AfilnetWhatsAppResponse>(data['data']);
+    if (data['className'] == 'AfilnetWhatsAppSergioResponse') {
+      return deserialize<_i4.AfilnetWhatsAppSergioResponse>(data['data']);
     }
     if (data['className'] == 'Contact') {
       return deserialize<_i5.Contact>(data['data']);

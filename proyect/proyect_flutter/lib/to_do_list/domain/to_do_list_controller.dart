@@ -6,7 +6,7 @@ abstract class ToDoListController extends State<ToDoList> {
   final TextEditingController _titleCon = TextEditingController();
   final TextEditingController _descriptionCon = TextEditingController();
   final TextEditingController _dateCon = TextEditingController();
-
+  
   // TASK LIST
   List<Task> _taskList = [];
 
