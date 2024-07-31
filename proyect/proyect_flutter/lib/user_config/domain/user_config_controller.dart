@@ -83,6 +83,7 @@ abstract class UserProfileConfigController extends State<UserProfileConfig> {
         }
         // UPDATE USER INFO
         UserInfo updateUserInfo = widget.userInfo;
+        updateUserInfo.userIdentifier = _userNameController.text;
         updateUserInfo.userName = _userNameController.text;
         updateUserInfo.email = (_emailController.text == '')? null : _emailController.text; 
         updateUserInfo.fullName = (_fullNameController.text == '')? null : _fullNameController.text;
