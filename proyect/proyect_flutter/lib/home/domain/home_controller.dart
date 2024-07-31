@@ -97,31 +97,31 @@ abstract class HomeController extends State<Home> {
     });
   }
 
-  // ------------------------------------------------------------------------------------
+  // ------------------------------------------------------------------------------------ \\
 
-  // ------------------------------ CALLBACK --------------------------------------------
+  // ------------------------------ CALLBACK -------------------------------------------- \\
 
-  // CALLBACK VARIABLES
+  // CALLBACK VARIABLES \\
   Contact? selectedContact;
   Task? selectedTask;
 
-  // SAVES THE SELECTED CONTACT FROM THE CONTACT LIST WIDGET INTO HOME DATA TO DO A CALLBACK
+  // SAVES THE SELECTED CONTACT FROM THE CONTACT LIST WIDGET INTO HOME DATA TO DO A CALLBACK \\
   void selectContact(Contact contact) {
     setState(() {
       selectedContact = contact;
     });
   }
 
-  // SAVES THE SELECTED TASK FROM THE TASKS LIST WIDGET INTO HOME DATA TO DO A CALLBACK
+  // SAVES THE SELECTED TASK FROM THE TASKS LIST WIDGET INTO HOME DATA TO DO A CALLBACK \\
   void selectTask(Task task) {
     setState(() {
       selectedTask = task;
     });
   }
 
-  // ---------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------- \\
 
-  // --------------------------- LOGOUT ACTIONS --------------------------------------
+  // --------------------------- LOGOUT ACTIONS -------------------------------------- \\
 
   // BUTTON CREATOR FOR LOG OUT
   void _askForExitConfirmation() async {
@@ -151,5 +151,5 @@ abstract class HomeController extends State<Home> {
     );
   }
 
-  // ---------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------- \\
 }
