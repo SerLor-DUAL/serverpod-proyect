@@ -57,6 +57,11 @@ class UsersRegistryEndpoint extends Endpoint {
   Future<UsersRegistry> createUser(
       Session session, String name, PasswordOptions selectedUserOptions,
       {String? selectedUserPassword}) async {
+
+        // Check if a user with the same name already exists
+  if (await checkUserExistanceByName(session, name)) {
+    throw Exception('User with this name already exists.');
+  }
     
   // CREATE PASSWORD
   String? passwordGenerated = createPassword(selectedUserOptions,
