@@ -23,11 +23,10 @@ class ContactDetails extends StatefulWidget {
   });
 
   @override
- createState() => _ContactDetails();
+  createState() => _ContactDetails();
 }
 
 class _ContactDetails extends ContactDetailsController {
-
   @override
   void dispose() {
     _tabController.removeListener(_handleTabChange);
@@ -36,72 +35,83 @@ class _ContactDetails extends ContactDetailsController {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Contact contact = widget.contact;
 
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          height: 20,
-          color: Colors.white,
-        ),
-        automaticallyImplyLeading: false,
-        title: const Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            "Contact Details",
-            style: TextStyle(color: Colors.white),
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(3, 0),
+            spreadRadius: 5,
+            blurRadius: 7,
           ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF369DD8),
-        toolbarHeight: 98,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(76),
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.transparent,
-                  width: 2.0,
+        ],
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            height: 20,
+            color: Colors.white,
+          ),
+          automaticallyImplyLeading: false,
+          title: const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Text(
+              "Contact Details",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: const Color(0xFF369DD8),
+          toolbarHeight: 100,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(76),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.transparent,
+                    width: 2.0,
+                  ),
                 ),
               ),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              labelColor: const Color(0xFF369DD8),
-              indicatorColor: const Color(0xFF369DD8),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorWeight: 2,
-              tabs: const [
-                Tab(
-                  icon: Icon(
-                    Icons.message,
-                    color: Color(0xFF369DD8),
+              child: TabBar(
+                controller: _tabController,
+                labelColor: const Color(0xFF369DD8),
+                indicatorColor: const Color(0xFF369DD8),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 2,
+                tabs: const [
+                  Tab(
+                    icon: Icon(
+                      Icons.message,
+                      color: Color(0xFF369DD8),
+                    ),
+                    text: "Messaging",
                   ),
-                  text: "Messaging",
-                ),
-                Tab(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Color(0xFF369DD8),
+                  Tab(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Color(0xFF369DD8),
+                    ),
+                    text: "Return",
                   ),
-                  text: "Return",
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildDetailsTab(contact),
-          Container(),
-        ],
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildDetailsTab(contact),
+            Container(),
+          ],
+        ),
       ),
     );
   }
@@ -120,8 +130,12 @@ class _ContactDetails extends ContactDetailsController {
                 alignment: Alignment.topRight,
                 children: [
                   CircleAvatar(
-                    backgroundImage: (contact.profileIMG != null) ? AssetImage(contact.profileIMG!) : null,
-                    backgroundColor: (contact.profileIMG != null) ? Colors.transparent : const Color(0xFF369DD8),
+                    backgroundImage: (contact.profileIMG != null)
+                        ? AssetImage(contact.profileIMG!)
+                        : null,
+                    backgroundColor: (contact.profileIMG != null)
+                        ? Colors.transparent
+                        : const Color(0xFF369DD8),
                     radius: 40,
                     child: (contact.profileIMG == null)
                         ? Text(
@@ -140,7 +154,8 @@ class _ContactDetails extends ContactDetailsController {
                       radius: 14,
                       backgroundColor: Colors.blue,
                       child: IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.white, size: 16),
+                        icon: const Icon(Icons.edit,
+                            color: Colors.white, size: 16),
                         onPressed: () async {
                           await _updateContactPicture();
                           setState(() {});

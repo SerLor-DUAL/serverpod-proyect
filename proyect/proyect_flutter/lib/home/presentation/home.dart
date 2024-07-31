@@ -26,20 +26,18 @@ class _Home extends HomeController {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        top: true,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // SCREEN SIZING
             double screenWidth = constraints.maxWidth;
 
-            // UPDATES SCREEN SIZING AFTER BUILDING THE SCREEN
+            // UPDATE SCREEN WIDTH AFTER BUILDING THE SCREEN
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (screenWidth != this.screenWidth) {
                 _updateScreenWidth(screenWidth);
               }
             });
 
-            // CHECK SIDEBAR STATUS BASED IN SCREEN SIZING AND SIDEBAR BUTTON
+            // CHECK SIDEBAR STATUS BASED ON SCREEN SIZE AND SIDEBAR BUTTON
             bool isSidebarExpanded = screenWidth > _sidebarBreakpoint
                 ? _isSidebarManuallyToggled || _isSidebarExpanded
                 : _isSidebarExpanded;
@@ -50,7 +48,7 @@ class _Home extends HomeController {
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  width: isSidebarExpanded ? 400 : 85,
+                  width: isSidebarExpanded ? 400 : 100,
                   child: Column(
                     children: [
                       _buildSidebarHeader(),
@@ -60,8 +58,8 @@ class _Home extends HomeController {
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: isSidebarExpanded ? 3 : 1,
+                // MAIN CONTENT AREA
+                Flexible(
                   child: _getCurrentPage(),
                 ),
               ],
@@ -82,7 +80,7 @@ class _Home extends HomeController {
     );
   }
 
-  // SIDEBAR HEADER
+  // SIDEBAR HEADER WIDGET
   Widget _buildSidebarHeader() {
     return AnimatedCrossFade(
       duration: const Duration(milliseconds: 300),
@@ -96,7 +94,7 @@ class _Home extends HomeController {
         height: 20,
         width: double.infinity,
         child: const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.0),
           child: Center(),
         ),
       ),
@@ -106,7 +104,7 @@ class _Home extends HomeController {
     );
   }
 
-  // FULLY SIDEBAR BUILDER
+  // FULL SIDEBAR BUILDER WIDGET
   Widget _buildSidebar() {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -127,20 +125,20 @@ class _Home extends HomeController {
         ),
         children: [
 
-          // MENU USER
+          // USER MENU ITEM
           buildSideBarItem(
             icon: null,                                             // NULL FOR ACTIVATED AVATAR IMAGE
             imageUrl: widget.userInfo?.imageUrl,                    // CONDITIONAL FOR IMAGE URL
             text: _isSidebarExpanded ? widget.user.userName : '',   // USER NAME IF SIDEBAR IS EXPANDED
             borderQuantity: _isSidebarExpanded ? 40 : 0,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
 
-          // OPTIONS MENU USER
+          // USER MENU OPTIONS
           buildSideBarSubItem(
             hasText: _isSidebarExpanded,
             borderQuantity: _isSidebarExpanded ? 40 : 0,
-            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            paddingSizingList: _isSidebarExpanded ? [20] : [20],
             isHovering: _isHoveringOptions,
             isSelected: currentIndex == 0,
             icon: Icons.settings_sharp,
@@ -154,11 +152,11 @@ class _Home extends HomeController {
             onExit: (_) => setState(() => _isHoveringOptions = false),
           ),
 
-          // TO DO LIST MENU USER
+          // TO DO LIST MENU ITEM
           buildSideBarSubItem(
             hasText: _isSidebarExpanded,
             borderQuantity: _isSidebarExpanded ? 40 : 0,
-            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            paddingSizingList: _isSidebarExpanded ? [20] : [20],
             isHovering: _isHoveringToDo,
             isSelected: currentIndex == 2,
             icon: Icons.toc,
@@ -172,11 +170,11 @@ class _Home extends HomeController {
             onExit: (_) => setState(() => _isHoveringToDo = false),
           ),
 
-          // LOG OUT MENU USER
+          // LOG OUT MENU ITEM
           buildSideBarSubItem(
             hasText: _isSidebarExpanded,
             borderQuantity: _isSidebarExpanded ? 40 : 0,
-            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            paddingSizingList: _isSidebarExpanded ? [20] : [20],
             isHovering: _isHoveringLogOut,
             isSelected: currentIndex == 4,
             icon: Icons.login_rounded,
@@ -188,9 +186,9 @@ class _Home extends HomeController {
             onExit: (_) => setState(() => _isHoveringLogOut = false),
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
 
-          // MENU CONTACTS
+          // CONTACTS MENU ITEM
           buildSideBarItem(
             icon: Icons.people,
             imageUrl: null, // NULL FOR DEACTIVATED AVATAR IMAGE
@@ -198,13 +196,13 @@ class _Home extends HomeController {
             borderQuantity: _isSidebarExpanded ? 40 : 0,
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
 
-          // LIST OF CONTACTS MENU CONTACTS
+          // LIST OF CONTACTS MENU ITEM
           buildSideBarSubItem(
             hasText: _isSidebarExpanded,
             borderQuantity: _isSidebarExpanded ? 40 : 0,
-            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            paddingSizingList: _isSidebarExpanded ? [20] : [20],
             isHovering: _isHoveringList,
             isSelected: currentIndex == 1,
             icon: Icons.contact_page_rounded,
@@ -218,13 +216,11 @@ class _Home extends HomeController {
             onExit: (_) => setState(() => _isHoveringList = false),
           ),
 
-          const SizedBox(height: 10),
-
-          // CHAT MENU CONTACTS
+          // CHAT MENU ITEM
           buildSideBarSubItem(
             hasText: _isSidebarExpanded,
             borderQuantity: _isSidebarExpanded ? 40 : 0,
-            paddingSizingList: _isSidebarExpanded ? [20] : [0],
+            paddingSizingList: _isSidebarExpanded ? [20] : [20],
             isHovering: _isHoveringChat,
             isSelected: currentIndex == 3,
             icon: Icons.chat_bubble_rounded,

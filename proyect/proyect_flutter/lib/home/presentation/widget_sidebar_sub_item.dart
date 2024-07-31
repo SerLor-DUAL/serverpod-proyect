@@ -22,7 +22,8 @@ Widget buildSideBarSubItem({
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          padding: EdgeInsets.only(left: paddingSizingList[0], top: 10, bottom: 10),
+          padding: EdgeInsets.only(
+              left: paddingSizingList[0], top: 10, bottom: 10),
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
@@ -53,23 +54,28 @@ Widget buildSideBarSubItem({
                 ? const Color(0xFF369DD8).withOpacity(0.05)
                 : Colors.transparent,
           ),
-          child: ListTile(
-            mouseCursor: isSelected ? null : SystemMouseCursors.click,
-            leading: Icon(
-              icon,
-              color: const Color(0xFF369DD8),
-              size: 35,
-            ),
-            title: hasText
-                ? Text(
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: const Color(0xFF369DD8),
+                size: 35,
+              ),
+              if (hasText) ...[
+                const SizedBox(width: 20),
+                Flexible(
+                  child: Text(
                     text,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.black87,
                     ),
-                  )
-                : null,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ),
