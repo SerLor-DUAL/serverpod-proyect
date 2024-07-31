@@ -88,9 +88,7 @@ class _UserProfileConfig extends UserProfileConfigController{
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: TextEditingController(text: (widget.user.userInfo != null && widget.user.userInfo?.email != null)
-                                                      ? widget.user.userInfo?.email :
-                                                        ''  ),
+              controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
