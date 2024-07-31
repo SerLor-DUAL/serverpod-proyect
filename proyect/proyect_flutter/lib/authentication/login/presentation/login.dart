@@ -14,13 +14,14 @@ class Login extends StatefulWidget {
 
   @override
   createState() => _Login();
-
-  
 }
 
 class _Login extends LoginController {
+
   bool passwordHide = true;
+
   // ------------------------------------- UI ------------------------------------------- //
+
   @override
   Widget build(BuildContext context) {
     // GETS SCREEN SIZING

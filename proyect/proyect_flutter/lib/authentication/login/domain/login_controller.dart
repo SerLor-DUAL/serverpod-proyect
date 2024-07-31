@@ -72,6 +72,9 @@ abstract class LoginController extends State<Login> {
       else {
         UserInfo? userInfo = await widget.client.usersRegistry.getUserInfoById(user.id!);
         
+        // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+        if (!mounted) return;
+        
         HomeArgs args = HomeArgs(client: widget.client, user: user, userInfo: userInfo!);
         showDialog(
           context: context,
@@ -109,8 +112,8 @@ abstract class LoginController extends State<Login> {
     }
   }
 
-  // Ask for validation to usersRegistry endpoint. If it is correct. It stores the token generated into
-  // sessionManager instance
+  // ASK FOR VALIDATION TO USERSREGISTRY ENDPOINT. IF IT IS CORRECT. 
+  // IT STORES THE TOKEN GENERATED INTO SESSIONMANAGER INSTANCE
   Future<void> getAuth() async {
     var response = await widget.client.usersRegistry
         .login(userController.text, passwordController.text);
@@ -118,7 +121,7 @@ abstract class LoginController extends State<Login> {
     // CHECK IF THE PASSWORD IS CORRECT
     //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
     if (response.success) {
-      // Store the user info in the session manager.
+      // STORE THE USER INFO IN THE SESSION MANAGER.
       SessionManager sessionManager = await SessionManager.instance;
       await sessionManager.registerSignedInUser(
         response.userInfo!,
@@ -126,7 +129,7 @@ abstract class LoginController extends State<Login> {
         response.key!,
       );
       
-      // Gives the welcome to the user.
+      // GIVES THE WELCOME TO THE USER.
       await welcomeUser(userController.text);
     } else {
       if (mounted) {

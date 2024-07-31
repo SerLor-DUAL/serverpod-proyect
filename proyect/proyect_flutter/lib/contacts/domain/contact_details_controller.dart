@@ -46,6 +46,10 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
         widget.contact.phoneNumber,
         sms,
       );
+
+      // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+      if (!mounted) return;
+
       if (response.status == 'success') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('SMS sent successfully!')),
@@ -70,6 +74,10 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
         widget.contact.phoneNumber, 
         message
       );
+      
+      // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+      if (!mounted) return;
+
       if (ret.status == 'success') {
         await showDialog(
             context: context,
@@ -116,6 +124,10 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
         widget.contact.phoneNumber, 
         message
       );
+
+      // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+      if (!mounted) return;
+
       if (response.status == 'success') 
       {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -141,6 +153,10 @@ abstract class ContactDetailsController extends State<ContactDetails> with Ticke
   Future<void> _santiSendWhatsApp(String message) async {
     if (message != '') {
       MessageResponse ret = await _afilnetServiceSantiago.sendMessage(widget.contact.phoneNumber, message);
+
+      // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+      if (!mounted) return;
+
       if (ret.status == 'success') {
         await showDialog(
             context: context,

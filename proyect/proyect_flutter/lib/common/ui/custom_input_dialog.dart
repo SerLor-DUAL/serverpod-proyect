@@ -300,13 +300,13 @@ class LanguageDropdown extends StatefulWidget {
   final ValueChanged<String?>? onChanged;
 
   const LanguageDropdown({
-    Key? key,
+    super.key,
     this.initialValue,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _LanguageDropdownState createState() => _LanguageDropdownState();
+ createState() => _LanguageDropdownState();
 }
 
 class _LanguageDropdownState extends State<LanguageDropdown> {

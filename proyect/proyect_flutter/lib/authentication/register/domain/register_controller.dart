@@ -12,15 +12,12 @@ TextEditingController confirmController = TextEditingController();
 Future<void> registryUser() async 
 {
   // CALLS FOR A FUNCTION THAT VALIDATES INPUTS.
-  if (!validateInputs()){
-    return;
-  }
+  if (!validateInputs()) return;
+  
 
   // CALLS FOR A FUNCTION THAT VALIDATES USER EXISTANCE
   bool userExists = await checkUserExistance();
-  if (userExists) {
-    return;
-  }
+  if (userExists) return;
 
   // TO DO - LET USER DECIDE IT IN FRONTEND 
   // DEFINE DEFAULT PASSWORD OPTIONS 
@@ -29,7 +26,7 @@ Future<void> registryUser() async
                                                      passwordLengthOption: null,     // DEFINE A DEFAULT VALUE FOR PASSWORD LENGHT
                                                      upperOption: null,              // REQUIRES AT LEAST ONE UPPERCASE LETTER
                                                      numberOption: null,             // REQUIRES AT LEAST ONE NUMBER
-                                                     specialOption: null, );          // REQUIRES AT LEAST ONE SPECIAL CHARACTER
+                                                     specialOption: null, );         // REQUIRES AT LEAST ONE SPECIAL CHARACTER
  
   // TRY - CATCH BLOCK FOR HANDLE ERRORS
   try 
@@ -85,6 +82,9 @@ Future<void> welcomeUser(String userName) async
     // USER FOUND, WELCOME MESSAGE AND ENTERS INTO TODOLIST
     else {
       UserInfo? userInfo = await widget.client.usersRegistry.getUserInfoById(user.id!);
+
+      // CHECK IF THE WIDGET IS STILL MOUNTED BEFORE PROCEEDING
+      if (!mounted) return;
         
       HomeArgs args = HomeArgs(client: widget.client, user: user, userInfo: userInfo!);
       showDialog( context: context,
@@ -116,7 +116,8 @@ Future<void> welcomeUser(String userName) async
 }
 
 // CHECK IF INPUTS ARE CORRECT.
-bool validateInputs(){
+bool validateInputs()
+{
   bool areValid = true;
    // CHECK ALL FIELDS ARE BEING USED
   if (userController.text.isEmpty || passwordController.text.isEmpty || confirmController.text.isEmpty) 
@@ -186,8 +187,8 @@ Future<bool> checkUserExistance() async{
   return userExists;
 }
 
-// Ask for validation to usersRegistry endpoint. If it is correct. It stores the token generated into
-  // sessionManager instance
+// ASK FOR VALIDATION TO USERSREGISTRY ENDPOINT. IF IT IS CORRECT. 
+// IT STORES THE TOKEN GENERATED INTO SESSIONMANAGER INSTANCE
   Future<void> getAuth() async {
 
     var response = await widget.client.usersRegistry
@@ -196,14 +197,14 @@ Future<bool> checkUserExistance() async{
     // CHECK IF THE PASSWORD IS CORRECT
     //bool isValid = await widget.client.usersRegistry.validatePassword(passwordController.text, userToLog.userPassword);
     if (response.success) {
-      // Store the user info in the session manager.
+      // STORE THE USER INFO IN THE SESSION MANAGER.
       SessionManager sessionManager = await SessionManager.instance;
       await sessionManager.registerSignedInUser(
         response.userInfo!,
         response.keyId!,
         response.key!,
       );
-      // Gives the welcome to the user.
+      // GIVES THE WELCOME TO THE USER.
       await welcomeUser(userController.text);
     } else {
       if (mounted) {
@@ -218,7 +219,7 @@ Future<bool> checkUserExistance() async{
       }
     }
   }
-  // Create a new UserRegistry
+  // CREATE A NEW USERREGISTRY
   Future<UsersRegistry> createUser(PasswordOptions options) async{
     // CREATE PASSWORD OPTIONS IN THE DB
     await widget.client.passwordOptions.createOptions(options);
@@ -233,7 +234,4 @@ Future<bool> checkUserExistance() async{
     return generatedUser;
 
   }
-
-
-
 }

@@ -7,19 +7,19 @@ import 'dart:convert';
 
 // ------------------------- Message App -----------------------------------\\
 class MessageAppEndpoint extends Endpoint{
-  final URL = 'www.afilnet.com';
-  final api_username = Env.apiUser;
-  final api_password = Env.apiPassword;
+  final baseUrl = 'www.afilnet.com';
+  final apiUsername = Env.apiUser;
+  final apiPassword = Env.apiPassword;
 
 
   // SENDS A WHATSAPP MESSAGE
   Future<MessageResponse> sendMessageWpp(Session session, String phoneNumber, String message) async{
     // SET UP URL
-    var url = Uri.https(URL, '/api/http/' ,{
+    var url = Uri.https(baseUrl, '/api/http/' ,{
       'class' : 'whatsapp', 
       'method' : 'sendmessage', 
-      'user' : api_username,        // USERNAME
-      'password' : api_password ,   // PASSWORD
+      'user' : apiUsername,        // USERNAME
+      'password' : apiPassword ,   // PASSWORD
       'platformid' : '100',
       'destination' : phoneNumber, // Number to send message
       'message' : message  // Message content
@@ -34,11 +34,11 @@ class MessageAppEndpoint extends Endpoint{
   // SENDS A SMS MESSAGE
   Future<MessageResponse> sendMessageSMS(Session session, String username, String phoneNumber, String message) async{
     // SET UP URL
-    var url = Uri.https(URL, '/api/http/', {
+    var url = Uri.https(baseUrl, '/api/http/', {
       'class' : 'sms', 
       'method' : 'sendsms', 
-      'user' : api_username,        // USERNAME
-      'password' : api_password,   // PASSWORD
+      'user' : apiUsername,        // USERNAME
+      'password' : apiPassword,   // PASSWORD
       'from' : username,
       'to' : "34$phoneNumber", // Number to send message
       'sms' : message,  // Message content

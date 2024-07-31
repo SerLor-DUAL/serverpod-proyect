@@ -18,7 +18,7 @@ class ProfilePictureSelector extends StatefulWidget {
   });
 
   @override
-  _ProfilePictureSelectorState createState() => _ProfilePictureSelectorState();
+ createState() => _ProfilePictureSelectorState();
 }
 
 class _ProfilePictureSelectorState extends State<ProfilePictureSelector> {

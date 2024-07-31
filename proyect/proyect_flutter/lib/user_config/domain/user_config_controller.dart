@@ -16,9 +16,9 @@ abstract class UserProfileConfigController extends State<UserProfileConfig> {
   }
   
   // TODO: FINISH THIS.
-  Future<void> updateUserInfo() async{
-    UserInfo newuserInfo = widget.userInfo;
-  }
+  // Future<void> updateUserInfo() async{
+  //   UserInfo newuserInfo = widget.userInfo;
+  // }
 
 
 }
