@@ -4,6 +4,7 @@ import 'package:proyect_flutter/common/ui/profile_selection_dialog.dart';
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 part '../domain/user_config_controller.dart';
 
+// ------------------ User Profile Configuration -------------------------- \\
 class UserProfileConfig extends StatefulWidget {
   final Client client;
   final UsersRegistry user;

@@ -1,8 +1,5 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+// ------------------------- LIBRARY EXPORTATION ----------------------- //
 library proyect_shared_santiago;
 
 export 'src/message_response.dart';
 
-// TODO: Export any libraries intended for clients of this package.

@@ -2,6 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'env.g.dart';
 
+// ------------------- Environment SetUp ------------------------ \\
 @Envied(path: '.env')
 abstract class Env {
   @EnviedField(varName: 'API_USER') // ENVIRONMENT VARIABLE FOR API USER

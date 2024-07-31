@@ -5,13 +5,15 @@ import 'package:serverpod/serverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyect_server/env/env.dart';
 import 'dart:convert';
-class WhatsAppEndpoint extends Endpoint{
+
+// ------------------------- Message App -----------------------------------\\
+class MessageAppEndpoint extends Endpoint{
   final URL = 'www.afilnet.com';
   final api_username = Env.apiUser;
   final api_password = Env.apiPassword;
 
 
-  // SENDS A COMMON MESSAGE
+  // SENDS A WHATSAPP MESSAGE
   Future<MessageResponse> sendMessageWpp(Session session, String phoneNumber, String message) async{
     // SET UP URL
     var url = Uri.https(URL, '/api/http/' ,{
@@ -24,6 +26,7 @@ class WhatsAppEndpoint extends Endpoint{
       'message' : message  // Message content
       }
       );
+    // GET RESPONSE AND RETURNS A MessageResponse
     var response = await http.get(url);
     final ret = jsonDecode(response.body); 
     return MessageResponse.fromJson(ret); 
@@ -44,10 +47,9 @@ class WhatsAppEndpoint extends Endpoint{
       'output' : null
       }
       );
+    // GET RESPONSE AND RETURNS A MessageResponse
     var response = await http.get(url);
     final ret = jsonDecode(response.body); 
     return MessageResponse.fromJson(ret); 
-
   }
-
 }

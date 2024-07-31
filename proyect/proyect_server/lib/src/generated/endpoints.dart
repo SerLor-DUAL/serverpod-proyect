@@ -77,7 +77,7 @@ class Endpoints extends _i1.EndpointDispatch {
           'usersRegistry',
           null,
         ),
-      'whatsApp': _i10.WhatsAppEndpoint()
+      'whatsApp': _i10.MessageAppEndpoint()
         ..initialize(
           server,
           'whatsApp',
@@ -948,7 +948,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['whatsApp'] as _i10.WhatsAppEndpoint).sendMessageWpp(
+              (endpoints['whatsApp'] as _i10.MessageAppEndpoint).sendMessageWpp(
             session,
             params['phoneNumber'],
             params['message'],
@@ -977,7 +977,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['whatsApp'] as _i10.WhatsAppEndpoint).sendMessageSMS(
+              (endpoints['whatsApp'] as _i10.MessageAppEndpoint).sendMessageSMS(
             session,
             params['username'],
             params['phoneNumber'],
